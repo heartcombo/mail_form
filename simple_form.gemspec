@@ -18,7 +18,8 @@ Gem::Specification.new do |s|
     "lib/simple_form/base.rb",
     "lib/simple_form/dsl.rb",
     "lib/simple_form/errors.rb",
-    "lib/simple_form/notifier.rb"
+    "lib/simple_form/notifier.rb",
+    "views/simple_form/notifier/contact.erb"
   ]
   s.test_files = [
     "test/base_test.rb",
