@@ -1,0 +1,143 @@
+Simple Form
+License: MIT
+Version: 0.1
+
+You can also read this README in pretty html at the GitHub project Wiki page:
+
+  http://wiki.github.com/josevalim/simple_form/
+
+Description
+-----------
+
+Simple Form is a ready to go contact form. Just the following lines are needed
+to have a contact form (including the e-mail):
+
+  class ContactForm < SimpleForm
+    subject "My Contact Form"
+    recipients "your.email@your.domain.com"
+    sender{|c| %{"#{c.name}" <#{c.email}>} }
+
+    attribute :name,        :validate => true
+    attribute :email,       :validate => /[^@]+@[^\.]+\.[\w\.\-]+/
+    attribute :company_name
+    attribute :telephone
+    attribute :message,     :validate => true
+    attribute :nickname,    :captcha  => true
+  end
+
+Then you start a script/console and type:
+
+  c = ContactForm.new(:name => 'José', :email => 'jose@email.com', :message => 'Cool!')
+  c.deliver
+
+Check your inbox and the e-mail will be there, with the sent fields.
+
+SimpleForm is tested and compatible with Rails 2.2.x and Rails 2.3.x. It also
+supports I18n and error messages, just as an ActiveRecord model does.
+
+Installation
+------------
+
+Install Simple Form is very easy. It is stored in GitHub, so just run the following:
+
+   gem sources -a http://gems.github.com
+   sudo gem install josevalim-simple_form
+
+If you want it as plugin, just do:
+
+   script/plugin install git://github.com/josevalim/simple_form.git
+
+API Overview
+------------
+
+== attributes(*attributes)
+
+Declare your form attributes. All attributes declared here will be appended
+to the e-mail, except the ones :captcha is true.
+
+Options:
+
+* :validate - When true, validates the attributes can't be blank.
+  When a regexp is given, check if the attribute matches is not blank and
+  then if it matches the regexp.
+
+* :captcha - When true, validates the attributes must be blank.
+  This is a simple way to avoid spam and the input should be hidden with CSS.
+
+Examples:
+
+   class ContactForm < SimpleForm
+     attributes :name,  :validate => true
+     attributes :email, :validate => /[^@]+@[^\.]+\.[\w\.\-]+/
+     attributes :message
+     attributes :nickname, :captcha => true
+   end
+
+   c = ContactForm.new(:nickname => 'not_blank', :email => 'your@email.com', :name => 'José')
+   c.valid?  #=> true
+   c.spam?   #=> true  (raises an error in development, to remember you to hide it)
+   c.deliver #=> false (just delivers if is not a spam and is valid)
+
+   c = ContactForm.new(:email => 'invalid')
+   c.valid?               #=> false
+   c.errors.inspect       #=> { :name => :blank, :email => :invalid }
+   c.errors.full_messages #=> [ "Name can't be blank", "Email is invalid" ]
+
+   c = ContactForm.new(:name => 'José', :email => 'your@email.com')
+   # save is an alias to deliver to allow it to work with InheritedResources
+   c.save #=> true
+
+== subject(string=nil, &block)
+
+Declares the subject of the contact email. It can be a string or a proc.
+As a proc, it receives a simple form instance. When not specified, it defaults
+to the class human name.
+
+   subject "My Contact Form"
+   subject {|c| "Contacted by #{c.name}"}
+
+== sender(&block)
+
+Declares contact email sender. It can be a string or a proc.
+As a proc, it receives a simple form instance. By default is:
+
+   sender{ |c| c.email }
+
+This requires that your SimpleForm object have at least an email attribute.
+
+== headers(hash)
+
+Additional headers to your e-mail.
+
+== recipients(string_or_array)
+
+Who will receive the e-mail. Can be a string or array.
+
+I18n
+----
+
+All models, attributes and messages in SimpleForm can be used with localized.
+Below is an I18n example file:
+
+  simple_form:
+    models:
+      contact_form: Formulário de contato
+    attributes:
+      name: Nome
+      email: E-mail
+      company_name: Empresa
+      telephone: Telefone
+      message: Mensagem
+    messages:
+      blank: "não pode ficar em branco"
+      invalid: "não é válido"
+      telephone: "deve haver oito dígitos"
+
+Bugs and Feedback
+-----------------
+
+If you discover any bugs, please send an e-mail to jose.valim@gmail.com
+If you just want to give some positive feedback or drop a line, that's fine too!
+
+Copyright (c) 2009 José Valim
+http://josevalim.blogspot.com/
