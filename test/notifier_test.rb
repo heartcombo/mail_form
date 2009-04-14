@@ -5,6 +5,8 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
   def setup
     @form     = ContactForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => 'Cool')
     @advanced = AdvancedForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => "Cool\nno?")
+    test_file = ActionController::TestUploadedFile.new('/home/andrew/tmp/tmp.txt')
+    @with_file = FileForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => "Cool\nno?", :file => test_file)
     ActionMailer::Base.deliveries = []
   end
 
@@ -81,6 +83,20 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
 
     @advanced.deliver
     assert_match /<p>Cool/, ActionMailer::Base.deliveries.last.body
+  end
+
+  def test_form_with_file_includes_an_attachment
+    @with_file.deliver
+
+    #For some reason I need to encode the mail before the attachments array returns values
+    ActionMailer::Base.deliveries.first.to_s
+    assert_equal 1, ActionMailer::Base.deliveries.first.attachments.size
+  end
+
+  def test_form_with_file
+    @with_file.deliver
+    
+    assert_no_match /<p>File/, ActionMailer::Base.deliveries.first.body
   end
 
   def teardown

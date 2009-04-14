@@ -47,7 +47,8 @@ class SimpleFormErrorsTest < ActiveSupport::TestCase
     form = ContactForm.new(:email => 'not_valid')
     form.valid?
 
-    assert_equal ["Name can't be blank", "Email is invalid"], form.errors.full_messages
+    assert form.errors.full_messages.include?("Name can't be blank")
+    assert form.errors.full_messages.include?("Email is invalid")
   end
 
   def test_full_localized_messages
@@ -56,7 +57,8 @@ class SimpleFormErrorsTest < ActiveSupport::TestCase
     form = ContactForm.new(:email => 'not_valid')
     form.valid?
 
-    assert_equal ["Name should be filled", "E-mail is not valid"], form.errors.full_messages
+    assert form.errors.full_messages.include?("Name should be filled")
+    assert form.errors.full_messages.include?("E-mail is not valid")
   end
 
   def teardown

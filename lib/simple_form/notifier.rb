@@ -23,7 +23,7 @@ class SimpleForm
       form.class.form_attributes.each do |attribute|
         value = form.send(attribute)
         if value.respond_to?(:read)
-          attachment value.content_type do |att|
+          attachment value.content_type.to_s do |att|
             att.filename = value.original_filename
             att.body = value.read
           end

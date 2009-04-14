@@ -6,6 +6,7 @@ RAILS_ENV = ENV["RAILS_ENV"] = "test"
 require 'active_support'
 require 'active_support/test_case'
 require 'action_mailer'
+require 'action_controller/test_case'
 
 ActionMailer::Base.delivery_method = :test
 
@@ -28,6 +29,17 @@ class AdvancedForm < ContactForm
   headers 'return-path' => 'mypath'
 end
 
+class FileForm < AdvancedForm
+  attribute :file, :validate => true
+end
+
 class NullRecipient < SimpleForm
   sender 'my.email@my.domain.com'
+end
+
+#Needed to correctly test an uploaded file
+class ActionController::TestUploadedFile
+  def read
+    @tempfile.read
+  end
 end
