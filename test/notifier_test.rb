@@ -5,7 +5,7 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
   def setup
     @form     = ContactForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => 'Cool')
     @advanced = AdvancedForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => "Cool\nno?")
-    test_file = ActionController::TestUploadedFile.new('/home/andrew/tmp/tmp.txt')
+    test_file = ActionController::TestUploadedFile.new(File.join(File.dirname(__FILE__), 'test-file.txt'))
     @with_file = FileForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => "Cool\nno?", :file => test_file)
     ActionMailer::Base.deliveries = []
   end
