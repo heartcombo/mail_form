@@ -19,6 +19,16 @@ class SimpleForm
       @sent_on = Time.now.utc
       @headers = form.class.form_headers
       @content_type = 'text/html'
+
+      form.class.form_attributes.each do |attribute|
+        value = form.send(attribute)
+        if value.respond_to?(:read)
+          attachment value.content_type do |att|
+            att.filename = value.original_filename
+            att.body = value.read
+          end
+        end
+      end
     end
   end
 end
