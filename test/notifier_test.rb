@@ -3,8 +3,11 @@ require File.dirname(__FILE__) + '/test_helper'
 class SimpleFormNotifierTest < ActiveSupport::TestCase
 
   def setup
-    @form     = ContactForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => 'Cool')
-    @advanced = AdvancedForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => "Cool\nno?")
+    @form = ContactForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => 'Cool')
+
+    @request          = ActionController::TestRequest.new
+    @valid_attributes = { :name => 'José', :email => 'my.email@my.domain.com', :message => "Cool\nno?" }
+    @advanced         = AdvancedForm.new(@valid_attributes, @request)
 
     test_file  = ActionController::TestUploadedFile.new(File.join(File.dirname(__FILE__), 'test-file.txt'))
     @with_file = FileForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => "Cool", :file => test_file)
@@ -73,10 +76,10 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
   end
 
   def test_body_contains_localized_attributes_names
-    I18n.backend.store_translations(:en, :simple_form => { :attributes => { :email => 'E-mail', :message => 'Sent message' } })
+    I18n.backend.store_translations(:en, :simple_form => { :attributes => { :message => 'Sent message' } })
     @form.deliver
-    assert_match /E\-mail:/, ActionMailer::Base.deliveries.first.body
     assert_match /Sent message:/, ActionMailer::Base.deliveries.first.body
+    assert_no_match /Message:/, ActionMailer::Base.deliveries.first.body
   end
 
   def test_body_simple_format_messages_with_break_line
@@ -85,6 +88,56 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
 
     @advanced.deliver
     assert_match /<p>Cool/, ActionMailer::Base.deliveries.last.body
+  end
+
+  def test_body_does_not_append_request_if_append_is_not_called
+    @form.deliver
+    assert_no_match /Request information/, ActionMailer::Base.deliveries.first.body
+  end
+
+  def test_body_does_append_request_if_append_is_called
+    @advanced.deliver
+    assert_match /Request information/, ActionMailer::Base.deliveries.last.body
+  end
+
+  def test_request_title_is_localized
+    I18n.backend.store_translations(:en, :simple_form => { :request => { :title => 'Information about the request' } })
+    @advanced.deliver
+    assert_no_match /Request information/, ActionMailer::Base.deliveries.last.body
+    assert_match /Information about the request/, ActionMailer::Base.deliveries.last.body
+  end
+
+  def test_request_info_attributes_are_printed
+    @advanced.deliver
+    assert_match /Remote ip/, ActionMailer::Base.deliveries.last.body
+    assert_match /User agent/, ActionMailer::Base.deliveries.last.body
+  end
+
+  def test_request_info_attributes_are_localized
+    I18n.backend.store_translations(:en, :simple_form => { :request => { :remote_ip => 'IP Address' } })
+    @advanced.deliver
+    assert_match /IP Address/, ActionMailer::Base.deliveries.last.body
+    assert_no_match /Remote ip/, ActionMailer::Base.deliveries.last.body
+  end
+
+  def test_request_info_values_are_printed
+    @advanced.deliver
+    assert_match /0\.0\.0\.0/, ActionMailer::Base.deliveries.last.body
+    assert_match /Rails Testing/, ActionMailer::Base.deliveries.last.body
+  end
+
+  def test_request_info_hashes_are_print_inside_lis
+    @request.session = { :my => :session, :user => :data }
+    @advanced.deliver
+    assert_match /<li>my: session<\/li>/, ActionMailer::Base.deliveries.last.body
+    assert_match /<li>user: data<\/li>/, ActionMailer::Base.deliveries.last.body
+  end
+
+  def test_error_is_raised_when_append_is_given_but_no_request_is_given
+    assert_raise ScriptError do
+      @advanced.request = nil
+      @advanced.deliver
+    end
   end
 
   def test_form_with_file_includes_an_attachment
@@ -97,7 +150,7 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
 
   def test_form_with_file_does_not_output_attachment_as_attribute
     @with_file.deliver
-    assert_no_match /<p>File/, ActionMailer::Base.deliveries.first.body
+    assert_no_match /File/, ActionMailer::Base.deliveries.first.body
   end
 
   def teardown

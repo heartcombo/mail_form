@@ -23,6 +23,8 @@ class ContactForm < SimpleForm
 end
 
 class AdvancedForm < ContactForm
+  append :remote_ip, :user_agent, :session
+
   recipients [ 'my.first@email.com', 'my.second@email.com' ]
   subject 'My Advanced Form'
   sender{|c| %{"#{c.name}" <#{c.email}>} }

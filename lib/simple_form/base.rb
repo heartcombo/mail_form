@@ -1,8 +1,13 @@
 class SimpleForm
+  attr_accessor :request
 
   # Initialize assigning the parameters given as hash (just as in ActiveRecord).
   #
-  def initialize(params={})
+  # It also accepts the request object as second parameter which must be sent
+  # whenever :append is called.
+  #
+  def initialize(params={}, request=nil)
+    @request = request
     params.each_pair do |attr, value|
       self.send(:"#{attr}=", value)
     end unless params.blank?
@@ -70,8 +75,8 @@ class SimpleForm
   # If is not spam and the form is valid, we send the e-mail and returns true.
   # Otherwise returns false.
   #
-  def deliver
-    if self.not_spam? && self.valid?
+  def deliver(run_validations=true)
+    if !run_validations || (self.not_spam? && self.valid?)
       SimpleForm::Notifier.deliver_contact(self)
       return true
     else

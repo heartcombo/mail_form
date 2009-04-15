@@ -112,9 +112,9 @@ This requires that your SimpleForm object have at least an email attribute.
 
 Additional headers to your e-mail.
 
-== recipients(string_or_array)
+== recipients(string_or_array_or_proc)
 
-Who will receive the e-mail. Can be a string or array.
+Who will receive the e-mail. Can be a string or array, or a proc that returns one of them.
 
 I18n
 ----

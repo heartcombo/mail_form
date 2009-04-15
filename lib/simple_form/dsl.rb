@@ -108,5 +108,23 @@ class SimpleForm
       end
       alias :to :recipients
 
+      # Values from request object to be appended to the contact form.
+      # Whenever used, you have to send the request object when initializing the object:
+      #
+      #   @contact_form = ContactForm.new(params[:contact_form], request)
+      #
+      # You can get the values to be appended from the AbstractRequest
+      # documentation (http://api.rubyonrails.org/classes/ActionController/AbstractRequest.html)
+      #
+      # == Examples
+      #
+      #   class ContactForm < SimpleForm
+      #     append :remote_ip, :user_agent, :session, :cookies
+      #   end
+      #
+      def append(*values)
+        write_inheritable_array(:form_appendable, values)
+      end
+
   end
 end
