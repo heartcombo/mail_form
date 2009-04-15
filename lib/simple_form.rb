@@ -7,7 +7,7 @@ require File.join(dir, 'simple_form', 'notifier')
 class SimpleForm
   extend SimpleForm::DSL
 
-  ACCESSORS = [ :form_attributes, :form_validatable, :form_subject,
+  ACCESSORS = [ :form_attributes, :form_validatable, :form_subject, :form_attachments,
                 :form_recipients, :form_sender, :form_captcha, :form_headers ]
 
   DEFAULT_MESSAGES = { :blank => "can't be blank", :invalid => "is invalid" }
@@ -15,10 +15,12 @@ class SimpleForm
   class_inheritable_reader *ACCESSORS
   protected *ACCESSORS
 
-  # Configure default values
+  # Initialize arrays and hashes
   #
-  attribute :captcha => true
-  attribute :validate => true
+  write_inheritable_array :form_captcha, []
+  write_inheritable_array :form_attributes, []
+  write_inheritable_array :form_attachments, []
+  write_inheritable_hash  :form_validatable, {}
 
   headers({})
   recipients([])

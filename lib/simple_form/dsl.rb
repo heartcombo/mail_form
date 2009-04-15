@@ -11,6 +11,10 @@ class SimpleForm
       # * <tt>:validate</tt> - When true, validates the attributes can't be blank.
       #   When a regexp is given, check if the attribute matches is not blank and
       #   then if it matches the regexp.
+      #
+      # * <tt>:attachment</tt> - When given, expects a file to be sent and attaches
+      #   it to the e-mail. Don't forget to set your form to multitype.
+      #
       # * <tt>:captcha</tt> - When true, validates the attributes must be blank
       #   This is a simple way to avoid spam
       #
@@ -20,6 +24,7 @@ class SimpleForm
       #     attributes :name,  :validate => true
       #     attributes :email, :validate => /^([^@]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
       #     attributes :message
+      #     attributes :file, :attachment => true
       #     attributes :nickname, :captcha => true
       #   end
       #
@@ -28,7 +33,9 @@ class SimpleForm
 
         attr_accessor *accessors
 
-        if options[:captcha]
+        if options[:attachment]
+          write_inheritable_array(:form_attachments, accessors)
+        elsif options[:captcha]
           write_inheritable_array(:form_captcha, accessors)
         else
           write_inheritable_array(:form_attributes, accessors)

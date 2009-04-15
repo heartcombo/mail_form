@@ -20,7 +20,7 @@ class SimpleForm
       @headers = form.class.form_headers
       @content_type = 'text/html'
 
-      form.class.form_attributes.each do |attribute|
+      form.class.form_attachments.each do |attribute|
         value = form.send(attribute)
         if value.respond_to?(:read)
           attachment value.content_type.to_s do |att|

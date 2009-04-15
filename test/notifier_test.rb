@@ -5,8 +5,10 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
   def setup
     @form     = ContactForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => 'Cool')
     @advanced = AdvancedForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => "Cool\nno?")
-    test_file = ActionController::TestUploadedFile.new(File.join(File.dirname(__FILE__), 'test-file.txt'))
-    @with_file = FileForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => "Cool\nno?", :file => test_file)
+
+    test_file  = ActionController::TestUploadedFile.new(File.join(File.dirname(__FILE__), 'test-file.txt'))
+    @with_file = FileForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => "Cool", :file => test_file)
+
     ActionMailer::Base.deliveries = []
   end
 
@@ -93,9 +95,8 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.first.attachments.size
   end
 
-  def test_form_with_file
+  def test_form_with_file_does_not_output_attachment_as_attribute
     @with_file.deliver
-    
     assert_no_match /<p>File/, ActionMailer::Base.deliveries.first.body
   end
 

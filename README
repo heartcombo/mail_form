@@ -61,6 +61,9 @@ Options:
   When a regexp is given, check if the attribute matches is not blank and
   then if it matches the regexp.
 
+* :attachment - When given, expects a file to be sent and attaches
+  it to the e-mail. Don't forget to set your form to multitype.
+
 * :captcha - When true, validates the attributes must be blank.
   This is a simple way to avoid spam and the input should be hidden with CSS.
 
@@ -132,6 +135,11 @@ Below is an I18n example file:
       blank: "não pode ficar em branco"
       invalid: "não é válido"
       telephone: "deve haver oito dígitos"
+
+Contributors
+------------
+
+* "Andrew Timberlake":http://github.com/andrewtimberlake
 
 Bugs and Feedback
 -----------------

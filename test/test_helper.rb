@@ -29,8 +29,8 @@ class AdvancedForm < ContactForm
   headers 'return-path' => 'mypath'
 end
 
-class FileForm < AdvancedForm
-  attribute :file, :validate => true
+class FileForm < ContactForm
+  attribute :file, :attachment => true, :validate => true
 end
 
 class NullRecipient < SimpleForm

@@ -2,7 +2,7 @@
 
 <% @form.class.form_attributes.each do |attribute|
   value = @form.send(attribute)
-  next if value.blank? || value.respond_to?(:read) %>
+  next if value.blank? %>
 
   <p><b><%= @form.class.human_attribute_name(attribute) %>:</b>
   <%= value.include?("\n") ? simple_format(h(value)) : h(value) %></p>
