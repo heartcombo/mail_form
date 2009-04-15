@@ -17,12 +17,12 @@ to have a contact form (including the e-mail):
     recipients "your.email@your.domain.com"
     sender{|c| %{"#{c.name}" <#{c.email}>} }
 
-    attribute :name,        :validate => true
-    attribute :email,       :validate => /[^@]+@[^\.]+\.[\w\.\-]+/
-    attribute :company_name
-    attribute :telephone
-    attribute :message,     :validate => true
-    attribute :nickname,    :captcha  => true
+    attribute :name,      :validate => true
+    attribute :email,     :validate => /[^@]+@[^\.]+\.[\w\.\-]+/
+    attribute :file,      :attachment => true
+
+    attribute :message
+    attribute :nickname,  :captcha  => true
   end
 
 Then you start a script/console and type:
@@ -32,8 +32,11 @@ Then you start a script/console and type:
 
 Check your inbox and the e-mail will be there, with the sent fields.
 
-SimpleForm is tested and compatible with Rails 2.2.x and Rails 2.3.x. It also
-supports I18n and error messages, just as an ActiveRecord model does.
+SimpleForm also support attachments, I18n, error messages like in ActiveRecord 
+(so it works with custom FormBuilders) and can also send the user request information
+in the contact mail.
+
+It's tested and compatible with Rails 2.2.x and Rails 2.3.x.
 
 Installation
 ------------
@@ -46,6 +49,25 @@ Install Simple Form is very easy. It is stored in GitHub, so just run the follow
 If you want it as plugin, just do:
 
    script/plugin install git://github.com/josevalim/simple_form.git
+
+Request
+-------
+
+SimpleForm makes easy to append user information to the contact mail. You just
+have to do:
+
+  class ContactForm < SimpleForm
+    append :remote_ip, :user_agent, :session
+    # ...
+  end
+
+And in your controller:
+
+  @contact_form = ContactForm.new(params[:contact_form], request)
+
+And the remote ip, user agent and session will be sent in the e-mail in a
+request information session. You can send to append any method that the
+request object responds to.
 
 API Overview
 ------------
@@ -124,17 +146,19 @@ Below is an I18n example file:
 
   simple_form:
     models:
-      contact_form: Formulário de contato
+      contact_form: "Your site contact form"
     attributes:
-      name: Nome
-      email: E-mail
-      company_name: Empresa
-      telephone: Telefone
-      message: Mensagem
+      email: "E-mail"
+      telephone: "Telephone number"
+      message: "Sent message"
     messages:
-      blank: "não pode ficar em branco"
-      invalid: "não é válido"
-      telephone: "deve haver oito dígitos"
+      blank: "can not be blank"
+      invalid: "is not valid"
+      telephone: "must have eight digits"
+    request:
+      title: "Technical information about the user"
+      remote_ip: "IP Address"
+      user_agent: "Browser"
 
 Contributors
 ------------
