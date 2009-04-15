@@ -23,8 +23,7 @@ class SimpleForm
   write_inheritable_hash  :form_validatable, {}
 
   headers({})
-  recipients([])
-  sender{|c| c.email }
+  sender {|c| c.email }
   subject{|c| c.class.human_name }
 end
 

@@ -103,8 +103,8 @@ class SimpleForm
       #     recipients "jose.valim@gmail.com"
       #   end
       #
-      def recipients(string_or_array)
-        write_inheritable_array(:form_recipients, [*string_or_array])
+      def recipients(string_or_array_or_proc)
+        write_inheritable_attribute(:form_recipients, string_or_array_or_proc)
       end
       alias :to :recipients
 

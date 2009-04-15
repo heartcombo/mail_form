@@ -2,14 +2,11 @@
 #
 class SimpleForm
   class Notifier < ActionMailer::Base
+
     def contact(form)
-      @subject = form.class.form_subject
-      @subject = @subject.call(form) if @subject.is_a?(Proc)
-
-      @from    = form.class.form_sender
-      @from    = @from.call(form)    if @from.is_a?(Proc)
-
-      @recipients = form.class.form_recipients
+      @from       = get_from_class_and_eval(form, :form_sender)
+      @subject    = get_from_class_and_eval(form, :form_subject)
+      @recipients = get_from_class_and_eval(form, :form_recipients)
 
       raise ScriptError, "You forgot to setup #{form.class.name} recipients" if @recipients.blank?
 
@@ -30,5 +27,18 @@ class SimpleForm
         end
       end
     end
+
+    protected
+
+      def get_from_class_and_eval(form, method)
+        duck = form.class.send(method)
+
+        if duck.is_a?(Proc)
+          duck.call(form)
+        else
+          duck
+        end
+      end
+
   end
 end

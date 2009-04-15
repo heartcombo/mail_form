@@ -45,7 +45,7 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
 
   def test_recipients_is_an_array
     @advanced.deliver
-    assert_equal ['my.email@my.domain.com', 'my.first@email.com', 'my.second@email.com'], ActionMailer::Base.deliveries.first.to
+    assert_equal ['my.first@email.com', 'my.second@email.com'], ActionMailer::Base.deliveries.first.to
   end
 
   def test_headers_is_a_hash
