@@ -1,6 +1,6 @@
 Simple Form
 License: MIT
-Version: 0.1
+Version: 0.2.1
 
 You can also read this README in pretty html at the GitHub project Wiki page:
 
@@ -84,6 +84,9 @@ Options:
   When a regexp is given, check if the attribute matches is not blank and
   then if it matches the regexp.
 
+  Whenever :validate is a symbol, the method given as symbol will be
+  called. You can then add validations as you do in ActiveRecord (errors.add).
+
 * :attachment - When given, expects a file to be sent and attaches
   it to the e-mail. Don't forget to set your form to multitype.
 
@@ -96,7 +99,12 @@ Examples:
      attributes :name,  :validate => true
      attributes :email, :validate => /[^@]+@[^\.]+\.[\w\.\-]+/
      attributes :message
+     attributes :screenshot, :attachment => true, :validate => :screenshot_required?
      attributes :nickname, :captcha => true
+
+     def screenshot_required?
+       # ...
+     end
    end
 
    c = ContactForm.new(:nickname => 'not_blank', :email => 'your@email.com', :name => 'José')

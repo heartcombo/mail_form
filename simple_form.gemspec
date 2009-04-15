@@ -1,11 +1,11 @@
 Gem::Specification.new do |s|
   s.name     = "simple_form"
-  s.version  = "0.2.0"
-  s.date     = "2009-04-03"
-  s.summary  = "Simple easy contact form for Rails."
+  s.version  = "0.2.1"
+  s.date     = "2009-04-15"
+  s.summary  = "Simple easy contact form for Rails with I18n, validations, attachments and request information."
   s.email    = "jose.valim@gmail.com"
   s.homepage = "http://github.com/josevalim/simple_form"
-  s.description = "Simple easy contact form for Rails."
+  s.description = "Simple easy contact form for Rails with I18n, validations, attachments and request information."
   s.has_rdoc = true
   s.authors  = [ "José Valim" ]
   s.files    = [

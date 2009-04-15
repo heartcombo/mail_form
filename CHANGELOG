@@ -1,5 +1,6 @@
 # Version 0.2
 
+* Added support to symbols on :validate
 * Added support to request objects and append DSL
 * Added support to :attachments (thanks to @andrewtimberlake)
 
