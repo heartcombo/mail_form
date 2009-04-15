@@ -127,10 +127,10 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
   end
 
   def test_request_info_hashes_are_print_inside_lis
-    @request.session = { :my => :session, :user => :data }
+    @request.session = { :my => :session, :user => "data" }
     @advanced.deliver
-    assert_match /<li>my: session<\/li>/, ActionMailer::Base.deliveries.last.body
-    assert_match /<li>user: data<\/li>/, ActionMailer::Base.deliveries.last.body
+    assert_match /<li>my: :session<\/li>/, ActionMailer::Base.deliveries.last.body
+    assert_match /<li>user: &quot;data&quot;<\/li>/, ActionMailer::Base.deliveries.last.body
   end
 
   def test_error_is_raised_when_append_is_given_but_no_request_is_given

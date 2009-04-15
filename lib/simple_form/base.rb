@@ -38,19 +38,27 @@ class SimpleForm
     !spam?
   end
 
-  # The form is valid if all elements marked to be validated are not blank
-  # and elements given with a regexp match the regexp.
+  # To check if the form is valid, we run the validations.
+  #
+  # If the validation is true, we just check if the field is not blank. If it's
+  # a regexp, we check if it is not blank AND if the Regexp matches.
+  #
+  # You can have totally custom validations by sending a symbol. Then the method
+  # given as symbol will be called and then you cann hook your validations there.
   #
   def valid?
     return false unless errors.empty?
 
     form_validatable.each_pair do |field, validation|
-      if send(field).blank?
-        errors.add(field, :blank)
-        next
-      end
+      next unless validation
 
-      errors.add(field, :invalid) if validation.is_a?(Regexp) && send(field) !~ validation
+      if validation.is_a?(Symbol)
+        send(validation)
+      elsif send(field).blank?
+        errors.add(field, :blank)
+      elsif validation.is_a?(Regexp)
+        errors.add(field, :invalid) unless send(field) =~ validation
+      end
     end
 
     errors.empty?

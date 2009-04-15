@@ -19,7 +19,11 @@ class ContactForm < SimpleForm
   attribute :name,     :validate => true
   attribute :email,    :validate => /[^@]+@[^\.]+\.[\w\.\-]+/
   attribute :nickname, :captcha => true
-  attributes :tellphone, :message
+  attributes :tellphone, :message, :validate => :callback
+
+  def callback
+    @_callback_run = true
+  end
 end
 
 class AdvancedForm < ContactForm

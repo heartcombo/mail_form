@@ -12,6 +12,9 @@ class SimpleForm
       #   When a regexp is given, check if the attribute matches is not blank and
       #   then if it matches the regexp.
       #
+      #   Whenever :validate is a symbol, the method given as symbol will be
+      #   called. You can then add validations as you do in ActiveRecord (errors.add).
+      #
       # * <tt>:attachment</tt> - When given, expects a file to be sent and attaches
       #   it to the e-mail. Don't forget to set your form to multitype.
       #
@@ -24,8 +27,15 @@ class SimpleForm
       #     attributes :name,  :validate => true
       #     attributes :email, :validate => /^([^@]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
       #     attributes :message
-      #     attributes :file, :attachment => true
+      #     attributes :type
+      #     attributes :screenshot, :attachment => true, :validate => :interface_bug?
       #     attributes :nickname, :captcha => true
+      #
+      #     def interface_bug?
+      #       if type == 'Interface bug' && screenshot.nil?
+      #         self.errors.add(:screenshot, "can't be blank when you are reporting an interface bug")
+      #       end
+      #     end
       #   end
       #
       def attribute(*accessors)
