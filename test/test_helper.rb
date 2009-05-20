@@ -37,13 +37,22 @@ end
 
 class FileForm < ContactForm
   attribute :file, :attachment => true, :validate => true
+  recipients :set_recipient
+
+  def set_recipient
+    if file
+      "contact_file@my.domain.com"
+    else
+      "contact@my.domain.com"
+    end
+  end
 end
 
 class NullRecipient < SimpleForm
   sender 'my.email@my.domain.com'
 end
 
-#Needed to correctly test an uploaded file
+# Needed to correctly test an uploaded file
 class ActionController::TestUploadedFile
   def read
     @tempfile.read

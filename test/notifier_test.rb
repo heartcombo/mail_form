@@ -51,6 +51,11 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
     assert_equal ['my.first@email.com', 'my.second@email.com'], ActionMailer::Base.deliveries.first.to
   end
 
+  def test_recipients_is_a_symbold
+    @with_file.deliver
+    assert_equal ['contact_file@my.domain.com'], ActionMailer::Base.deliveries.first.to
+  end
+
   def test_headers_is_a_hash
     @advanced.deliver
     assert_equal '<mypath>', ActionMailer::Base.deliveries.first.header['return-path'].to_s

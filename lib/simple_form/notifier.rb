@@ -36,6 +36,8 @@ class SimpleForm
 
         if duck.is_a?(Proc)
           duck.call(form)
+        elsif duck.is_a?(Symbol)
+          form.send(duck)
         else
           duck
         end
