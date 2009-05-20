@@ -1,6 +1,6 @@
 Simple Form
 License: MIT
-Version: 0.2.1
+Version: 0.3
 
 You can also read this README in pretty html at the GitHub project Wiki page:
 
@@ -121,31 +121,40 @@ Examples:
    # save is an alias to deliver to allow it to work with InheritedResources
    c.save #=> true
 
-== subject(string=nil, &block)
+== subject(string_or_symbol_or_block)
 
-Declares the subject of the contact email. It can be a string or a proc.
-As a proc, it receives a simple form instance. When not specified, it defaults
+Declares the subject of the contact email. It can be a string or a proc or a symbol.
+
+When a symbol is given, it will call a method on the form object with the same
+name as the symbol. As a proc, it receives a simple form instance. It defaults
 to the class human name.
 
    subject "My Contact Form"
-   subject {|c| "Contacted by #{c.name}"}
+   subject { |c| "Contacted by #{c.name}" }
 
-== sender(&block)
+== sender(string_or_symbol_or_block)
 
-Declares contact email sender. It can be a string or a proc.
-As a proc, it receives a simple form instance. By default is:
+Declares contact email sender. It can be a string or a proc or a symbol.
+
+When a symbol is given, it will call a method on the form object with the same
+name as the symbol. As a proc, it receives a simple form instance. By default is:
 
    sender{ |c| c.email }
 
-This requires that your SimpleForm object have at least an email attribute.
+This requires that your SimpleForm object have an email attribute.
+
+== recipients(string_or_array_or_symbol_or_block)
+
+Who will receive the e-mail. Can be a string or array or a symbol or a proc.
+
+When a symbol is given, it will call a method on the form object with the same
+name as the symbol. As a proc, it receives a simple form instance.
+
+Both the proc and the symbol must return a string or an array. By default is nil.
 
 == headers(hash)
 
 Additional headers to your e-mail.
-
-== recipients(string_or_array_or_proc)
-
-Who will receive the e-mail. Can be a string or array, or a proc that returns one of them.
 
 I18n
 ----

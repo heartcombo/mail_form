@@ -60,9 +60,11 @@ class SimpleForm
       end
       alias :attributes :attribute
 
-      # Declares the subject of the contact email. It can be a string or a proc.
-      # As a proc, it receives a simple form instance. When not specified, it
-      # defaults to the class human name.
+      # Declares contact email sender. It can be a string or a proc or a symbol.
+      #
+      # When a symbol is given, it will call a method on the form object with
+      # the same name as the symbol. As a proc, it receives a simple form
+      # instance. By default is the class human name.
       #
       # == Examples
       #
@@ -70,28 +72,50 @@ class SimpleForm
       #     subject "My Contact Form"
       #   end
       #
-      def subject(string=nil, &block)
-        write_inheritable_attribute(:form_subject, string || block)
+      def subject(duck=nil, &block)
+        write_inheritable_attribute(:form_subject, duck || block)
       end
 
-      # Declares contact email sender. It can be a string or a proc.
-      # As a proc, it receives a simple form instance. By default is:
+      # Declares contact email sender. It can be a string or a proc or a symbol.
+      #
+      # When a symbol is given, it will call a method on the form object with
+      # the same name as the symbol. As a proc, it receives a simple form
+      # instance. By default is:
       #
       #   sender{ |c| c.email }
       #
-      # This requires that your SimpleForm object have at least an email attribute.
+      # This requires that your SimpleForm object have an email attribute.
       #
       # == Examples
       #
       #   class ContactForm < SimpleForm
       #     # Change sender to include also the name
-      #     sender{|c| %{"#{c.name}" <#{c.email}>} }
+      #     sender { |c| %{"#{c.name}" <#{c.email}>} }
       #   end
       #
-      def sender(string=nil, &block)
-        write_inheritable_attribute(:form_sender, string || block)
+      def sender(duck=nil, &block)
+        write_inheritable_attribute(:form_sender, duck || block)
       end
       alias :from :sender
+
+      # Who will receive the e-mail. Can be a string or array or a symbol or a proc.
+      #
+      # When a symbol is given, it will call a method on the form object with
+      # the same name as the symbol. As a proc, it receives a simple form instance.
+      #
+      # Both the proc and the symbol must return a string or an array. By default
+      # is nil.
+      #
+      # == Examples
+      #
+      #   class ContactForm < SimpleForm
+      #     recipients [ "first.manager@domain.com", "second.manager@domain.com" ]
+      #   end
+      #
+      def recipients(duck=nil, &block)
+        write_inheritable_attribute(:form_recipients, duck || block)
+      end
+      alias :to :recipients
 
       # Additional headers to your e-mail.
       #
@@ -104,19 +128,6 @@ class SimpleForm
       def headers(hash)
         write_inheritable_hash(:form_headers, hash)
       end
-
-      # Who will receive the e-mail. Can be a string or array.
-      #
-      # == Examples
-      #
-      #   class ContactForm < SimpleForm
-      #     recipients "jose.valim@gmail.com"
-      #   end
-      #
-      def recipients(string_or_array_or_proc)
-        write_inheritable_attribute(:form_recipients, string_or_array_or_proc)
-      end
-      alias :to :recipients
 
       # Values from request object to be appended to the contact form.
       # Whenever used, you have to send the request object when initializing the object:

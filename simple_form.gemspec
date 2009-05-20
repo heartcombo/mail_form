@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name     = "simple_form"
-  s.version  = "0.2.1"
-  s.date     = "2009-04-15"
+  s.version  = "0.3.0"
+  s.date     = "2009-05-20"
   s.summary  = "Simple easy contact form for Rails with I18n, validations, attachments and request information."
   s.email    = "jose.valim@gmail.com"
   s.homepage = "http://github.com/josevalim/simple_form"
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "test/base_test.rb",
     "test/errors_test.rb",
     "test/notifier_test.rb",
+    "test/test_file.txt",
     "test/test_helper.rb"
   ]
   s.rdoc_options = ["--main", "README"]
