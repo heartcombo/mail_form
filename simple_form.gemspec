@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name     = "simple_form"
-  s.version  = "0.3.0"
-  s.date     = "2009-05-20"
+  s.version  = "0.3.1"
+  s.date     = "2009-05-23"
   s.summary  = "Simple easy contact form for Rails with I18n, validations, attachments and request information."
   s.email    = "jose.valim@gmail.com"
   s.homepage = "http://github.com/josevalim/simple_form"
