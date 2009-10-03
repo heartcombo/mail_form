@@ -43,6 +43,24 @@ class SimpleFormErrorsTest < ActiveSupport::TestCase
     assert_equal nil,                 form.errors.on(:message)
   end
 
+  def test_array_like_option_acts_as_an_alias_for_on
+    form = ContactForm.new(:email => 'not_valid')
+    form.valid?
+    assert_equal "can't be blank",       form.errors[:name]
+    assert_equal form.errors.on(:name),  form.errors[:name]
+    assert_equal "is invalid",           form.errors[:email]
+    assert_equal form.errors.on(:email), form.errors[:email]
+    assert_equal nil,                    form.errors[:message]
+  end
+
+  def test_get_returns_the_real_value_in_the_given_attribute
+    form = ContactForm.new(:email => 'not_valid')
+    form.valid?
+    assert_equal :blank,   form.errors.get(:name)
+    assert_equal :invalid, form.errors.get(:email)
+    assert_equal nil,      form.errors.get(:message)
+  end
+
   def test_full_messages
     form = ContactForm.new(:email => 'not_valid')
     form.valid?

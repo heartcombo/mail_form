@@ -31,13 +31,15 @@ class SimpleForm
 
     alias :add   :store
     alias :count :size
+    alias :get   :[]
 
     def on(attribute)
       attribute = attribute.to_sym
-      return nil unless self[attribute]
+      return nil unless get(attribute)
 
-      generate_message_for(attribute, self[attribute])
+      generate_message_for(attribute, get(attribute))
     end
+    alias :[] :on
 
     def full_messages
       map do |attribute, message|
