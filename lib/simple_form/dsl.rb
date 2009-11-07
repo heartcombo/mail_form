@@ -129,6 +129,26 @@ class SimpleForm
         write_inheritable_hash(:form_headers, hash)
       end
 
+      # Customized template for your e-mail, if you don't want to use default
+      # 'contact' template or need more than one contact form with different
+      # template layouts.
+      #
+      # When a symbol is given, it will call a method on the form object with
+      # the same name as the symbol. As a proc, it receives a simple form
+      # instance. Both method and proc must return a string with the template
+      # name. Defaults to 'contact'.
+      #
+      # == Examples
+      #
+      #   class ContactForm < SimpleForm
+      #     # look for a template in views/simple_form/notifier/my_template.erb
+      #     template 'my_template'
+      #   end
+      #
+      def template(new_template)
+        write_inheritable_attribute(:form_template, new_template)
+      end
+
       # Values from request object to be appended to the contact form.
       # Whenever used, you have to send the request object when initializing the object:
       #

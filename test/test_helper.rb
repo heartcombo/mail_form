@@ -52,6 +52,10 @@ class NullRecipient < SimpleForm
   sender 'my.email@my.domain.com'
 end
 
+class TemplateForm < ContactForm
+  template 'custom_template'
+end
+
 # Needed to correctly test an uploaded file
 class ActionController::TestUploadedFile
   def read

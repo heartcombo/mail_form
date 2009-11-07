@@ -7,6 +7,7 @@ class SimpleForm
       @from       = get_from_class_and_eval(form, :form_sender)
       @subject    = get_from_class_and_eval(form, :form_subject)
       @recipients = get_from_class_and_eval(form, :form_recipients)
+      @template   = get_from_class_and_eval(form, :form_template)
 
       raise ScriptError, "You forgot to setup #{form.class.name} recipients" if @recipients.blank?
       raise ScriptError, "You set :append values but forgot to give me the request object" if form.request.nil? && !form.class.form_appendable.blank?
