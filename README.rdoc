@@ -1,13 +1,4 @@
-Simple Form
-License: MIT
-Version: 0.3.1
-
-You can also read this README in pretty html at the GitHub project Wiki page:
-
-  http://wiki.github.com/josevalim/simple_form/
-
-Description
------------
+== Simple Form
 
 Simple Form is a ready to go contact form. Just the following lines are needed
 to have a contact form (including the e-mail):
@@ -39,20 +30,18 @@ in the contact mail.
 
 It's tested and compatible with Rails 2.2.x and Rails 2.3.x.
 
-Installation
-------------
+== Installation
 
-Install Simple Form is very easy. It is stored in GitHub, so just run the following:
+Install Simple Form is very easy. It is stored in Gemcutter, so just run the following:
 
-   gem sources -a http://gems.github.com
-   sudo gem install josevalim-simple_form
+   gem sources -a http://gemcutter.org
+   sudo gem install simple_form
 
 If you want it as plugin, just do:
 
    script/plugin install git://github.com/josevalim/simple_form.git
 
-Request
--------
+== Request
 
 SimpleForm makes easy to append user information to the contact mail. You just
 have to do:
@@ -70,10 +59,9 @@ And the remote ip, user agent and session will be sent in the e-mail in a
 request information session. You can give to append any method that the
 request object responds to.
 
-API Overview
-------------
+== API Overview
 
-== attributes(*attributes)
+==== attributes(*attributes)
 
 Declare your form attributes. All attributes declared here will be appended
 to the e-mail, except the ones :captcha is true.
@@ -121,7 +109,7 @@ Examples:
    # save is an alias to deliver to allow it to work with InheritedResources
    c.save #=> true
 
-== subject(string_or_symbol_or_block)
+==== subject(string_or_symbol_or_block)
 
 Declares the subject of the contact email. It can be a string or a proc or a symbol.
 
@@ -132,7 +120,7 @@ to the class human name.
    subject "My Contact Form"
    subject { |c| "Contacted by #{c.name}" }
 
-== sender(string_or_symbol_or_block)
+==== sender(string_or_symbol_or_block)
 
 Declares contact email sender. It can be a string or a proc or a symbol.
 
@@ -143,7 +131,7 @@ name as the symbol. As a proc, it receives a simple form instance. By default is
 
 This requires that your SimpleForm object have an email attribute.
 
-== recipients(string_or_array_or_symbol_or_block)
+==== recipients(string_or_array_or_symbol_or_block)
 
 Who will receive the e-mail. Can be a string or array or a symbol or a proc.
 
@@ -152,12 +140,16 @@ name as the symbol. As a proc, it receives a simple form instance.
 
 Both the proc and the symbol must return a string or an array. By default is nil.
 
-== headers(hash)
+==== template(string_or_symbol_or_proc)
+
+Allow you to set the template that is going to rendered. This allows you to have
+several simple_form instances, using different templates.
+
+==== headers(hash)
 
 Additional headers to your e-mail.
 
-I18n
-----
+== I18n
 
 All models, attributes and messages in SimpleForm can be used with localized.
 Below is an I18n example file:
@@ -178,16 +170,15 @@ Below is an I18n example file:
       remote_ip: "IP Address"
       user_agent: "Browser"
 
-Contributors
-------------
+== Contributors
 
-* "Andrew Timberlake":http://github.com/andrewtimberlake
+* José Valim - http://github.com/josevalim
+* Carlos Antonio - http://github.com/carlosantoniodasilva
+* Andrew Timberlake - http://github.com/andrewtimberlake
 
-Bugs and Feedback
------------------
+== Bugs and Feedback
 
-If you discover any bugs, please send an e-mail to jose.valim@gmail.com
+If you discover any bugs, please send an e-mail to contact@plataformatec.com.be
 If you just want to give some positive feedback or drop a line, that's fine too!
 
-Copyright (c) 2009 José Valim
-http://josevalim.blogspot.com/
+Copyright (c) 2009 Plataforma Tec http://blog.plataformatec.com.br/

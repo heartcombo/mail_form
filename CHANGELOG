@@ -1,3 +1,7 @@
+* Version 0.4
+
+* Added support to template
+
 # Version 0.3
 
 * Added support to symbols on :sender, :subject and :recipients
