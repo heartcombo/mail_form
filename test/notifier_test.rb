@@ -12,6 +12,8 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
     test_file  = ActionController::TestUploadedFile.new(File.join(File.dirname(__FILE__), 'test_file.txt'))
     @with_file = FileForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => "Cool", :file => test_file)
 
+    @template = TemplateForm.new(@valid_attributes)
+
     ActionMailer::Base.deliveries = []
   end
 
@@ -156,6 +158,23 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
   def test_form_with_file_does_not_output_attachment_as_attribute
     @with_file.deliver
     assert_no_match /File/, ActionMailer::Base.deliveries.first.body
+  end
+
+  def test_form_with_customized_template_raise_missing_template_if_not_found
+    assert_raise ActionView::MissingTemplate do
+      @template.deliver
+    end
+  end
+
+  def test_form_with_customized_template_render_correct_template
+    begin
+      default_template_root = SimpleForm::Notifier.template_root
+      SimpleForm::Notifier.template_root = File.join(File.dirname(__FILE__), 'views')
+      @template.deliver
+      assert_match 'Hello from my cystom template!', ActionMailer::Base.deliveries.last.body
+    ensure
+      SimpleForm::Notifier.template_root = default_template_root
+    end
   end
 
   def teardown
