@@ -29,7 +29,7 @@ begin
     s.homepage = "http://github.com/josevalim/simple_form"
     s.description = "Simple easy contact form for Rails with I18n, validations, attachments and request information."
     s.authors = ['José Valim', 'Carlos Antônio']
-    s.files =  FileList["[A-Z]*", "{lib}/**/*"]
+    s.files =  FileList["[A-Z]*", "{lib,views}/**/*"]
   end
 
   Jeweler::GemcutterTasks.new
