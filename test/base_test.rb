@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper'
 
-class SimpleFormBaseTest < ActiveSupport::TestCase
+class MailFormBaseTest < ActiveSupport::TestCase
 
   def setup
     ActionMailer::Base.deliveries = []
@@ -90,7 +90,7 @@ class SimpleFormBaseTest < ActiveSupport::TestCase
   end
 
   def test_human_name_can_be_localized
-    I18n.backend.store_translations(:en, :simple_form => { :models => { :contact_form => 'Formulário de contato' } })
+    I18n.backend.store_translations(:en, :mail_form => { :models => { :contact_form => 'Formulário de contato' } })
     assert_equal 'Formulário de contato', ContactForm.human_name
   end
 
@@ -99,7 +99,7 @@ class SimpleFormBaseTest < ActiveSupport::TestCase
   end
 
   def test_human_attribute_name_can_be_localized
-    I18n.backend.store_translations(:en, :simple_form => { :attributes => { :message => 'Mensagem' } })
+    I18n.backend.store_translations(:en, :mail_form => { :attributes => { :message => 'Mensagem' } })
     assert_equal 'Mensagem', ContactForm.human_attribute_name(:message)
   end
 

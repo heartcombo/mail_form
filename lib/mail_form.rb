@@ -1,11 +1,10 @@
-dir = File.dirname(__FILE__)
-require File.join(dir, 'simple_form', 'base')
-require File.join(dir, 'simple_form', 'dsl')
-require File.join(dir, 'simple_form', 'errors')
-require File.join(dir, 'simple_form', 'notifier')
+require 'mail_form/base'
+require 'mail_form/dsl'
+require 'mail_form/errors'
+require 'mail_form/notifier'
 
-class SimpleForm
-  extend SimpleForm::DSL
+class MailForm
+  extend MailForm::DSL
 
   ACCESSORS = [ :form_attributes, :form_validatable, :form_subject,
                 :form_attachments, :form_recipients, :form_sender,
@@ -30,4 +29,4 @@ class SimpleForm
   template 'contact'
 end
 
-SimpleForm::Notifier.template_root = File.join(dir, '..', 'views')
+MailForm::Notifier.template_root = File.join(File.dirname(__FILE__), '..', 'views')

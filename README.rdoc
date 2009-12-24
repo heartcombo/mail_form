@@ -1,9 +1,9 @@
-== Simple Form
+== MailForm
 
-Simple Form is a ready to go contact form. Just the following lines are needed
-to have a contact form (including the e-mail):
+MailForm allows you to send an e-mail straight from a form. For instance,
+if you want to make a contact form just the following lines are needed (including the e-mail):
 
-  class ContactForm < SimpleForm
+  class ContactForm < MailForm
     subject "My Contact Form"
     recipients "your.email@your.domain.com"
     sender{|c| %{"#{c.name}" <#{c.email}>} }
@@ -22,40 +22,40 @@ Then you start a script/console and type:
   c.deliver
 
 Check your inbox and the e-mail will be there, with the sent fields (assuming
-that you configured your smtp properly).
+that you configured your delivery method properly).
 
-SimpleForm also support attachments, I18n, error messages like in ActiveRecord 
+MailForm also support attachments, I18n, error messages like in ActiveRecord 
 (so it works with custom FormBuilders) and can also send the user request information
-in the contact mail.
+in the mail.
 
 It's tested and compatible with Rails 2.2.x and Rails 2.3.x.
 
 == Installation
 
-Install Simple Form is very easy. It is stored in Gemcutter, so just run the following:
+Install MailForm is very easy. It is stored in Gemcutter, so just run the following:
 
-   gem sources -a http://gemcutter.org
-   sudo gem install simple_form
+   sudo gem install mail_form
 
 If you want it as plugin, just do:
 
-   script/plugin install git://github.com/josevalim/simple_form.git
+   script/plugin install git://github.com/plataformatec/mail_form.git
 
 == Request
 
-SimpleForm makes easy to append user information to the contact mail. You just
+MailForm makes easy to append user information to the contact mail. You just
 have to do:
 
-  class ContactForm < SimpleForm
+  class ContactForm < MailForm
     append :remote_ip, :user_agent, :session
     # ...
   end
 
 And in your controller:
 
-  @contact_form = ContactForm.new(params[:contact_form], request)
+  @contact_form = ContactForm.new(params[:contact_form])
+  @contact_form.request = request
 
-And the remote ip, user agent and session will be sent in the e-mail in a
+The remote ip, user agent and session will be sent in the e-mail in a
 request information session. You can give to append any method that the
 request object responds to.
 
@@ -83,12 +83,12 @@ Options:
 
 Examples:
 
-   class ContactForm < SimpleForm
+   class ContactForm < MailForm
      attributes :name,  :validate => true
      attributes :email, :validate => /[^@]+@[^\.]+\.[\w\.\-]+/
      attributes :message
      attributes :screenshot, :attachment => true, :validate => :screenshot_required?
-     attributes :nickname, :captcha => true
+     attributes :nickname,   :captcha => true
 
      def screenshot_required?
        # ...
@@ -106,7 +106,7 @@ Examples:
    c.errors.full_messages #=> [ "Name can't be blank", "Email is invalid" ]
 
    c = ContactForm.new(:name => 'José', :email => 'your@email.com')
-   # save is an alias to deliver to allow it to work with InheritedResources
+   # save is an alias to deliver
    c.save #=> true
 
 ==== subject(string_or_symbol_or_block)
@@ -114,7 +114,7 @@ Examples:
 Declares the subject of the contact email. It can be a string or a proc or a symbol.
 
 When a symbol is given, it will call a method on the form object with the same
-name as the symbol. As a proc, it receives a simple form instance. It defaults
+name as the symbol. As a proc, it receives a mail form instance. It defaults
 to the class human name.
 
    subject "My Contact Form"
@@ -125,25 +125,25 @@ to the class human name.
 Declares contact email sender. It can be a string or a proc or a symbol.
 
 When a symbol is given, it will call a method on the form object with the same
-name as the symbol. As a proc, it receives a simple form instance. By default is:
+name as the symbol. As a proc, it receives a mail form instance. By default is:
 
-   sender{ |c| c.email }
+   sender { |c| c.email }
 
-This requires that your SimpleForm object have an email attribute.
+This requires that your MailForm object have an email attribute.
 
 ==== recipients(string_or_array_or_symbol_or_block)
 
 Who will receive the e-mail. Can be a string or array or a symbol or a proc.
 
 When a symbol is given, it will call a method on the form object with the same
-name as the symbol. As a proc, it receives a simple form instance.
+name as the symbol. As a proc, it receives a mail form instance.
 
 Both the proc and the symbol must return a string or an array. By default is nil.
 
 ==== template(string_or_symbol_or_proc)
 
 Allow you to set the template that is going to rendered. This allows you to have
-several simple_form instances, using different templates.
+several MailForm instances, using different templates.
 
 ==== headers(hash)
 
@@ -151,10 +151,10 @@ Additional headers to your e-mail.
 
 == I18n
 
-All models, attributes and messages in SimpleForm can be used with localized.
+All models, attributes and messages in MailForm can be used with localized.
 Below is an I18n example file:
 
-  simple_form:
+  mail_form:
     models:
       contact_form: "Your site contact form"
     attributes:
@@ -170,15 +170,17 @@ Below is an I18n example file:
       remote_ip: "IP Address"
       user_agent: "Browser"
 
-== Contributors
+== Maintainers
 
 * José Valim - http://github.com/josevalim
 * Carlos Antonio - http://github.com/carlosantoniodasilva
+
+== Contributors
+
 * Andrew Timberlake - http://github.com/andrewtimberlake
 
 == Bugs and Feedback
 
-If you discover any bugs, please send an e-mail to contact@plataformatec.com.be
-If you just want to give some positive feedback or drop a line, that's fine too!
+If you discover any bug, please use github issues tracker.
 
 Copyright (c) 2009 Plataforma Tec http://blog.plataformatec.com.br/

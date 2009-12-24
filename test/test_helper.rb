@@ -11,9 +11,9 @@ require 'action_controller/test_case'
 ActionMailer::Base.delivery_method = :test
 
 # Load respond_to before defining ApplicationController
-require File.dirname(__FILE__) + '/../lib/simple_form.rb'
+require File.dirname(__FILE__) + '/../lib/mail_form.rb'
 
-class ContactForm < SimpleForm
+class ContactForm < MailForm
   recipients 'my.email@my.domain.com'
 
   attribute :name,     :validate => true
@@ -48,7 +48,7 @@ class FileForm < ContactForm
   end
 end
 
-class NullRecipient < SimpleForm
+class NullRecipient < MailForm
   sender 'my.email@my.domain.com'
 end
 

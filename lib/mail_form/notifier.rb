@@ -1,6 +1,6 @@
 # This is the class responsable to send the e-mails.
 #
-class SimpleForm
+class MailForm
   class Notifier < ActionMailer::Base
 
     def contact(form)

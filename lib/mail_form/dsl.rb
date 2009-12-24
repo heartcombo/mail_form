@@ -1,4 +1,4 @@
-class SimpleForm
+class MailForm
   module DSL
 
     protected
@@ -23,7 +23,7 @@ class SimpleForm
       #
       # == Examples
       #
-      #   class ContactForm < SimpleForm
+      #   class ContactForm < MailForm
       #     attributes :name,  :validate => true
       #     attributes :email, :validate => /^([^@]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
       #     attributes :message
@@ -68,7 +68,7 @@ class SimpleForm
       #
       # == Examples
       #
-      #   class ContactForm < SimpleForm
+      #   class ContactForm < MailForm
       #     subject "My Contact Form"
       #   end
       #
@@ -84,11 +84,11 @@ class SimpleForm
       #
       #   sender{ |c| c.email }
       #
-      # This requires that your SimpleForm object have an email attribute.
+      # This requires that your MailForm object have an email attribute.
       #
       # == Examples
       #
-      #   class ContactForm < SimpleForm
+      #   class ContactForm < MailForm
       #     # Change sender to include also the name
       #     sender { |c| %{"#{c.name}" <#{c.email}>} }
       #   end
@@ -108,7 +108,7 @@ class SimpleForm
       #
       # == Examples
       #
-      #   class ContactForm < SimpleForm
+      #   class ContactForm < MailForm
       #     recipients [ "first.manager@domain.com", "second.manager@domain.com" ]
       #   end
       #
@@ -121,7 +121,7 @@ class SimpleForm
       #
       # == Examples
       #
-      #   class ContactForm < SimpleForm
+      #   class ContactForm < MailForm
       #     headers { :content_type => 'text/html' }
       #   end
       #
@@ -140,8 +140,8 @@ class SimpleForm
       #
       # == Examples
       #
-      #   class ContactForm < SimpleForm
-      #     # look for a template in views/simple_form/notifier/my_template.erb
+      #   class ContactForm < MailForm
+      #     # look for a template in views/mail_form/notifier/my_template.erb
       #     template 'my_template'
       #   end
       #
@@ -159,7 +159,7 @@ class SimpleForm
       #
       # == Examples
       #
-      #   class ContactForm < SimpleForm
+      #   class ContactForm < MailForm
       #     append :remote_ip, :user_agent, :session, :cookies
       #   end
       #

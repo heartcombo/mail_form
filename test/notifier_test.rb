@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper'
 
-class SimpleFormNotifierTest < ActiveSupport::TestCase
+class MailFormNotifierTest < ActiveSupport::TestCase
 
   def setup
     @form = ContactForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => 'Cool')
@@ -83,13 +83,13 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
   end
 
   def test_body_contains_localized_attributes_names
-    I18n.backend.store_translations(:en, :simple_form => { :attributes => { :message => 'Sent message' } })
+    I18n.backend.store_translations(:en, :mail_form => { :attributes => { :message => 'Sent message' } })
     @form.deliver
     assert_match /Sent message:/, ActionMailer::Base.deliveries.first.body
     assert_no_match /Message:/, ActionMailer::Base.deliveries.first.body
   end
 
-  def test_body_simple_format_messages_with_break_line
+  def test_body_mail_format_messages_with_break_line
     @form.deliver
     assert_no_match /<p>Cool/, ActionMailer::Base.deliveries.first.body
 
@@ -108,7 +108,7 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
   end
 
   def test_request_title_is_localized
-    I18n.backend.store_translations(:en, :simple_form => { :request => { :title => 'Information about the request' } })
+    I18n.backend.store_translations(:en, :mail_form => { :request => { :title => 'Information about the request' } })
     @advanced.deliver
     assert_no_match /Request information/, ActionMailer::Base.deliveries.last.body
     assert_match /Information about the request/, ActionMailer::Base.deliveries.last.body
@@ -121,7 +121,7 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
   end
 
   def test_request_info_attributes_are_localized
-    I18n.backend.store_translations(:en, :simple_form => { :request => { :remote_ip => 'IP Address' } })
+    I18n.backend.store_translations(:en, :mail_form => { :request => { :remote_ip => 'IP Address' } })
     @advanced.deliver
     assert_match /IP Address/, ActionMailer::Base.deliveries.last.body
     assert_no_match /Remote ip/, ActionMailer::Base.deliveries.last.body
@@ -168,12 +168,12 @@ class SimpleFormNotifierTest < ActiveSupport::TestCase
 
   def test_form_with_customized_template_render_correct_template
     begin
-      default_template_root = SimpleForm::Notifier.template_root
-      SimpleForm::Notifier.template_root = File.join(File.dirname(__FILE__), 'views')
+      default_template_root = MailForm::Notifier.template_root
+      MailForm::Notifier.template_root = File.join(File.dirname(__FILE__), 'views')
       @template.deliver
       assert_match 'Hello from my cystom template!', ActionMailer::Base.deliveries.last.body
     ensure
-      SimpleForm::Notifier.template_root = default_template_root
+      MailForm::Notifier.template_root = default_template_root
     end
   end
 

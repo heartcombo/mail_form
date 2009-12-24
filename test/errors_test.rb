@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper'
 
-class SimpleFormErrorsTest < ActiveSupport::TestCase
+class MailFormErrorsTest < ActiveSupport::TestCase
 
   def test_errors_respond_to_some_hash_methods
     assert ContactForm.new.errors.respond_to?(:each)
@@ -22,7 +22,7 @@ class SimpleFormErrorsTest < ActiveSupport::TestCase
   end
 
   def test_on_returns_a_default_localized_message_in_the_given_attribute
-    I18n.backend.store_translations(:en, :simple_form => { :messages => { :invalid => 'is not valid', :blank => 'should be filled' } })
+    I18n.backend.store_translations(:en, :mail_form => { :messages => { :invalid => 'is not valid', :blank => 'should be filled' } })
 
     form = ContactForm.new(:email => 'not_valid')
     form.valid?
@@ -33,7 +33,7 @@ class SimpleFormErrorsTest < ActiveSupport::TestCase
   end
 
   def test_on_returns_an_attribute_localized_message_in_the_given_attribute
-    I18n.backend.store_translations(:en, :simple_form => { :messages => { :email => 'fill in the email', :name => 'fill in the name' } })
+    I18n.backend.store_translations(:en, :mail_form => { :messages => { :email => 'fill in the email', :name => 'fill in the name' } })
 
     form = ContactForm.new(:email => 'not_valid')
     form.valid?
@@ -70,7 +70,7 @@ class SimpleFormErrorsTest < ActiveSupport::TestCase
   end
 
   def test_full_localized_messages
-    I18n.backend.store_translations(:en, :simple_form => { :messages => { :email => 'is not valid', :blank => 'should be filled' }, :attributes => { :email => 'E-mail' } })
+    I18n.backend.store_translations(:en, :mail_form => { :messages => { :email => 'is not valid', :blank => 'should be filled' }, :attributes => { :email => 'E-mail' } })
 
     form = ContactForm.new(:email => 'not_valid')
     form.valid?

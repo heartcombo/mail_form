@@ -9,7 +9,7 @@
 <% end %>
 
 <% unless @form.class.form_appendable.blank? %>
-  <br /><h4 style="text-decoration:underline"><%= I18n.t :title, :scope => [ :simple_form, :request ], :default => 'Request information' %></h4>
+  <br /><h4 style="text-decoration:underline"><%= I18n.t :title, :scope => [ :mail_form, :request ], :default => 'Request information' %></h4>
 
   <% @form.class.form_appendable.each do |attribute|
     value = @form.request.send(attribute)
@@ -23,7 +23,7 @@
     end
   %>
 
-    <p><b><%= I18n.t attribute, :scope => [ :simple_form, :request ], :default => attribute.to_s.humanize %>:</b>
+    <p><b><%= I18n.t attribute, :scope => [ :mail_form, :request ], :default => attribute.to_s.humanize %>:</b>
     <%= value.include?("\n") ? simple_format(value) : value %></p>
   <% end %>
   <br />

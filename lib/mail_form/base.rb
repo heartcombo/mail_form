@@ -1,4 +1,4 @@
-class SimpleForm
+class MailForm
   attr_accessor :request
 
   # Initialize assigning the parameters given as hash (just as in ActiveRecord).
@@ -85,7 +85,7 @@ class SimpleForm
   #
   def deliver(run_validations=true)
     if !run_validations || (self.not_spam? && self.valid?)
-      SimpleForm::Notifier.deliver_contact(self)
+      MailForm::Notifier.deliver_contact(self)
       return true
     else
       return false
@@ -96,31 +96,31 @@ class SimpleForm
   # Add a human attribute name interface on top of I18n. If email is received as
   # attribute, it will look for a translated name on:
   #
-  #   simple_form:
+  #   mail_form:
   #     attributes:
   #       email: E-mail
   #
   def self.human_attribute_name(attribute, options={})
-    I18n.translate("attributes.#{attribute}", options.merge(:default => attribute.to_s.humanize, :scope => [:simple_form]))
+    I18n.translate("attributes.#{attribute}", options.merge(:default => attribute.to_s.humanize, :scope => [:mail_form]))
   end
 
   # Add a human name interface on top of I18n. If you have a model named
-  # SimpleForm, it will search for the localized name on:
+  # MailForm, it will search for the localized name on:
   #
-  #   simple_form:
+  #   mail_form:
   #     models:
   #       contact_form: Contact form
   #
   def self.human_name(options={})
     underscored = self.name.demodulize.underscore
-    I18n.translate("models.#{underscored}", options.merge(:default => underscored.humanize, :scope => [:simple_form]))
+    I18n.translate("models.#{underscored}", options.merge(:default => underscored.humanize, :scope => [:mail_form]))
   end
 
   # Return the errors in this form. The object returned as the same API as the
   # ActiveRecord one.
   #
   def errors
-    @errors ||= SimpleForm::Errors.new(self)
+    @errors ||= MailForm::Errors.new(self)
   end
 
 end
