@@ -191,6 +191,14 @@ several MailForm instances, using different templates.
 
 Configure additional headers to your e-mail.
 
+==== MailForm.template_root
+
+MailForm by default is configured to use the template which comes with the gem.
+If you want to use another, you just need to configure MailForm template root
+to point to your application:
+
+  MailForm.template_root = File.join(Rails.root, "app", "views")
+
 == I18n
 
 I18n in MailForm works like in ActiveRecord, so all models, attributes and messages
