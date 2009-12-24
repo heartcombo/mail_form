@@ -34,7 +34,7 @@ It's tested and compatible with Rails 2.2.x and Rails 2.3.x.
 
 Install MailForm is very easy. It is stored in Gemcutter, so just run the following:
 
-   sudo gem install mail_form
+   sudo gem install mail_form --version=1.0.0
 
 If you want it as plugin, just do:
 
