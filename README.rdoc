@@ -1,9 +1,21 @@
 == MailForm
 
+==== Rails 3
+
+This gem was built on top of ActiveModel to showcase how you can pull in validations, naming
+and i18n from Rails to your models without the need to implement it all by yourself.
+
+In other words, this README refers to the MailForm gem to be used in Rails 3. For instructions
+on how to use MailForm in Rails 2.x, please check the v1.0 branch:
+
+  http://github.com/plataformatec/mail_form/tree/v1.0
+
+==== Description
+
 MailForm allows you to send an e-mail straight from a form. For instance,
 if you want to make a contact form just the following lines are needed (including the e-mail):
 
-  class ContactForm < MailForm
+  class ContactForm < MailForm::Resource
     subject "My Contact Form"
     recipients "your.email@your.domain.com"
     sender{|c| %{"#{c.name}" <#{c.email}>} }
@@ -22,13 +34,29 @@ Then you start a script/console and type:
   c.deliver
 
 Check your inbox and the e-mail will be there, with the sent fields (assuming
-that you configured your delivery method properly).
+that you configured your mailer delivery method properly).
 
-MailForm also support attachments, I18n, error messages like in ActiveRecord 
-(so it works with custom FormBuilders) and can also send the user request information
-in the mail.
+==== MailForm::Resource
 
-It's tested and compatible with Rails 2.2.x and Rails 2.3.x.
+When you inherit from MailForm::Resource, it pulls down a set of stuff from ActiveModel,
+as ActiveModel::Validation, ActiveModel::Translation and ActiveModel::Naming.
+
+This bring I18n, error message and attributes handling like in ActiveRecord to MailForm,
+so MailForm can be used in your controllers and form builders without extra tweaks.
+
+==== Playing with other ORMs
+
+MailForm plays nice with other ORMs as well. You just need to include
+MailForm::Delivery in your model and an e-mail with the attributes will
+be sent:
+
+  class User < ActiveRecord::Base
+    include MailForm::Delivery
+
+    append :remote_ip, :user_agent, :session
+    subject "New user created"
+    recipients "your.email@your.domain.com"
+  end
 
 == Installation
 
@@ -39,25 +67,6 @@ Install MailForm is very easy. It is stored in Gemcutter, so just run the follow
 If you want it as plugin, just do:
 
    script/plugin install git://github.com/plataformatec/mail_form.git
-
-== Request
-
-MailForm makes easy to append user information to the contact mail. You just
-have to do:
-
-  class ContactForm < MailForm
-    append :remote_ip, :user_agent, :session
-    # ...
-  end
-
-And in your controller:
-
-  @contact_form = ContactForm.new(params[:contact_form])
-  @contact_form.request = request
-
-The remote ip, user agent and session will be sent in the e-mail in a
-request information session. You can give to append any method that the
-request object responds to.
 
 == API Overview
 
@@ -83,7 +92,7 @@ Options:
 
 Examples:
 
-   class ContactForm < MailForm
+   class ContactForm < MailForm::Resource
      attributes :name,  :validate => true
      attributes :email, :validate => /[^@]+@[^\.]+\.[\w\.\-]+/
      attributes :message
@@ -140,6 +149,39 @@ name as the symbol. As a proc, it receives a mail form instance.
 
 Both the proc and the symbol must return a string or an array. By default is nil.
 
+==== append(*methods)
+
+MailForm also makes easy to append request information from client to the sent
+mail. You just have to do:
+
+  class ContactForm < MailForm::Resource
+    append :remote_ip, :user_agent, :session
+    # ...
+  end
+
+And in your controller:
+
+  @contact_form = ContactForm.new(params[:contact_form])
+  @contact_form.request = request
+
+The remote ip, user agent and session will be sent in the e-mail in a
+request information session. You can give to append any method that the
+request object responds to.
+
+==== validations
+
+MailForm supports validations through the attribute method as seen above:
+
+  attribute :email, :validate => /[^@]+@[^\.]+\.[\w\.\-]+/
+
+But this is actually a DSL to ActiveModel validations, so you could actually do this:
+
+  attribute :email
+  validates_format_of :email, :with => /[^@]+@[^\.]+\.[\w\.\-]+/
+
+Choose the one which pleases you the most. For more information on the API, please
+continue reading below.
+
 ==== template(string_or_symbol_or_proc)
 
 Allow you to set the template that is going to rendered. This allows you to have
@@ -147,12 +189,14 @@ several MailForm instances, using different templates.
 
 ==== headers(hash)
 
-Additional headers to your e-mail.
+Configure additional headers to your e-mail.
 
 == I18n
 
-All models, attributes and messages in MailForm can be used with localized.
-Below is an I18n example file:
+I18n in MailForm works like in ActiveRecord, so all models, attributes and messages
+can be used with localized. However, in order to DRY up your yml files, mail_form
+requires on I18n >= 0.2.0 since it uses the ability to symlink translations. Below
+is an I18n example file:
 
   mail_form:
     models:
@@ -161,10 +205,8 @@ Below is an I18n example file:
       email: "E-mail"
       telephone: "Telephone number"
       message: "Sent message"
-    messages:
-      blank: "can not be blank"
-      invalid: "is not valid"
-      telephone: "must have eight digits"
+    errors:
+      messages: :"activerecord.errors.messages"
     request:
       title: "Technical information about the user"
       remote_ip: "IP Address"
