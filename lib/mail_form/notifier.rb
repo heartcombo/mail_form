@@ -12,9 +12,7 @@ class MailForm
       raise ScriptError, "You forgot to setup #{form.class.name} recipients" if @recipients.blank?
       raise ScriptError, "You set :append values but forgot to give me the request object" if form.request.nil? && !form.class.form_appendable.blank?
 
-      @body['form']    = form
-      @body['subject'] = @subject
-
+      @form    = form
       @sent_on = Time.now.utc
       @headers = form.class.form_headers
       @content_type = 'text/html'

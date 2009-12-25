@@ -26,7 +26,7 @@ class MailForm
   headers({})
   sender {|c| c.email }
   subject{|c| c.class.human_name }
-  template 'contact'
+  template 'default'
 end
 
 MailForm::Notifier.template_root = File.join(File.dirname(__FILE__), '..', 'views')

@@ -1,7 +1,9 @@
 require 'test/unit'
-require 'rubygems'
-
 RAILS_ENV = ENV["RAILS_ENV"] = "test"
+
+# This should point to a Rails 3 master checkout
+# git://github.com/rails/rails.git
+require File.expand_path(File.dirname(__FILE__) + "/../../rails/vendor/gems/environment")
 
 require 'active_support'
 require 'active_support/test_case'
@@ -10,8 +12,8 @@ require 'action_controller/test_case'
 
 ActionMailer::Base.delivery_method = :test
 
-# Load respond_to before defining ApplicationController
-require File.dirname(__FILE__) + '/../lib/mail_form.rb'
+$:.unshift File.dirname(__FILE__) + '/../lib'
+require 'mail_form'
 
 class ContactForm < MailForm
   recipients 'my.email@my.domain.com'
@@ -56,8 +58,12 @@ class TemplateForm < ContactForm
   template 'custom_template'
 end
 
+class WrongForm < ContactForm
+  template 'does_not_exist'
+end
+
 # Needed to correctly test an uploaded file
-class ActionController::TestUploadedFile
+class Rack::Test::UploadedFile
   def read
     @tempfile.read
   end

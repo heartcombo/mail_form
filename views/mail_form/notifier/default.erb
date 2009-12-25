@@ -5,7 +5,7 @@
   next if value.blank? %>
 
   <p><b><%= @form.class.human_attribute_name(attribute) %>:</b>
-  <%= value.include?("\n") ? simple_format(h(value)) : h(value) %></p>
+  <%= value.include?("\n") ? raw(simple_format(h(value))) : value %></p>
 <% end %>
 
 <% unless @form.class.form_appendable.blank? %>
@@ -24,7 +24,7 @@
   %>
 
     <p><b><%= I18n.t attribute, :scope => [ :mail_form, :request ], :default => attribute.to_s.humanize %>:</b>
-    <%= value.include?("\n") ? simple_format(value) : value %></p>
+    <%= value.include?("\n") ? raw(simple_format(value)) : value %></p>
   <% end %>
   <br />
 <% end %>
