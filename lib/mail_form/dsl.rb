@@ -51,11 +51,23 @@ class MailForm
           write_inheritable_array(:form_attributes, accessors)
         end
 
-        if options[:validate]
-          validations = {}
-          accessors.each{ |a| validations[a] = options[:validate] }
+        validation = options.delete(:validate)
+        return unless validation
 
-          write_inheritable_hash(:form_validatable, validations)
+        accessors.each do |accessor|
+          case validation
+          when Symbol, Class
+            validate validation
+            return
+          when Regexp
+            validates_format_of accessor, :with => validation, :allow_blank => true
+          when Array
+            validates_inclusion_of accessor, :in => validation, :allow_blank => true
+          when Range
+            validates_length_of accessor, :within => validation, :allow_blank => true
+          end
+
+          validates_presence_of accessor unless options[:allow_blank] == true
         end
       end
       alias :attributes :attribute

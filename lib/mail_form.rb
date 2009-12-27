@@ -6,9 +6,9 @@ require 'mail_form/notifier'
 class MailForm
   extend MailForm::DSL
 
-  ACCESSORS = [ :form_attributes, :form_validatable, :form_subject,
+  ACCESSORS = [ :form_attributes, :form_subject, :form_captcha,
                 :form_attachments, :form_recipients, :form_sender,
-                :form_captcha, :form_headers, :form_template, :form_appendable ]
+                :form_headers, :form_template, :form_appendable ]
 
   DEFAULT_MESSAGES = { :blank => "can't be blank", :invalid => "is invalid" }
 
@@ -21,7 +21,6 @@ class MailForm
   write_inheritable_array :form_appendable, []
   write_inheritable_array :form_attributes, []
   write_inheritable_array :form_attachments, []
-  write_inheritable_hash  :form_validatable, {}
 
   headers({})
   sender {|c| c.email }
