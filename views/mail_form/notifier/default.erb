@@ -1,4 +1,4 @@
-<h4 style="text-decoration:underline"><%=h @subject %></h4>
+<h4 style="text-decoration:underline"><%= mailer.subject %></h4>
 
 <% @form.class.form_attributes.each do |attribute|
   value = @form.send(attribute)
