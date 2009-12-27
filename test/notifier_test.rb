@@ -83,7 +83,7 @@ class MailFormNotifierTest < ActiveSupport::TestCase
   end
 
   def test_body_contains_localized_attributes_names
-    I18n.backend.store_translations(:en, :mail_form => { :attributes => { :message => 'Sent message' } })
+    I18n.backend.store_translations(:en, :mail_form => { :attributes => { :contact_form => { :message => 'Sent message' } } })
     @form.deliver
     assert_match /Sent message:/, ActionMailer::Base.deliveries.first.body
     assert_no_match /Message:/, ActionMailer::Base.deliveries.first.body

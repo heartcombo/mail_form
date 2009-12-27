@@ -37,8 +37,9 @@ class MailFormBaseTest < ActiveSupport::TestCase
     assert !form.valid?
     assert form.invalid?
 
-    assert_equal(2, form.errors.count)
-    assert_equal({:email=>:blank, :name=>:blank}, form.errors)
+    assert_equal 2, form.errors.count
+    assert_equal ["can't be blank"], form.errors[:email]
+    assert_equal ["can't be blank"], form.errors[:name]
   end
 
   def test_is_not_valid_when_validatable_regexp_does_not_match
@@ -47,7 +48,7 @@ class MailFormBaseTest < ActiveSupport::TestCase
     assert form.invalid?
 
     assert_equal(1, form.errors.count)
-    assert_equal({:email=>:invalid}, form.errors)
+    assert_equal ["is invalid"], form.errors[:email]
   end
 
   def test_is_valid_when_validatable_attributes_are_valid
@@ -86,12 +87,12 @@ class MailFormBaseTest < ActiveSupport::TestCase
   end
 
   def test_human_name_returns_a_humanized_name
-    assert_equal 'Contact form', ContactForm.human_name
+    assert_equal 'Contact form', ContactForm.model_name.human
   end
 
   def test_human_name_can_be_localized
     I18n.backend.store_translations(:en, :mail_form => { :models => { :contact_form => 'Formulário de contato' } })
-    assert_equal 'Formulário de contato', ContactForm.human_name
+    assert_equal 'Formulário de contato', ContactForm.model_name.human
   end
 
   def test_human_attribute_name_returns_a_humanized_attribute
@@ -99,8 +100,31 @@ class MailFormBaseTest < ActiveSupport::TestCase
   end
 
   def test_human_attribute_name_can_be_localized
-    I18n.backend.store_translations(:en, :mail_form => { :attributes => { :message => 'Mensagem' } })
+    I18n.backend.store_translations(:en, :mail_form => { :attributes => { :contact_form => { :message => 'Mensagem' } } })
     assert_equal 'Mensagem', ContactForm.human_attribute_name(:message)
+  end
+
+  def test_activemodel_linked_errors
+    form = ContactForm.new(:email => 'not_valid')
+    form.valid?
+    assert_equal ["can't be blank"], form.errors[:name]
+    assert_equal ["is invalid"],     form.errors[:email]
+    assert_equal [],                 form.errors[:message]
+  end
+
+  def test_activemodel_errors_lookups_model_keys
+    I18n.backend.store_translations(:en, :mail_form => { :errors => { :models => { :contact_form =>
+      { :attributes => { :email => { :invalid => 'fill in the email' },
+                         :name => { :blank => 'fill in the name' } }
+      }
+    }}})
+
+    form = ContactForm.new(:email => 'not_valid')
+    form.valid?
+
+    assert_equal ["fill in the name"],  form.errors[:name]
+    assert_equal ["fill in the email"], form.errors[:email]
+    assert_equal [],                    form.errors[:message]
   end
 
   def teardown

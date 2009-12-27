@@ -1,6 +1,6 @@
+require 'active_model'
 require 'mail_form/base'
 require 'mail_form/dsl'
-require 'mail_form/errors'
 require 'mail_form/notifier'
 
 class MailForm
@@ -25,8 +25,9 @@ class MailForm
 
   headers({})
   sender {|c| c.email }
-  subject{|c| c.class.human_name }
+  subject{|c| c.class.model_name.human }
   template 'default'
 end
 
-MailForm::Notifier.template_root = File.join(File.dirname(__FILE__), '..', 'views')
+I18n.load_path.unshift File.expand_path('mail_form/locales/en.yml', File.dirname(__FILE__))
+MailForm::Notifier.template_root = File.expand_path('../views', File.dirname(__FILE__))

@@ -1,4 +1,9 @@
 class MailForm
+  extend ActiveModel::Naming
+  extend ActiveModel::Translation
+  include ActiveModel::Validations
+  include ActiveModel::Conversion
+
   attr_accessor :request
 
   # Initialize assigning the parameters given as hash (just as in ActiveRecord).
@@ -93,34 +98,19 @@ class MailForm
   end
   alias :save :deliver
 
-  # Add a human attribute name interface on top of I18n. If email is received as
-  # attribute, it will look for a translated name on:
-  #
-  #   mail_form:
-  #     attributes:
-  #       email: E-mail
-  #
-  def self.human_attribute_name(attribute, options={})
-    I18n.translate("attributes.#{attribute}", options.merge(:default => attribute.to_s.humanize, :scope => [:mail_form]))
+  def self.i18n_scope
+    :mail_form
   end
 
-  # Add a human name interface on top of I18n. If you have a model named
-  # MailForm, it will search for the localized name on:
-  #
-  #   mail_form:
-  #     models:
-  #       contact_form: Contact form
-  #
-  def self.human_name(options={})
-    underscored = self.name.demodulize.underscore
-    I18n.translate("models.#{underscored}", options.merge(:default => underscored.humanize, :scope => [:mail_form]))
+  def self.lookup_ancestors
+    super - [MailForm]
   end
 
   # Return the errors in this form. The object returned as the same API as the
   # ActiveRecord one.
   #
   def errors
-    @errors ||= MailForm::Errors.new(self)
+    @errors ||= ActiveModel::Errors.new(self)
   end
 
 end
