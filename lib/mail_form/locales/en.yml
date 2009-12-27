@@ -1,0 +1,4 @@
+en:
+  mail_form:
+    errors:
+      messages: :"activemodel.errors.messages"
