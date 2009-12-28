@@ -1,6 +1,6 @@
 class MailForm < ActionMailer::Base
   autoload :Callbacks, 'mail_form/callbacks'
-  autoload :DSL,       'mail_form/dsl'
+  autoload :Delivery,  'mail_form/delivery'
   autoload :Resource,  'mail_form/resource'
   autoload :Shim,      'mail_form/shim'
 

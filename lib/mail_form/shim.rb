@@ -4,8 +4,9 @@ require 'active_model'
 module MailForm::Shim
   def self.included(base)
     base.class_eval do
-      extend  ActiveModel::Naming
-      extend  ActiveModel::Translation
+      extend ActiveModel::Naming
+      extend ActiveModel::Translation
+
       include ActiveModel::Validations
       include ActiveModel::Conversion
 
