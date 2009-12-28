@@ -48,13 +48,13 @@ so MailForm can be used in your controllers and form builders without extra twea
 ==== Playing with other ORMs
 
 MailForm plays nice with other ORMs as well. You just need to include
-MailForm::Delivery in your model and an e-mail with the attributes will
-be sent:
+MailForm::Delivery in your model and declare which attributes should be sent:
 
   class User < ActiveRecord::Base
     include MailForm::Delivery
 
     append :remote_ip, :user_agent, :session
+    attributes :name, :email, :created_at
     subject "New user created"
     recipients "your.email@your.domain.com"
   end
@@ -78,12 +78,15 @@ to the e-mail, except the ones :captcha is true.
 
 Options:
 
-* :validate - When true, validates the attributes can't be blank.
-  When a regexp is given, check if the attribute matches is not blank and
-  then if it matches the regexp.
+* :validate - A hook to validates_*_of. When true is given, validates the
+  presence of the attribute. When a regexp, validates format. When array,
+  validates the inclusion of the attribute in the array.
 
-  Whenever :validate is a symbol, the method given as symbol will be
-  called. You can then add validations as you do in ActiveRecord (errors.add).
+  Whenever :validate is given, the presence is automatically checked. Give
+  :allow_blank => true to override.
+
+  Finally, when :validate is a symbol, the method given as symbol will be
+  called. Then you can add validations as you do in ActiveRecord (errors.add).
 
 * :attachment - When given, expects a file to be sent and attaches
   it to the e-mail. Don't forget to set your form to multitype.
@@ -96,12 +99,15 @@ Examples:
    class ContactForm < MailForm::Resource
      attributes :name,  :validate => true
      attributes :email, :validate => /[^@]+@[^\.]+\.[\w\.\-]+/
+     attributes :type,  :validate => ["General", "Interface bug"]
      attributes :message
-     attributes :screenshot, :attachment => true, :validate => :screenshot_required?
+     attributes :screenshot, :attachment => true, :validate => :interface_bug?
      attributes :nickname,   :captcha => true
 
-     def screenshot_required?
-       # ...
+     def interface_bug?
+       if type == 'Interface bug' && screenshot.nil?
+         self.errors.add(:screenshot, "can't be blank on interface bugs")
+       end
      end
    end
 

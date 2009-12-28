@@ -1,19 +1,19 @@
 module MailForm::Delivery
   extend ActiveSupport::Concern
 
-  ACCESSORS = [ :form_attributes, :form_subject, :form_captcha,
-                :form_attachments, :form_recipients, :form_sender,
-                :form_headers, :form_template, :form_appendable ]
+  ACCESSORS = [ :mail_attributes, :mail_subject, :mail_captcha,
+                :mail_attachments, :mail_recipients, :mail_sender,
+                :mail_headers, :mail_template, :mail_appendable ]
 
   included do
     class_inheritable_reader *ACCESSORS
     protected *ACCESSORS
 
     # Initialize arrays and hashes
-    write_inheritable_array :form_captcha, []
-    write_inheritable_array :form_appendable, []
-    write_inheritable_array :form_attributes, []
-    write_inheritable_array :form_attachments, []
+    write_inheritable_array :mail_captcha, []
+    write_inheritable_array :mail_appendable, []
+    write_inheritable_array :mail_attributes, []
+    write_inheritable_array :mail_attachments, []
 
     headers({})
     sender {|c| c.email }
@@ -33,12 +33,15 @@ module MailForm::Delivery
     #
     # == Options
     #
-    # * <tt>:validate</tt> - When true, validates the attributes can't be blank.
-    #   When a regexp is given, check if the attribute matches is not blank and
-    #   then if it matches the regexp.
-    #
-    #   Whenever :validate is a symbol, the method given as symbol will be
-    #   called. You can then add validations as you do in ActiveRecord (errors.add).
+    # * :validate - A hook to validates_*_of. When true is given, validates the
+    #       presence of the attribute. When a regexp, validates format. When array,
+    #       validates the inclusion of the attribute in the array.
+    # 
+    #       Whenever :validate is given, the presence is automatically checked. Give
+    #       :allow_blank => true to override.
+    # 
+    #       Finally, when :validate is a symbol, the method given as symbol will be
+    #       called. Then you can add validations as you do in ActiveRecord (errors.add).
     #
     # * <tt>:attachment</tt> - When given, expects a file to be sent and attaches
     #   it to the e-mail. Don't forget to set your form to multitype.
@@ -51,8 +54,8 @@ module MailForm::Delivery
     #   class ContactForm < MailForm
     #     attributes :name,  :validate => true
     #     attributes :email, :validate => /^([^@]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
+    #     attributes :type,  :validate => ["General", "Interface bug"]
     #     attributes :message
-    #     attributes :type
     #     attributes :screenshot, :attachment => true, :validate => :interface_bug?
     #     attributes :nickname, :captcha => true
     #
@@ -68,11 +71,11 @@ module MailForm::Delivery
       attr_accessor *(accessors - instance_methods.map(&:to_sym))
 
       if options[:attachment]
-        write_inheritable_array(:form_attachments, accessors)
+        write_inheritable_array(:mail_attachments, accessors)
       elsif options[:captcha]
-        write_inheritable_array(:form_captcha, accessors)
+        write_inheritable_array(:mail_captcha, accessors)
       else
-        write_inheritable_array(:form_attributes, accessors)
+        write_inheritable_array(:mail_attributes, accessors)
       end
 
       validation = options.delete(:validate)
@@ -109,7 +112,7 @@ module MailForm::Delivery
     #   end
     #
     def subject(duck=nil, &block)
-      write_inheritable_attribute(:form_subject, duck || block)
+      write_inheritable_attribute(:mail_subject, duck || block)
     end
 
     # Declares contact email sender. It can be a string or a proc or a symbol.
@@ -130,7 +133,7 @@ module MailForm::Delivery
     #   end
     #
     def sender(duck=nil, &block)
-      write_inheritable_attribute(:form_sender, duck || block)
+      write_inheritable_attribute(:mail_sender, duck || block)
     end
     alias :from :sender
 
@@ -149,7 +152,7 @@ module MailForm::Delivery
     #   end
     #
     def recipients(duck=nil, &block)
-      write_inheritable_attribute(:form_recipients, duck || block)
+      write_inheritable_attribute(:mail_recipients, duck || block)
     end
     alias :to :recipients
 
@@ -162,7 +165,7 @@ module MailForm::Delivery
     #   end
     #
     def headers(hash)
-      write_inheritable_hash(:form_headers, hash)
+      write_inheritable_hash(:mail_headers, hash)
     end
 
     # Customized template for your e-mail, if you don't want to use default
@@ -182,7 +185,7 @@ module MailForm::Delivery
     #   end
     #
     def template(new_template)
-      write_inheritable_attribute(:form_template, new_template)
+      write_inheritable_attribute(:mail_template, new_template)
     end
 
     # Values from request object to be appended to the contact form.
@@ -200,7 +203,7 @@ module MailForm::Delivery
     #   end
     #
     def append(*values)
-      write_inheritable_array(:form_appendable, values)
+      write_inheritable_array(:mail_appendable, values)
     end
   end
 
@@ -212,7 +215,7 @@ module MailForm::Delivery
   # returns false otherwise.
   #
   def spam?
-    form_captcha.each do |field|
+    mail_captcha.each do |field|
       next if send(field).blank?
 
       if RAILS_ENV == 'development'
@@ -222,7 +225,7 @@ module MailForm::Delivery
       end
     end
 
-    return false
+    false
   end
 
   def not_spam?
