@@ -1,32 +1,50 @@
 require 'active_model'
-require 'mail_form/base'
-require 'mail_form/dsl'
-require 'mail_form/notifier'
 
-class MailForm
-  extend MailForm::DSL
+class MailForm < ActionMailer::Base
+  autoload :DSL,      'mail_form/dsl'
+  autoload :Resource, 'mail_form/resource'
 
-  ACCESSORS = [ :form_attributes, :form_subject, :form_captcha,
-                :form_attachments, :form_recipients, :form_sender,
-                :form_headers, :form_template, :form_appendable ]
+  self.template_root = File.expand_path('../views', File.dirname(__FILE__))
 
-  DEFAULT_MESSAGES = { :blank => "can't be blank", :invalid => "is invalid" }
+  def default(form)
+    @from       = get_from_class_and_eval(form, :form_sender)
+    @subject    = get_from_class_and_eval(form, :form_subject)
+    @recipients = get_from_class_and_eval(form, :form_recipients)
+    @template   = get_from_class_and_eval(form, :form_template)
 
-  class_inheritable_reader *ACCESSORS
-  protected *ACCESSORS
+    raise ScriptError, "You forgot to setup #{form.class.name} recipients" if @recipients.blank?
+    raise ScriptError, "You set :append values but forgot to give me the request object" if form.request.nil? && !form.class.form_appendable.blank?
 
-  # Initialize arrays and hashes
-  #
-  write_inheritable_array :form_captcha, []
-  write_inheritable_array :form_appendable, []
-  write_inheritable_array :form_attributes, []
-  write_inheritable_array :form_attachments, []
+    @resource = @form = form
+    @sent_on  = Time.now.utc
+    @headers  = form.class.form_headers
+    @content_type = 'text/html'
 
-  headers({})
-  sender {|c| c.email }
-  subject{|c| c.class.model_name.human }
-  template 'default'
+    form.class.form_attachments.each do |attribute|
+      value = form.send(attribute)
+      if value.respond_to?(:read)
+        attachment value.content_type.to_s do |att|
+          att.filename = value.original_filename
+          att.body = value.read
+        end
+      end
+    end
+  end
+
+  protected
+
+  def get_from_class_and_eval(form, method)
+    duck = form.class.send(method)
+
+    if duck.is_a?(Proc)
+      duck.call(form)
+    elsif duck.is_a?(Symbol)
+      form.send(duck)
+    else
+      duck
+    end
+  end
 end
 
+
 I18n.load_path.unshift File.expand_path('mail_form/locales/en.yml', File.dirname(__FILE__))
-MailForm::Notifier.template_root = File.expand_path('../views', File.dirname(__FILE__))

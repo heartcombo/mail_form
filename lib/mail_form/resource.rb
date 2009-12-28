@@ -1,8 +1,29 @@
-class MailForm
+class MailForm::Resource
   extend ActiveModel::Naming
   extend ActiveModel::Translation
   include ActiveModel::Validations
   include ActiveModel::Conversion
+
+  extend MailForm::DSL
+
+  ACCESSORS = [ :form_attributes, :form_subject, :form_captcha,
+                :form_attachments, :form_recipients, :form_sender,
+                :form_headers, :form_template, :form_appendable ]
+
+  class_inheritable_reader *ACCESSORS
+  protected *ACCESSORS
+
+  # Initialize arrays and hashes
+  #
+  write_inheritable_array :form_captcha, []
+  write_inheritable_array :form_appendable, []
+  write_inheritable_array :form_attributes, []
+  write_inheritable_array :form_attachments, []
+
+  headers({})
+  sender {|c| c.email }
+  subject{|c| c.class.model_name.human }
+  template 'default'
 
   attr_accessor :request
 
@@ -60,7 +81,7 @@ class MailForm
   #
   def deliver(run_validations=true)
     if !run_validations || (self.not_spam? && self.valid?)
-      MailForm::Notifier.deliver_contact(self)
+      MailForm.deliver_default(self)
       return true
     else
       return false

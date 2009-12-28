@@ -170,12 +170,12 @@ class MailFormNotifierTest < ActiveSupport::TestCase
 
   def test_form_with_customized_template_render_correct_template
     begin
-      default_template_root = MailForm::Notifier.template_root
-      MailForm::Notifier.template_root = File.join(File.dirname(__FILE__), 'views')
+      default_template_root = MailForm.template_root
+      MailForm.template_root = File.join(File.dirname(__FILE__), 'views')
       @template.deliver
       assert_match 'Hello from my cystom template!', ActionMailer::Base.deliveries.last.body
     ensure
-      MailForm::Notifier.template_root = default_template_root
+      MailForm.template_root = default_template_root
     end
   end
 
