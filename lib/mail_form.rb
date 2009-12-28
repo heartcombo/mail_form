@@ -1,8 +1,8 @@
-require 'active_model'
-
 class MailForm < ActionMailer::Base
-  autoload :DSL,      'mail_form/dsl'
-  autoload :Resource, 'mail_form/resource'
+  autoload :Callbacks, 'mail_form/callbacks'
+  autoload :DSL,       'mail_form/dsl'
+  autoload :Resource,  'mail_form/resource'
+  autoload :Shim,      'mail_form/shim'
 
   self.template_root = File.expand_path('../views', File.dirname(__FILE__))
 

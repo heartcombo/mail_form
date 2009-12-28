@@ -55,7 +55,7 @@ module MailForm::DSL
       case validation
       when Symbol, Class
         validate validation
-        return
+        break
       when Regexp
         validates_format_of accessor, :with => validation, :allow_blank => true
       when Array

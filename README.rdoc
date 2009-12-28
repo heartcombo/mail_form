@@ -31,10 +31,11 @@ if you want to make a contact form just the following lines are needed (includin
 Then you start a script/console and type:
 
   c = ContactForm.new(:name => 'José', :email => 'jose@email.com', :message => 'Cool!')
-  c.deliver
+  c.create
 
-Check your inbox and the e-mail will be there, with the sent fields (assuming
-that you configured your mailer delivery method properly).
+The delivery will be triggered in an after_create callback. So check your inbox
+and the e-mail will be there, with the sent fields (assuming that you configured
+your mailer delivery method properly).
 
 ==== MailForm::Resource
 
@@ -115,8 +116,7 @@ Examples:
    c.errors.full_messages #=> [ "Name can't be blank", "Email is invalid" ]
 
    c = ContactForm.new(:name => 'José', :email => 'your@email.com')
-   # save is an alias to deliver
-   c.save #=> true
+   c.deliver #=> true
 
 ==== subject(string_or_symbol_or_block)
 
@@ -210,9 +210,10 @@ is an I18n example file:
     models:
       contact_form: "Your site contact form"
     attributes:
-      email: "E-mail"
-      telephone: "Telephone number"
-      message: "Sent message"
+      contact_form:
+        email: "E-mail"
+        telephone: "Telephone number"
+        message: "Sent message"
     errors:
       messages: :"activerecord.errors.messages"
     request:
