@@ -98,6 +98,11 @@ class MailFormNotifierTest < ActiveSupport::TestCase
     assert_match /<p>Cool/, ActionMailer::Base.deliveries.last.body
   end
 
+  def test_body_mail_format_dates_with_i18n
+    @form.deliver
+    assert_no_match /I18n.l(Date.today)/, ActionMailer::Base.deliveries.first.body
+  end
+
   def test_body_does_not_append_request_if_append_is_not_called
     @form.deliver
     assert_no_match /Request information/, ActionMailer::Base.deliveries.first.body

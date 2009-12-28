@@ -1,18 +1,26 @@
 <h4 style="text-decoration:underline"><%= mailer.subject %></h4>
 
-<% @form.class.form_attributes.each do |attribute|
-  value = @form.send(attribute)
+<% @resource.class.mail_attributes.each do |attribute|
+  value = @resource.send(attribute)
   next if value.blank? %>
 
-  <p><b><%= @form.class.human_attribute_name(attribute) %>:</b>
-  <%= value.include?("\n") ? raw(simple_format(h(value))) : value %></p>
+  <p><b><%= @resource.class.human_attribute_name(attribute) %>:</b>
+  <%= case value
+    when /\n/
+      raw(simple_format(h(value)))
+    when Time, DateTime, Date
+      I18n.l value
+    else
+      value
+    end
+  %></p>
 <% end %>
 
-<% unless @form.class.form_appendable.blank? %>
+<% unless @resource.class.mail_appendable.blank? %>
   <br /><h4 style="text-decoration:underline"><%= I18n.t :title, :scope => [ :mail_form, :request ], :default => 'Request information' %></h4>
 
-  <% @form.class.form_appendable.each do |attribute|
-    value = @form.request.send(attribute)
+  <% @resource.class.mail_appendable.each do |attribute|
+    value = @resource.request.send(attribute)
 
     value = if value.is_a?(Hash) && !value.empty?
       content_tag(:ul, value.to_a.map{|k,v| content_tag(:li, h("#{k}: #{v.inspect}")) }.join("\n"), :style => "list-style:none;")

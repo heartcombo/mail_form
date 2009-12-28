@@ -20,8 +20,16 @@ class ContactForm < MailForm::Resource
 
   attribute :name,     :validate => true
   attribute :email,    :validate => /[^@]+@[^\.]+\.[\w\.\-]+/
+  attribute :category, :validate => ["Interface bug", "General"], :allow_blank => true
   attribute :nickname, :captcha => true
-  attributes :tellphone, :message, :validate => :callback
+
+  attributes :created_at, :message, :validate => :callback
+
+  before_create :set_created_at
+
+  def set_created_at
+    created_at = Date.today
+  end
 
   def callback
     @_callback_run = true

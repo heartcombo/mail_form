@@ -105,11 +105,12 @@ class MailFormBaseTest < ActiveSupport::TestCase
   end
 
   def test_activemodel_linked_errors
-    form = ContactForm.new(:email => 'not_valid')
+    form = ContactForm.new(:email => 'not_valid', :category => "invalid")
     form.valid?
-    assert_equal ["can't be blank"], form.errors[:name]
-    assert_equal ["is invalid"],     form.errors[:email]
-    assert_equal [],                 form.errors[:message]
+    assert_equal ["can't be blank"],              form.errors[:name]
+    assert_equal ["is invalid"],                  form.errors[:email]
+    assert_equal ["is not included in the list"], form.errors[:category]
+    assert_equal [],                              form.errors[:message]
   end
 
   def test_activemodel_errors_lookups_model_keys
@@ -124,7 +125,6 @@ class MailFormBaseTest < ActiveSupport::TestCase
 
     assert_equal ["fill in the name"],  form.errors[:name]
     assert_equal ["fill in the email"], form.errors[:email]
-    assert_equal [],                    form.errors[:message]
   end
 
   def teardown
