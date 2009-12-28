@@ -33,22 +33,31 @@ Then you start a script/console and type:
   c = ContactForm.new(:name => 'José', :email => 'jose@email.com', :message => 'Cool!')
   c.create
 
-The delivery will be triggered in an after_create callback. So check your inbox
-and the e-mail will be there, with the sent fields (assuming that you configured
-your mailer delivery method properly).
+Check your inbox and the e-mail will be there, with the sent fields (assuming that
+you configured your mailer delivery method properly).
 
 ==== MailForm::Resource
 
 When you inherit from MailForm::Resource, it pulls down a set of stuff from ActiveModel,
 as ActiveModel::Validation, ActiveModel::Translation and ActiveModel::Naming.
 
-This bring I18n, error message and attributes handling like in ActiveRecord to MailForm,
-so MailForm can be used in your controllers and form builders without extra tweaks.
+This bring I18n, error messages, validations and attributes handling like in
+ActiveRecord to MailForm, so MailForm can be used in your controllers and form builders without extra tweaks. This also means that instead of the following:
 
-==== Playing with other ORMs
+  attribute :email, :validate => /[^@]+@[^\.]+\.[\w\.\-]+/
 
-MailForm plays nice with other ORMs as well. You just need to include
-MailForm::Delivery in your model and declare which attributes should be sent:
+You could actually do this:
+
+  attribute :email
+  validates_format_of :email, :with => /[^@]+@[^\.]+\.[\w\.\-]+/
+
+Choose the one which pleases you the most. For more information on the API, please
+continue reading below.
+
+==== Playing together ORMs
+
+MailForm plays nice with ORMs as well. You just need to include MailForm::Delivery
+in your model and declare which attributes should be sent:
 
   class User < ActiveRecord::Base
     include MailForm::Delivery
@@ -58,6 +67,8 @@ MailForm::Delivery in your model and declare which attributes should be sent:
     subject "New user created"
     recipients "your.email@your.domain.com"
   end
+
+The delivery will be triggered in an after_create hook.
 
 == Installation
 
@@ -173,20 +184,6 @@ And in your controller:
 The remote ip, user agent and session will be sent in the e-mail in a
 request information session. You can give to append any method that the
 request object responds to.
-
-==== validations
-
-MailForm supports validations through the attribute method as seen above:
-
-  attribute :email, :validate => /[^@]+@[^\.]+\.[\w\.\-]+/
-
-But this is actually a DSL to ActiveModel validations, so you could actually do this:
-
-  attribute :email
-  validates_format_of :email, :with => /[^@]+@[^\.]+\.[\w\.\-]+/
-
-Choose the one which pleases you the most. For more information on the API, please
-continue reading below.
 
 ==== template(string_or_symbol_or_proc)
 
