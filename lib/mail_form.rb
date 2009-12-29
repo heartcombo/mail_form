@@ -51,5 +51,5 @@ class MailForm < ActionMailer::Base
   end
 end
 
-
-I18n.load_path.unshift File.expand_path('mail_form/locales/en.yml', File.dirname(__FILE__))
+base = defined?(ActiveRecord) ? :ar : :amo
+I18n.load_path.unshift File.expand_path("mail_form/locales/#{base}.en.yml", File.dirname(__FILE__))
