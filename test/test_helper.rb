@@ -15,7 +15,7 @@ ActionMailer::Base.delivery_method = :test
 $:.unshift File.dirname(__FILE__) + '/../lib'
 require 'mail_form'
 
-class ContactForm < MailForm::Resource
+class ContactForm < MailForm::Base
   recipients 'my.email@my.domain.com'
 
   attribute :name,     :validate => true
@@ -58,7 +58,7 @@ class FileForm < ContactForm
   end
 end
 
-class NullRecipient < MailForm::Resource
+class NullRecipient < MailForm::Base
   sender 'my.email@my.domain.com'
 end
 

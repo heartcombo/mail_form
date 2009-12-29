@@ -1,7 +1,7 @@
 class MailForm < ActionMailer::Base
+  autoload :Base,      'mail_form/base'
   autoload :Callbacks, 'mail_form/callbacks'
   autoload :Delivery,  'mail_form/delivery'
-  autoload :Resource,  'mail_form/resource'
   autoload :Shim,      'mail_form/shim'
 
   self.template_root = File.expand_path('../views', File.dirname(__FILE__))

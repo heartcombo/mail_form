@@ -15,7 +15,7 @@ on how to use MailForm in Rails 2.x, please check the v1.0 branch:
 MailForm allows you to send an e-mail straight from a form. For instance,
 if you want to make a contact form just the following lines are needed (including the e-mail):
 
-  class ContactForm < MailForm::Resource
+  class ContactForm < MailForm::Base
     subject "My Contact Form"
     recipients "your.email@your.domain.com"
     sender{|c| %{"#{c.name}" <#{c.email}>} }
@@ -36,9 +36,9 @@ Then you start a script/console and type:
 Check your inbox and the e-mail will be there, with the sent fields (assuming that
 you configured your mailer delivery method properly).
 
-=== MailForm::Resource
+=== MailForm::Base
 
-When you inherit from MailForm::Resource, it pulls down a set of stuff from ActiveModel,
+When you inherit from MailForm::Base, it pulls down a set of stuff from ActiveModel,
 as ActiveModel::Validation, ActiveModel::Translation and ActiveModel::Naming.
 
 This bring I18n, error messages, validations and attributes handling like in
@@ -107,7 +107,7 @@ Options:
 
 Examples:
 
-   class ContactForm < MailForm::Resource
+   class ContactForm < MailForm::Base
      attributes :name,  :validate => true
      attributes :email, :validate => /[^@]+@[^\.]+\.[\w\.\-]+/
      attributes :type,  :validate => ["General", "Interface bug"]
@@ -171,7 +171,7 @@ Both the proc and the symbol must return a string or an array. By default is nil
 MailForm also makes easy to append request information from client to the sent
 mail. You just have to do:
 
-  class ContactForm < MailForm::Resource
+  class ContactForm < MailForm::Base
     append :remote_ip, :user_agent, :session
     # ...
   end

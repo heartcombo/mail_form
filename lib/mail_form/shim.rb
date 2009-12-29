@@ -6,12 +6,12 @@ module MailForm::Shim
     base.class_eval do
       extend ActiveModel::Naming
       extend ActiveModel::Translation
-
+      extend ActiveModel::Callbacks
       include ActiveModel::Validations
       include ActiveModel::Conversion
 
-      extend MailForm::Callbacks
       extend MailForm::Shim::ClassMethods
+      define_model_callbacks :create
     end
   end
 
