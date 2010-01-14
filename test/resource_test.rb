@@ -114,11 +114,11 @@ class MailFormBaseTest < ActiveSupport::TestCase
   end
 
   def test_activemodel_errors_lookups_model_keys
-    I18n.backend.store_translations(:en, :mail_form => { :errors => { :models => { :contact_form =>
+    I18n.backend.store_translations(:en, :errors => { :models => { :contact_form =>
       { :attributes => { :email => { :invalid => 'fill in the email' },
                          :name => { :blank => 'fill in the name' } }
       }
-    }}})
+    }})
 
     form = ContactForm.new(:email => 'not_valid')
     form.valid?

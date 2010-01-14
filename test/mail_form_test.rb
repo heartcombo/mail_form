@@ -35,7 +35,7 @@ class MailFormNotifierTest < ActiveSupport::TestCase
 
   def test_sender_defaults_to_form_email
     @form.deliver
-    assert_equal ['my.email@my.domain.com'], ActionMailer::Base.deliveries.first.from
+    assert_equal 'my.email@my.domain.com', ActionMailer::Base.deliveries.first.from
   end
 
   def test_error_is_raised_when_recipients_is_nil
@@ -46,7 +46,7 @@ class MailFormNotifierTest < ActiveSupport::TestCase
 
   def test_recipients_is_a_string
     @form.deliver
-    assert_equal ['my.email@my.domain.com'], ActionMailer::Base.deliveries.first.to
+    assert_equal 'my.email@my.domain.com', ActionMailer::Base.deliveries.first.to
   end
 
   def test_recipients_is_an_array
@@ -61,7 +61,7 @@ class MailFormNotifierTest < ActiveSupport::TestCase
 
   def test_headers_is_a_hash
     @advanced.deliver
-    assert_equal '<mypath>', ActionMailer::Base.deliveries.first.header['return-path'].to_s
+    assert_equal 'mypath', ActionMailer::Base.deliveries.first.header['return-path'].to_s
   end
 
   def test_body_contains_subject
