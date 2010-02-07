@@ -4,9 +4,9 @@ class MailForm < ActionMailer::Base
   autoload :Delivery,  'mail_form/delivery'
   autoload :Shim,      'mail_form/shim'
 
-  self.template_root = File.expand_path('../views', File.dirname(__FILE__))
+  append_view_path File.expand_path('../views', __FILE__)
 
-  def default(resource)
+  def contact(resource)
     @from       = get_from_class_and_eval(resource, :mail_sender)
     @subject    = get_from_class_and_eval(resource, :mail_subject)
     @recipients = get_from_class_and_eval(resource, :mail_recipients)
@@ -28,11 +28,7 @@ class MailForm < ActionMailer::Base
     resource.class.mail_attachments.each do |attribute|
       value = resource.send(attribute)
       next unless value.respond_to?(:read)
-
-      attachment value.content_type.to_s do |att|
-        att.filename = value.original_filename
-        att.body = value.read
-      end
+      attachments[value.original_filename] = value.read
     end
   end
 

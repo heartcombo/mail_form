@@ -18,7 +18,7 @@ module MailForm::Delivery
     headers({})
     sender {|c| c.email }
     subject{|c| c.class.model_name.human }
-    template 'default'
+    template 'contact'
 
     before_create :not_spam?
     after_create  :deliver!
@@ -218,7 +218,7 @@ module MailForm::Delivery
     mail_captcha.each do |field|
       next if send(field).blank?
 
-      if RAILS_ENV == 'development'
+      if defined?(Rails) && Rails.env.development?
         raise ScriptError, "The captcha field #{field} was supposed to be blank"
       else
         return true
@@ -234,6 +234,6 @@ module MailForm::Delivery
 
   # Deliver the resource without checking any condition.
   def deliver!
-    MailForm.deliver_default(self)
+    MailForm.contact(self).deliver
   end
 end

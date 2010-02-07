@@ -1,14 +1,17 @@
-require 'test/unit'
-RAILS_ENV = ENV["RAILS_ENV"] = "test"
+require 'rubygems'
 
-# This should point to a Rails 3 master checkout
-# git://github.com/rails/rails.git
-require File.expand_path(File.dirname(__FILE__) + "/../../rails/vendor/gems/environment")
+begin
+  require 'test/unit'
+rescue LoadError
+end
+
+RAILS_ENV = ENV["RAILS_ENV"] = "test"
 
 require 'active_support'
 require 'active_support/test_case'
-require 'action_mailer'
+require 'action_controller'
 require 'action_controller/test_case'
+require 'action_mailer'
 
 ActionMailer::Base.delivery_method = :test
 

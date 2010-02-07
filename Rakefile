@@ -5,6 +5,7 @@ require File.join(File.dirname(__FILE__), "lib", "mail_form", "version")
 
 desc 'Run tests for MailForm.'
 Rake::TestTask.new(:test) do |t|
+  t.libs   << 'test'
   t.pattern = 'test/**/*_test.rb'
   t.verbose = true
 end
