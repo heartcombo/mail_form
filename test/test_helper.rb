@@ -19,8 +19,6 @@ $:.unshift File.dirname(__FILE__) + '/../lib'
 require 'mail_form'
 
 class ContactForm < MailForm::Base
-  recipients 'my.email@my.domain.com'
-
   attribute :name,     :validate => true
   attribute :email,    :validate => /[^@]+@[^\.]+\.[\w\.\-]+/
   attribute :category, :validate => ["Interface bug", "General"], :allow_blank => true
@@ -29,6 +27,10 @@ class ContactForm < MailForm::Base
   attributes :created_at, :message, :validate => :callback
 
   before_create :set_created_at
+
+  def headers
+    { :to => 'my.email@my.domain.com' }
+  end
 
   def set_created_at
     created_at = Date.today
@@ -42,10 +44,13 @@ end
 class AdvancedForm < ContactForm
   append :remote_ip, :user_agent, :session
 
-  recipients [ 'my.first@email.com', 'my.second@email.com' ]
-  subject 'My Advanced Form'
-  sender{|c| %{"#{c.name}" <#{c.email}>} }
-  headers 'return-path' => 'mypath'
+  def headers
+    { :to => [ 'my.first@email.com', 'my.second@email.com' ],
+      :subject => "My Advanced Form",
+      :from => %{"#{name}" <#{email}>},
+      "return-path" => "mypath"
+    }
+  end
 end
 
 class FileForm < ContactForm
@@ -59,18 +64,6 @@ class FileForm < ContactForm
       "contact@my.domain.com"
     end
   end
-end
-
-class NullRecipient < MailForm::Base
-  sender 'my.email@my.domain.com'
-end
-
-class TemplateForm < ContactForm
-  template 'custom_template'
-end
-
-class WrongForm < ContactForm
-  template 'does_not_exist'
 end
 
 # Needed to correctly test an uploaded file

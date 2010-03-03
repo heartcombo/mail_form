@@ -1,12 +1,16 @@
-* Version 1.1
+# Version 1.2
+
+* No more class attributes, just define a headers method
+
+# Version 1.1
 
 * Rails 3 compatibility
 
-* Version 1.0
+# Version 1.0
 
-* Rename to mail_form and launch Rails 2.3 branch.
+* Rename to mail_form and launch Rails 2.3 branch
 
-* Version 0.4
+# Version 0.4
 
 * Added support to template
 

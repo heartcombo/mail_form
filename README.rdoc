@@ -16,16 +16,22 @@ MailForm allows you to send an e-mail straight from a form. For instance,
 if you want to make a contact form just the following lines are needed (including the e-mail):
 
   class ContactForm < MailForm::Base
-    subject "My Contact Form"
-    recipients "your.email@your.domain.com"
-    sender{|c| %{"#{c.name}" <#{c.email}>} }
-
     attribute :name,      :validate => true
     attribute :email,     :validate => /[^@]+@[^\.]+\.[\w\.\-]+/
     attribute :file,      :attachment => true
 
     attribute :message
     attribute :nickname,  :captcha  => true
+
+    # Declare the e-mail headers. It accepts anything the mail method
+    # in ActionMailer accepts.
+    def headers
+      {
+        :subject => "My Contact Form",
+        :to => "your.email@your.domain.com",
+        :from => %("#{name}" <#{email}>)
+      }
+    end
   end
 
 Then you start a script/console and type:
@@ -64,8 +70,13 @@ in your model and declare which attributes should be sent:
 
     append :remote_ip, :user_agent, :session
     attributes :name, :email, :created_at
-    subject "New user created"
-    recipients "your.email@your.domain.com"
+
+    def headers
+      {
+        :to => "your.email@your.domain.com",
+        :subject => "User created an account"
+      }
+    end
   end
 
 The delivery will be triggered in an after_create hook.
@@ -135,37 +146,6 @@ Examples:
    c = ContactForm.new(:name => 'José', :email => 'your@email.com')
    c.deliver #=> true
 
-=== subject(string_or_symbol_or_block)
-
-Declares the subject of the contact email. It can be a string or a proc or a symbol.
-
-When a symbol is given, it will call a method on the form object with the same
-name as the symbol. As a proc, it receives a mail form instance. It defaults
-to the class human name.
-
-   subject "My Contact Form"
-   subject { |c| "Contacted by #{c.name}" }
-
-=== sender(string_or_symbol_or_block)
-
-Declares contact email sender. It can be a string or a proc or a symbol.
-
-When a symbol is given, it will call a method on the form object with the same
-name as the symbol. As a proc, it receives a mail form instance. By default is:
-
-   sender { |c| c.email }
-
-This requires that your MailForm object have an email attribute.
-
-=== recipients(string_or_array_or_symbol_or_block)
-
-Who will receive the e-mail. Can be a string or array or a symbol or a proc.
-
-When a symbol is given, it will call a method on the form object with the same
-name as the symbol. As a proc, it receives a mail form instance.
-
-Both the proc and the symbol must return a string or an array. By default is nil.
-
 === append(*methods)
 
 MailForm also makes easy to append request information from client to the sent
@@ -184,23 +164,6 @@ And in your controller:
 The remote ip, user agent and session will be sent in the e-mail in a
 request information session. You can give to append any method that the
 request object responds to.
-
-=== template(string_or_symbol_or_proc)
-
-Allow you to set the template that is going to rendered. This allows you to have
-several MailForm instances, using different templates.
-
-=== headers(hash)
-
-Configure additional headers to your e-mail.
-
-=== MailForm.template_root
-
-MailForm by default is configured to use the template which comes with the gem.
-If you want to use another, you just need to configure MailForm template root
-to point to your application:
-
-  MailForm.template_root = File.join(Rails.root, "app", "views")
 
 == I18n
 
@@ -237,4 +200,4 @@ is an I18n example file:
 
 If you discover any bug, please use github issues tracker.
 
-Copyright (c) 2009 Plataforma Tec http://blog.plataformatec.com.br/
+Copyright (c) 2010 Plataforma Tec http://blog.plataformatec.com.br/

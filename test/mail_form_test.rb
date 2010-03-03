@@ -13,8 +13,6 @@ class MailFormNotifierTest < ActiveSupport::TestCase
     test_file  = Rack::Test::UploadedFile.new(File.join(File.dirname(__FILE__), 'test_file.txt'))
     @with_file = FileForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => "Cool", :file => test_file)
 
-    @template = TemplateForm.new(@valid_attributes)
-
     ActionMailer::Base.deliveries = []
   end
 
@@ -23,50 +21,14 @@ class MailFormNotifierTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
-  def test_subject_defaults_to_class_human_name
+  def test_subject_defaults_to_action_mailer_one
     @form.deliver
-    assert_equal 'Contact form', first_delivery.subject
-  end
-
-  def test_subject_is_a_string
-    @advanced.deliver
-    assert_equal 'My Advanced Form', first_delivery.subject
-  end
-
-  def test_sender_defaults_to_form_email
-    @form.deliver
-    assert_equal ['my.email@my.domain.com'], first_delivery.from
-  end
-
-  def test_error_is_raised_when_recipients_is_nil
-    assert_raise ScriptError do
-      NullRecipient.new.deliver
-    end
-  end
-
-  def test_recipients_is_a_string
-    @form.deliver
-    assert_equal ['my.email@my.domain.com'], first_delivery.to
-  end
-
-  def test_recipients_is_an_array
-    @advanced.deliver
-    assert_equal ['my.first@email.com', 'my.second@email.com'], first_delivery.to
-  end
-
-  def test_recipients_is_a_symbold
-    @with_file.deliver
-    assert_equal ['contact_file@my.domain.com'], first_delivery.to
-  end
-
-  def test_headers_is_a_hash
-    @advanced.deliver
-    assert_equal 'mypath', first_delivery.header['return-path'].to_s
+    assert_equal 'Contact', first_delivery.subject
   end
 
   def test_body_contains_subject
     @form.deliver
-    assert_match /Contact form/, first_delivery.body.to_s
+    assert_match /Contact/, first_delivery.body.to_s
   end
 
   def test_body_contains_attributes_values
@@ -142,6 +104,7 @@ class MailFormNotifierTest < ActiveSupport::TestCase
   def test_request_info_hashes_are_print_inside_lis
     @request.session = { :my => :session, :user => "data" }
     @advanced.deliver
+    assert_match /<ul/, last_delivery.body.to_s
     assert_match /<li>my: :session<\/li>/, last_delivery.body.to_s
     assert_match /<li>user: &quot;data&quot;<\/li>/, last_delivery.body.to_s
   end
@@ -161,17 +124,6 @@ class MailFormNotifierTest < ActiveSupport::TestCase
   def test_form_with_file_does_not_output_attachment_as_attribute
     @with_file.deliver
     assert_no_match /File:/, first_delivery.body.to_s
-  end
-
-  def test_form_with_customized_template_render_correct_template
-    begin
-      previous_view_path = MailForm.view_paths
-      MailForm.prepend_view_path File.join(File.dirname(__FILE__), 'views')
-      @template.deliver
-      assert_match 'Hello from my custom template!', last_delivery.body.to_s
-    ensure
-      MailForm.view_paths = previous_view_path
-    end
   end
 
   protected

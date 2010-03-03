@@ -1,7 +1,6 @@
-<h4 style="text-decoration:underline"><%= mailer.subject %></h4>
+<h4 style="text-decoration:underline"><%= message.subject %></h4>
 
-<% @resource.class.mail_attributes.each do |attribute|
-  value = @resource.send(attribute)
+<% @resource.attributes.each do |attribute, value|
   next if value.blank? %>
 
   <p><b><%= @resource.class.human_attribute_name(attribute) %>:</b>
@@ -9,7 +8,7 @@
     when /\n/
       raw(simple_format(h(value)))
     when Time, DateTime, Date
-      I18n.l value
+      I18n.l(value)
     else
       value
     end
@@ -23,16 +22,17 @@
     value = @resource.request.send(attribute)
 
     value = if value.is_a?(Hash) && !value.empty?
-      content_tag(:ul, value.to_a.map{|k,v| content_tag(:li, h("#{k}: #{v.inspect}")) }.join("\n"), :style => "list-style:none;")
+      list = value.to_a.map{ |k,v| content_tag(:li, h("#{k}: #{v.inspect}")) }.join("\n")
+      content_tag(:ul, raw(list), :style => "list-style:none;")
     elsif value.is_a?(String)
-      h(value)
+      value
     else
-      h(value.inspect)
+      value.inspect
     end
   %>
 
     <p><b><%= I18n.t attribute, :scope => [ :mail_form, :request ], :default => attribute.to_s.humanize %>:</b>
-    <%= value.include?("\n") ? raw(simple_format(value)) : value %></p>
+    <%= value.include?("\n") ? simple_format(value) : value %></p>
   <% end %>
   <br />
 <% end %>

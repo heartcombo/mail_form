@@ -7,42 +7,20 @@ class MailForm < ActionMailer::Base
   append_view_path File.expand_path('../views', __FILE__)
 
   def contact(resource)
-    @from       = get_from_class_and_eval(resource, :mail_sender)
-    @subject    = get_from_class_and_eval(resource, :mail_subject)
-    @recipients = get_from_class_and_eval(resource, :mail_recipients)
-    @template   = get_from_class_and_eval(resource, :mail_template)
-
-    if @recipients.blank?
-      raise ScriptError, "You forgot to setup #{resource.class.name} recipients"
-    end
-
-    if resource.request.nil? && resource.class.mail_appendable.present?
+    if resource.request.nil? && resource.class.mail_appendable.any?
       raise ScriptError, "You set :append values but forgot to give me the request object"
     end
 
     @resource = @form = resource
-    @sent_on  = Time.now.utc
-    @headers  = resource.class.mail_headers
-    @content_type = 'text/html'
 
     resource.class.mail_attachments.each do |attribute|
       value = resource.send(attribute)
       next unless value.respond_to?(:read)
       attachments[value.original_filename] = value.read
     end
-  end
 
-  protected
-
-  def get_from_class_and_eval(resource, method)
-    duck = resource.class.send(method)
-
-    if duck.is_a?(Proc)
-      duck.call(resource)
-    elsif duck.is_a?(Symbol)
-      resource.send(duck)
-    else
-      duck
-    end
+    headers = resource.headers
+    headers[:from] ||= resource.email
+    mail(headers)
   end
 end

@@ -1,30 +1,55 @@
 module MailForm::Delivery
   extend ActiveSupport::Concern
 
-  ACCESSORS = [ :mail_attributes, :mail_subject, :mail_captcha,
-                :mail_attachments, :mail_recipients, :mail_sender,
-                :mail_headers, :mail_template, :mail_appendable ]
-
   included do
-    class_inheritable_reader *ACCESSORS
-    protected *ACCESSORS
+    class_attribute :mail_attributes
+    self.mail_attributes = []
 
-    # Initialize arrays and hashes
-    write_inheritable_array :mail_captcha, []
-    write_inheritable_array :mail_appendable, []
-    write_inheritable_array :mail_attributes, []
-    write_inheritable_array :mail_attachments, []
+    class_attribute :mail_captcha
+    self.mail_captcha = []
 
-    headers({})
-    sender {|c| c.email }
-    subject{|c| c.class.model_name.human }
-    template 'contact'
+    class_attribute :mail_attachments
+    self.mail_attachments = []
+
+    class_attribute :mail_appendable
+    self.mail_appendable = []
 
     before_create :not_spam?
     after_create  :deliver!
 
     attr_accessor :request
     alias :deliver :create
+
+    extend Deprecated
+  end
+
+  module Deprecated
+    def subject(duck=nil, &block)
+      ActiveSupport::Deprecation.warn "subject is deprecated. Please define a headers method " << 
+        "in your instance which returns a hash with :subject as key instead.", caller
+    end
+
+    def sender(duck=nil, &block)
+      ActiveSupport::Deprecation.warn "from/sender is deprecated. Please define a headers method " << 
+        "in your instance which returns a hash with :from as key instead.", caller
+    end
+    alias :from :sender
+
+    def recipients(duck=nil, &block)
+      ActiveSupport::Deprecation.warn "to/recipients is deprecated. Please define a headers method " << 
+        "in your instance which returns a hash with :to as key instead.", caller
+    end
+    alias :to :recipients
+
+    def headers(hash)
+      ActiveSupport::Deprecation.warn "to/recipients is deprecated. Please define a headers method " << 
+        "in your instance which returns the desired headers instead.", caller
+    end
+
+    def template(new_template)
+      ActiveSupport::Deprecation.warn "template is deprecated. Please define a headers method " << 
+        "in your instance which returns a hash with :template_name as key instead.", caller
+    end
   end
 
   module ClassMethods
@@ -71,11 +96,11 @@ module MailForm::Delivery
       attr_accessor *(accessors - instance_methods.map(&:to_sym))
 
       if options[:attachment]
-        write_inheritable_array(:mail_attachments, accessors)
+        self.mail_attachments += accessors
       elsif options[:captcha]
-        write_inheritable_array(:mail_captcha, accessors)
+        self.mail_captcha += accessors
       else
-        write_inheritable_array(:mail_attributes, accessors)
+        self.mail_attributes += accessors
       end
 
       validation = options.delete(:validate)
@@ -99,95 +124,6 @@ module MailForm::Delivery
     end
     alias :attributes :attribute
 
-    # Declares contact email sender. It can be a string or a proc or a symbol.
-    #
-    # When a symbol is given, it will call a method on the form object with
-    # the same name as the symbol. As a proc, it receives a simple form
-    # instance. By default is the class human name.
-    #
-    # == Examples
-    #
-    #   class ContactForm < MailForm
-    #     subject "My Contact Form"
-    #   end
-    #
-    def subject(duck=nil, &block)
-      write_inheritable_attribute(:mail_subject, duck || block)
-    end
-
-    # Declares contact email sender. It can be a string or a proc or a symbol.
-    #
-    # When a symbol is given, it will call a method on the form object with
-    # the same name as the symbol. As a proc, it receives a simple form
-    # instance. By default is:
-    #
-    #   sender{ |c| c.email }
-    #
-    # This requires that your MailForm object have an email attribute.
-    #
-    # == Examples
-    #
-    #   class ContactForm < MailForm
-    #     # Change sender to include also the name
-    #     sender { |c| %{"#{c.name}" <#{c.email}>} }
-    #   end
-    #
-    def sender(duck=nil, &block)
-      write_inheritable_attribute(:mail_sender, duck || block)
-    end
-    alias :from :sender
-
-    # Who will receive the e-mail. Can be a string or array or a symbol or a proc.
-    #
-    # When a symbol is given, it will call a method on the form object with
-    # the same name as the symbol. As a proc, it receives a simple form instance.
-    #
-    # Both the proc and the symbol must return a string or an array. By default
-    # is nil.
-    #
-    # == Examples
-    #
-    #   class ContactForm < MailForm
-    #     recipients [ "first.manager@domain.com", "second.manager@domain.com" ]
-    #   end
-    #
-    def recipients(duck=nil, &block)
-      write_inheritable_attribute(:mail_recipients, duck || block)
-    end
-    alias :to :recipients
-
-    # Additional headers to your e-mail.
-    #
-    # == Examples
-    #
-    #   class ContactForm < MailForm
-    #     headers { :content_type => 'text/html' }
-    #   end
-    #
-    def headers(hash)
-      write_inheritable_hash(:mail_headers, hash)
-    end
-
-    # Customized template for your e-mail, if you don't want to use default
-    # 'contact' template or need more than one contact form with different
-    # template layouts.
-    #
-    # When a symbol is given, it will call a method on the form object with
-    # the same name as the symbol. As a proc, it receives a simple form
-    # instance. Both method and proc must return a string with the template
-    # name. Defaults to 'contact'.
-    #
-    # == Examples
-    #
-    #   class ContactForm < MailForm
-    #     # look for a template in views/mail_form/notifier/my_template.erb
-    #     template 'my_template'
-    #   end
-    #
-    def template(new_template)
-      write_inheritable_attribute(:mail_template, new_template)
-    end
-
     # Values from request object to be appended to the contact form.
     # Whenever used, you have to send the request object when initializing the object:
     #
@@ -203,7 +139,7 @@ module MailForm::Delivery
     #   end
     #
     def append(*values)
-      write_inheritable_array(:mail_appendable, values)
+      self.mail_appendable += values
     end
   end
 
@@ -215,7 +151,7 @@ module MailForm::Delivery
   # returns false otherwise.
   #
   def spam?
-    mail_captcha.each do |field|
+    self.class.mail_captcha.each do |field|
       next if send(field).blank?
 
       if defined?(Rails) && Rails.env.development?
