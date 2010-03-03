@@ -21,14 +21,14 @@ class MailFormNotifierTest < ActiveSupport::TestCase
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
-  def test_subject_defaults_to_action_mailer_one
+  def test_subject_defaults_to_human_class_name
     @form.deliver
-    assert_equal 'Contact', first_delivery.subject
+    assert_equal 'Contact form', first_delivery.subject
   end
 
   def test_body_contains_subject
     @form.deliver
-    assert_match /Contact/, first_delivery.body.to_s
+    assert_match /Contact form/, first_delivery.body.to_s
   end
 
   def test_body_contains_attributes_values

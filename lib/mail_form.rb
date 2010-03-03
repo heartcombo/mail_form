@@ -20,7 +20,8 @@ class MailForm < ActionMailer::Base
     end
 
     headers = resource.headers
-    headers[:from] ||= resource.email
+    headers[:from]    ||= resource.email
+    headers[:subject] ||= resource.class.human_name
     mail(headers)
   end
 end

@@ -168,9 +168,7 @@ request object responds to.
 == I18n
 
 I18n in MailForm works like in ActiveRecord, so all models, attributes and messages
-can be used with localized. However, in order to DRY up your yml files, mail_form
-requires on I18n >= 0.2.0 since it uses the ability to symlink translations. Below
-is an I18n example file:
+can be used with localized. Below is an I18n file example file:
 
   mail_form:
     models:
@@ -180,8 +178,6 @@ is an I18n example file:
         email: "E-mail"
         telephone: "Telephone number"
         message: "Sent message"
-    errors:
-      messages: :"activerecord.errors.messages"
     request:
       title: "Technical information about the user"
       remote_ip: "IP Address"
