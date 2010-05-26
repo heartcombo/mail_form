@@ -43,6 +43,10 @@ module MailForm
       true
     end
 
+    def persisted?
+      false
+    end
+
     # Always return nil so when using form_for, the default method will be post.
     def id
       nil
