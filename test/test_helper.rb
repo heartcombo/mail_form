@@ -26,7 +26,7 @@ class ContactForm < MailForm::Base
 
   attributes :created_at, :message, :validate => :callback
 
-  before_create :set_created_at
+  before_deliver :set_created_at
 
   def headers
     { :to => 'my.email@my.domain.com' }
@@ -55,14 +55,14 @@ end
 
 class FileForm < ContactForm
   attribute :file, :attachment => true, :validate => true
-  recipients :set_recipient
 
-  def set_recipient
-    if file
+  def headers
+    to = if file
       "contact_file@my.domain.com"
     else
       "contact@my.domain.com"
     end
+    { :to => to }
   end
 end
 

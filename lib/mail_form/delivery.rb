@@ -15,42 +15,16 @@ module MailForm
       class_attribute :mail_appendable
       self.mail_appendable = []
 
-      before_create :not_spam?
-      after_create  :deliver!
+      if respond_to?(:before_deliver) && respond_to?(:after_deliver)
+        before_deliver :not_spam?
+        after_deliver  :deliver!
+      else # For ActiveRecord compatibility
+        before_create :not_spam?
+        after_create  :deliver!
+        alias :deliver :save
+      end
 
       attr_accessor :request
-      alias :deliver :create
-
-      extend Deprecated
-    end
-
-    module Deprecated
-      def subject(duck=nil, &block)
-        ActiveSupport::Deprecation.warn "subject is deprecated. Please define a headers method " << 
-          "in your instance which returns a hash with :subject as key instead.", caller
-      end
-
-      def sender(duck=nil, &block)
-        ActiveSupport::Deprecation.warn "from/sender is deprecated. Please define a headers method " << 
-          "in your instance which returns a hash with :from as key instead.", caller
-      end
-      alias :from :sender
-
-      def recipients(duck=nil, &block)
-        ActiveSupport::Deprecation.warn "to/recipients is deprecated. Please define a headers method " << 
-          "in your instance which returns a hash with :to as key instead.", caller
-      end
-      alias :to :recipients
-
-      def headers(hash)
-        ActiveSupport::Deprecation.warn "headers is deprecated. Please define a headers method " << 
-          "in your instance which returns the desired headers instead.", caller
-      end
-
-      def template(new_template)
-        ActiveSupport::Deprecation.warn "template is deprecated. Please define a headers method " << 
-          "in your instance which returns a hash with :template_name as key instead.", caller
-      end
     end
 
     module ClassMethods
@@ -169,7 +143,7 @@ module MailForm
       !spam?
     end
 
-    # Deliver the resource without checking any condition.
+    # Deliver the resource without running any validation.
     def deliver!
       MailForm::Notifier.contact(self).deliver
     end

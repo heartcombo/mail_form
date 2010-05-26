@@ -12,7 +12,7 @@ module MailForm
         include ActiveModel::Conversion
 
         extend MailForm::Shim::ClassMethods
-        define_model_callbacks :create
+        define_model_callbacks :deliver
       end
     end
 
@@ -53,13 +53,13 @@ module MailForm
     end
 
     # Create just check validity, and if so, trigger callbacks.
-    def create
+    def deliver
       if valid?
-        _run_create_callbacks { true }
+        _run_deliver_callbacks { true }
       else
         false
       end
     end
-    alias :save :create
+    alias :save :deliver
   end
 end
