@@ -136,7 +136,7 @@ Examples:
    c = ContactForm.new(:nickname => 'not_blank', :email => 'your@email.com', :name => 'José')
    c.valid?  #=> true
    c.spam?   #=> true  (raises an error in development, to remember you to hide it)
-   c.deliver #=> false (just delivers if is not a spam and is valid)
+   c.create  #=> false (just delivers if is not a spam and is valid)
 
    c = ContactForm.new(:email => 'invalid')
    c.valid?               #=> false
@@ -144,7 +144,7 @@ Examples:
    c.errors.full_messages #=> [ "Name can't be blank", "Email is invalid" ]
 
    c = ContactForm.new(:name => 'José', :email => 'your@email.com')
-   c.deliver #=> true
+   c.create
 
 === append(*methods)
 
