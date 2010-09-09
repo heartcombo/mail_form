@@ -29,15 +29,6 @@ module MailForm
       end unless params.blank?
     end
 
-    # Returns a hash of attributes, according to the attributes existent in
-    # self.class.mail_attributes.
-    def attributes
-      self.class.mail_attributes.inject({}) do |hash, attr|
-        hash[attr.to_s] = send(attr)
-        hash
-      end
-    end
-
     # Always return true so when using form_for, the default method will be post.
     def new_record?
       true
