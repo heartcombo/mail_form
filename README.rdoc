@@ -37,7 +37,7 @@ if you want to make a contact form just the following lines are needed (includin
 Then you start a script/console and type:
 
   c = ContactForm.new(:name => 'José', :email => 'jose@email.com', :message => 'Cool!')
-  c.create
+  c.deliver
 
 Check your inbox and the e-mail will be there, with the sent fields (assuming that
 you configured your mailer delivery method properly).
@@ -136,7 +136,7 @@ Examples:
    c = ContactForm.new(:nickname => 'not_blank', :email => 'your@email.com', :name => 'José')
    c.valid?  #=> true
    c.spam?   #=> true  (raises an error in development, to remember you to hide it)
-   c.create  #=> false (just delivers if is not a spam and is valid)
+   c.deliver  #=> false (just delivers if is not a spam and is valid, raises an error in development)
 
    c = ContactForm.new(:email => 'invalid')
    c.valid?               #=> false
