@@ -144,7 +144,7 @@ Examples:
    c.errors.full_messages #=> [ "Name can't be blank", "Email is invalid" ]
 
    c = ContactForm.new(:name => 'José', :email => 'your@email.com')
-   c.create
+   c.deliver
 
 === append(*methods)
 
