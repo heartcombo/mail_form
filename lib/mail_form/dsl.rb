@@ -42,6 +42,8 @@ class MailForm
         options = accessors.extract_options!
 
         attr_accessor *accessors
+        public *accessors
+        public *accessors.map{|s| "#{s}="}
 
         if options[:attachment]
           write_inheritable_array(:form_attachments, accessors)
