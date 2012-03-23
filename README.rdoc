@@ -196,4 +196,4 @@ can be used with localized. Below is an I18n file example file:
 
 If you discover any bug, please use github issues tracker.
 
-Copyright (c) 2010 Plataforma Tec http://blog.plataformatec.com.br/
+Copyright (c) 2009-2012 Plataformatec http://plataformatec.com.br/
