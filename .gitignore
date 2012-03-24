@@ -1,8 +1,4 @@
-**/*/log/*
-**/*/tmp/*
-*~
-coverage/*
-*.sqlite3
-rdoc/*
-simple_form.gemspec
-pkg
+.bundle/
+pkg/
+rdoc/
+gemfiles/*.lock
