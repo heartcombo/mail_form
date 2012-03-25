@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.description = "{Send e-mail straight from forms in Rails with I18n, validations, attachments and request information."
   s.authors     = ['José Valim', 'Carlos Antônio']
 
-  s.files         = Dir["CHANGELOG", "MIT-LICENSE", "README.rdoc", "lib/**/*"]
+  s.files         = Dir["CHANGELOG", "MIT-LICENSE", "README.md", "lib/**/*"]
   s.test_files    = Dir["test/**/*"]
   s.require_paths = ["lib"]
 
