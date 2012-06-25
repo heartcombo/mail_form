@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+  - 1.9.3
+  - ree
+  - jruby-18mode
+gemfile:
+  - Gemfile
+notifications:
+  recipients:
+    - jose.valim@plataformatec.com.br
+    - carlos@plataformatec.com.br
+    - rafael.franca@plataformatec.com.br

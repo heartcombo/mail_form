@@ -1,4 +1,5 @@
 ## MailForm
+[![Build Status](https://secure.travis-ci.org/plataformatec/mail_form.png)](http://travis-ci.org/plataformatec/mail_form)
 
 ### Rails 3
 
