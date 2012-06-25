@@ -36,10 +36,10 @@ module MailForm
       # * :validate - A hook to validates_*_of. When true is given, validates the
       #       presence of the attribute. When a regexp, validates format. When array,
       #       validates the inclusion of the attribute in the array.
-      # 
+      #
       #       Whenever :validate is given, the presence is automatically checked. Give
       #       :allow_blank => true to override.
-      # 
+      #
       #       Finally, when :validate is a symbol, the method given as symbol will be
       #       called. Then you can add validations as you do in ActiveRecord (errors.add).
       #

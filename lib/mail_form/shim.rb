@@ -32,9 +32,8 @@ module MailForm
     # Returns a hash of attributes, according to the attributes existent in
     # self.class.mail_attributes.
     def attributes
-      self.class.mail_attributes.inject({}) do |hash, attr|
+      self.class.mail_attributes.each_with_object({}) do |attr, hash|
         hash[attr.to_s] = send(attr)
-        hash
       end
     end
 
