@@ -37,11 +37,11 @@ class ContactForm < MailForm::Base
 end
 ```
 
-Then you start a `script/console` and type:
+Then you start a console with `rails console` and type:
 
 ```ruby
-c = ContactForm.new(:name => 'José', :email => 'jose@email.com', :message => 'Cool!')
-c.deliver
+>> c = ContactForm.new(:name => 'José', :email => 'jose@email.com', :message => 'Cool!')
+>> c.deliver
 ```
 
 Check your inbox and the e-mail will be there, with the sent fields (assuming that
@@ -90,13 +90,16 @@ class User < ActiveRecord::Base
 end
 ```
 
-The delivery will be triggered in an after_create hook.
+The delivery will be triggered in an `after_create` hook.
 
 ## Installation
 
-Install **MailForm** is very easy. It is stored in Gemcutter, so just run the following:
+Install **MailForm** is very easy. Just edit your Gemfile adding the following:
 
-`sudo gem install mail_form`
+```ruby
+gem 'mail_form'
+```
+Then run `bundle install` to install **MailForm**.
 
 If you want it as plugin, just do:
 
