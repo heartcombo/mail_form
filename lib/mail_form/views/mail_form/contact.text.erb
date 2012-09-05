@@ -1,0 +1,34 @@
+<% @resource.attributes.each do |attribute, value|
+  next if value.blank? %>
+
+<%= @resource.class.human_attribute_name(attribute) %>: <%= case value
+    #when /\n/
+    #  raw(simple_format(h(value)))
+    when Time, DateTime, Date
+      I18n.l(value) 
+    else
+      value
+    end
+    %>
+<% end %>
+
+<% unless @resource.class.mail_appendable.blank? %>
+  <%= I18n.t :title, :scope => [ :mail_form, :request ], :default => 'Request information' %>
+
+  <% @resource.class.mail_appendable.each do |attribute|
+    value = @resource.request.send(attribute)
+
+    value = if value.is_a?(Hash) && !value.empty?
+      list = value.to_a.map{ |k,v| content_tag(:li, h("#{k}: #{v.inspect}")) }.join("\n")
+      content_tag(:ul, raw(list), :style => "list-style:none;")
+    elsif value.is_a?(String)
+      value
+    else
+      value.inspect
+    end
+  %>
+
+    <%= I18n.t attribute, :scope => [ :mail_form, :request ], :default => attribute.to_s.humanize %>:
+    <%= value.include?("\n") ? simple_format(value) : value %>
+  <% end %>
+<% end %>
