@@ -205,6 +205,11 @@ mail_form:
     user_agent: "Browser"
 ```
 
+## Custom e-mail template
+
+To customize the e-mail template that is used create a file called contact.erb in app/views/mail_form.
+Take a look at lib/mail_form/views/mail_form/contact.erb in this repo to see how the default template works.
+
 ## Maintainers
 
 * José Valim - http://github.com/josevalim
