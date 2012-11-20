@@ -1,6 +1,6 @@
 <h4 style="text-decoration:underline"><%= message.subject %></h4>
 
-<% @resource.attributes.each do |attribute, value|
+<% @resource.mail_form_attributes.each do |attribute, value|
   next if value.blank? %>
 
   <p><b><%= @resource.class.human_attribute_name(attribute) %>:</b>
