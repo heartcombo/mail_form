@@ -68,7 +68,7 @@ module MailForm
       #
       def attribute(*accessors)
         options = accessors.extract_options!
-        
+
         # TODO: make this not depend on column_names
         columns_methods = self.respond_to?(:column_names) ? column_names.map(&:to_sym) : []
         attr_accessor *(accessors - instance_methods.map(&:to_sym) - columns_methods)
@@ -154,9 +154,8 @@ module MailForm
     # Returns a hash of attributes, according to the attributes existent in
     # self.class.mail_attributes.
     def mail_form_attributes
-      self.class.mail_attributes.inject({}) do |hash, attr|
+      self.class.mail_attributes.each_with_object({}) do |attr, hash|
         hash[attr.to_s] = send(attr)
-        hash
       end
     end
   end
