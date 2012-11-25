@@ -71,7 +71,7 @@ module MailForm
 
         # TODO: make this not depend on column_names
         columns_methods = self.respond_to?(:column_names) ? column_names.map(&:to_sym) : []
-        attr_accessor *(accessors - instance_methods.map(&:to_sym) - columns_methods)
+        attr_accessor(*(accessors - instance_methods.map(&:to_sym) - columns_methods))
 
         if options[:attachment]
           self.mail_attachments += accessors

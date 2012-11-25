@@ -26,18 +26,21 @@ class ContactForm < MailForm::Base
 
   attributes :created_at, :message, :validate => :callback
 
-  before_deliver :set_created_at
-
   def headers
     { :to => 'my.email@my.domain.com' }
   end
 
-  def set_created_at
-    created_at = Date.today
+  def initialize(*)
+    super
+    @_callback_run = false
   end
 
   def callback
     @_callback_run = true
+  end
+
+  def callback_run?
+    @_callback_run
   end
 end
 

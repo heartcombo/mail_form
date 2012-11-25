@@ -61,9 +61,9 @@ class MailFormBaseTest < ActiveSupport::TestCase
 
   def test_symbols_given_to_validate_are_called
     form = ContactForm.new
-    assert form.instance_variable_get('@_callback_run').nil?
+    assert !form.callback_run?
     form.valid?
-    assert form.instance_variable_get('@_callback_run')
+    assert form.callback_run?
   end
 
   def test_deliver_is_false_when_is_a_spam
