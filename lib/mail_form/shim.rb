@@ -46,7 +46,7 @@ module MailForm
     # Create just check validity, and if so, trigger callbacks.
     def deliver
       if valid?
-        _run_deliver_callbacks { true }
+        run_callbacks :deliver
       else
         false
       end
