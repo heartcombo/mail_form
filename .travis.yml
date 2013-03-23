@@ -4,7 +4,16 @@ rvm:
   - ree
   - jruby-18mode
 gemfile:
+  - gemfiles/Gemfile-rails.3.0.x
+  - gemfiles/Gemfile-rails.3.1.x
+  - gemfiles/Gemfile-rails.3.2.x
   - Gemfile
+matrix:
+  exclude:
+    - rvm: ree
+      gemfile: Gemfile
+    - rvm: jruby-18mode
+      gemfile: Gemfile
 notifications:
   recipients:
     - jose.valim@plataformatec.com.br
