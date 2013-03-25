@@ -1,5 +1,20 @@
 module MailForm
   class Notifier < ActionMailer::Base
+    # since ActionMailer 3.0 has own simple_format method
+    # but we need one from the ActionPack
+    # https://github.com/rails/rails/commit/fb34f8577c47d958ca32b7ab585c1904e1a776b1
+    helper do
+      def simple_format(text, html_options={}, options={})
+        @text_helper ||= Class.new do
+          include ActionView::Helpers::TextHelper
+          include ActionView::Helpers::TagHelper
+          include ActionView::Helpers::SanitizeHelper
+        end.new
+
+        @text_helper.simple_format(text, html_options, options)
+      end
+    end
+
     self.mailer_name = "mail_form"
     append_view_path File.expand_path('../views', __FILE__)
 

@@ -22,8 +22,9 @@
     value = @resource.request.send(attribute)
 
     value = if value.is_a?(Hash) && !value.empty?
-      list = value.to_a.map{ |k,v| content_tag(:li, h("#{k}: #{v.inspect}")) }.join("\n")
-      content_tag(:ul, raw(list), :style => "list-style:none;")
+      content_tag(:ul, :style => "list-style:none;") do
+        value.to_a.map{ |k,v| content_tag(:li, h("#{k}: #{v.inspect}")) }.reduce{ |list, li| list << li << '\n'.html_safe }
+      end
     elsif value.is_a?(String)
       value
     else
