@@ -1,5 +1,8 @@
 ## MailForm
-[![Build Status](https://secure.travis-ci.org/plataformatec/mail_form.png)](http://travis-ci.org/plataformatec/mail_form)
+
+[![Gem Version](https://fury-badge.herokuapp.com/rb/mail_form.png)](http://badge.fury.io/rb/mail_form)
+[![Build Status](https://api.travis-ci.org/plataformatec/mail_form.png?branch=master)](http://travis-ci.org/plataformatec/mail_form)
+[![Code Climate](https://codeclimate.com/github/plataformatec/mail_form.png)](https://codeclimate.com/github/plataformatec/mail_form)
 
 ### Rails 3
 
