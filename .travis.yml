@@ -16,7 +16,9 @@ matrix:
     - rvm: jruby-18mode
       gemfile: Gemfile
 notifications:
-  recipients:
-    - jose.valim@plataformatec.com.br
-    - carlos@plataformatec.com.br
-    - rafael.franca@plataformatec.com.br
+  email: false
+  campfire:
+    on_success: change
+    on_failure: always
+    rooms:
+      - secure: "PexwWrMM6bkEVPt5b28GGSF5ThaUX5mRgY/8fK3kAXgGolvXoZdF6XZt8zE1\nTbE+AMQLayILXOFRd1bTL537Qf2Y63n6arKH19t9GBBdqZo1ZveVOca0qiSB\n0reSG8sauQXUA95ygEqhWd6VYkDRu1oJpwgsDv47igawbqAOrgE="
