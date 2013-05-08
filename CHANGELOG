@@ -1,3 +1,8 @@
+# master
+
+* Support Rails 4.
+* Drop support to Rails < 3.2 and Ruby 1.8.
+
 # Version 1.4
 
 * Fixed bug that was causing all activerecord attributes be saved as nil

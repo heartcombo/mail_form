@@ -9,10 +9,8 @@
 This gem was built on top of `ActiveModel` to showcase how you can pull in validations, naming
 and `i18n` from Rails to your models without the need to implement it all by yourself.
 
-In other words, this README refers to the **MailForm** gem to be used in Rails 3. For instructions
-on how to use MailForm in Rails 2.x, please check the v1.0 branch:
-
-http://github.com/plataformatec/mail_form/tree/v1.0
+This README refers to the **MailForm** gem to be used in Rails 3.2 or 4+. For instructions
+on how to use MailForm in older versions of Rails, please refer to the available branches.
 
 ### Description
 
