@@ -1,5 +1,3 @@
-require 'rubygems'
-
 begin
   require 'test/unit'
 rescue LoadError
