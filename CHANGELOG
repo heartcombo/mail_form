@@ -1,4 +1,4 @@
-# master
+# Version 1.5 rc
 
 * Support Rails 4.
 * Drop support to Rails < 3.2 and Ruby 1.8.
