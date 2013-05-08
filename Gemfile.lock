@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     mail_form (1.4.0)
-      actionmailer (>= 3.0)
-      activemodel (>= 3.0)
+      actionmailer (>= 3.2, < 5)
+      activemodel (>= 3.2, < 5)
 
 GEM
   remote: https://rubygems.org/
