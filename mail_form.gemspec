@@ -11,7 +11,8 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/plataformatec/mail_form"
   s.description = "Send e-mail straight from forms in Rails with I18n, validations, attachments and request information."
   s.authors     = ['José Valim', 'Carlos Antônio']
-
+  s.license     = 'MIT'
+  
   s.files         = Dir["CHANGELOG", "MIT-LICENSE", "README.md", "lib/**/*"]
   s.test_files    = Dir["test/**/*"]
   s.require_paths = ["lib"]
