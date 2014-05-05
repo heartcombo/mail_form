@@ -5,5 +5,5 @@ gemspec path: '..'
 gem 'rake'
 gem 'rdoc'
 
-gem 'actionmailer', '~> 3.2.0'
-gem 'activemodel', '~> 3.2.0'
+gem 'actionmailer', '~> 4.0.0'
+gem 'activemodel', '~> 4.0.0'

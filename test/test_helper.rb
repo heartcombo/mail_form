@@ -1,7 +1,4 @@
-begin
-  require 'test/unit'
-rescue LoadError
-end
+require 'minitest/autorun'
 
 RAILS_ENV = ENV["RAILS_ENV"] = "test"
 
@@ -12,6 +9,7 @@ require 'action_controller/test_case'
 require 'action_mailer'
 
 ActionMailer::Base.delivery_method = :test
+I18n.enforce_available_locales = false
 
 $:.unshift File.dirname(__FILE__) + '/../lib'
 require 'mail_form'
