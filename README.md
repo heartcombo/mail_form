@@ -53,7 +53,7 @@ you configured your mailer delivery method properly).
 When you inherit from `MailForm::Base`, it pulls down a set of stuff from `ActiveModel`,
 as `ActiveModel::Validation`, `ActiveModel::Translation` and `ActiveModel::Naming`.
 
-This bring `I18n`, error messages, validations and attributes handling like in
+This brings `I18n`, error messages, validations and attributes handling like in
 `ActiveRecord` to **MailForm**, so **MailForm** can be used in your controllers and form builders without extra tweaks. This also means that instead of the following:
 
 ```ruby
