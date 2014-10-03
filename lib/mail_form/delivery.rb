@@ -148,7 +148,12 @@ module MailForm
 
     # Deliver the resource without running any validation.
     def deliver!
-      MailForm::Notifier.contact(self).deliver
+      mailer = MailForm::Notifier.contact(self)
+      if mailer.respond_to?(:deliver_now)
+        mailer.deliver_now
+      else
+        mailer.deliver
+      end
     end
 
     # Returns a hash of attributes, according to the attributes existent in
