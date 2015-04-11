@@ -1,5 +1,7 @@
 # Unreleased
 
+# Version 1.5.1
+
 * Support Rails 4.1 and 4.2.
 
 # Version 1.5.0
