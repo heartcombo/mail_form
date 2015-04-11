@@ -103,12 +103,12 @@ class MailFormNotifierTest < ActiveSupport::TestCase
     assert_match %r[Rails Testing], last_delivery.body.to_s
   end
 
-  def test_request_info_hashes_are_print_inside_lis
+  def test_request_info_hashes_are_print_inside_lists
     @request.session = { :my => :session, :user => "data" }
     @advanced.deliver
     assert_match %r[<ul], last_delivery.body.to_s
     assert_match %r[<li>my: :session<\/li>], last_delivery.body.to_s
-    assert_match %r[<li>user: &quot;data&quot;<\/li>], last_delivery.body.to_s
+    assert_match %r[<li>user: \S+data\S+<\/li>], last_delivery.body.to_s
   end
 
   def test_error_is_raised_when_append_is_given_but_no_request_is_given

@@ -1,12 +1,20 @@
 language: ruby
+sudo: false
+cache: bundler
 rvm:
   - 1.9.3
   - 2.0.0
-  - 2.1.1
+  - 2.1.5
+  - 2.2.1
 gemfile:
   - gemfiles/Gemfile-rails.3.2.x
   - gemfiles/Gemfile-rails.4.0.x
+  - gemfiles/Gemfile-rails.4.1.x
   - Gemfile
+matrix:
+ exclude:
+   - rvm: 2.2.1
+     gemfile: gemfiles/Gemfile-rails.3.2.x
 notifications:
   email: false
   campfire:
