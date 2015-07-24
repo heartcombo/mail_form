@@ -1,6 +1,6 @@
 ## Contributing
 
-1. If you have any questions about Simple Form, search the
+1. If you have any questions about Mail Form, search the
 [Wiki](https://github.com/plataformatec/mail_form/wiki) or
 or Stack Overflow.
 Do not post questions here.
@@ -15,7 +15,7 @@ including Rails and Mail Form versions. If you are getting exceptions, please
 include the full backtrace.
 
 That's it! The more information you give, the more easy it becomes for us to
-track it down and fix it. Ideal scenario would be adding the issue to Simple Form
+track it down and fix it. Ideal scenario would be adding the issue to Mail Form
 test suite or to a sample application.
 
 Thanks!
