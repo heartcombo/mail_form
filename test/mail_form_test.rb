@@ -7,7 +7,9 @@ class MailFormNotifierTest < ActiveSupport::TestCase
   def setup
     @form = ContactForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => 'Cool')
 
-    @request          = ActionController::TestRequest.new
+    ActionController::TestRequest.respond_to?(:create) ?
+        @request = ActionController::TestRequest.create :
+        @request = ActionController::TestRequest.new
     @valid_attributes = { :name => 'José', :email => 'my.email@my.domain.com', :message => "Cool\nno?" }
     @advanced         = AdvancedForm.new(@valid_attributes)
     @advanced.request = @request
