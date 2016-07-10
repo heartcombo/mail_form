@@ -19,6 +19,6 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "mail_form"
 
-  s.add_dependency('actionmailer', '>= 3.2', '< 5')
-  s.add_dependency('activemodel', '>= 3.2', '< 5')
+  s.add_dependency('actionmailer', '>= 3.2', '< 5.1')
+  s.add_dependency('activemodel', '>= 3.2', '< 5.1')
 end

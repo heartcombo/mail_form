@@ -5,5 +5,5 @@ gemspec
 gem 'rake'
 gem 'rdoc'
 
-gem 'actionmailer', '~> 4.2.0'
-gem 'activemodel', '~> 4.2.0'
+gem 'actionmailer', '~> 5.0.0'
+gem 'activemodel', '~> 5.0.0'
