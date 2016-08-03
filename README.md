@@ -224,4 +224,4 @@ Take a look at lib/mail_form/views/mail_form/contact.erb in this repo to see how
 
 If you discover any bug, please use github issues tracker.
 
-Copyright (c) 2009-2015 Plataformatec http://plataformatec.com.br/
+Copyright (c) 2009-2016 Plataformatec http://plataformatec.com.br/
