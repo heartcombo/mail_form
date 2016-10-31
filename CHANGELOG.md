@@ -1,4 +1,4 @@
-# Unreleased
+# 1.6.0
 
 * Support Rails 4.1 and 4.2.
 
