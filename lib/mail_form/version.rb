@@ -1,3 +1,3 @@
 module MailForm
-  VERSION = "1.5.0".freeze
+  VERSION = "1.6.0".freeze
 end
