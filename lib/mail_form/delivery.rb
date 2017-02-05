@@ -15,15 +15,6 @@ module MailForm
       class_attribute :mail_appendable
       self.mail_appendable = []
 
-      if respond_to?(:before_deliver) && respond_to?(:after_deliver)
-        before_deliver :not_spam?
-        after_deliver  :deliver!
-      else # For ActiveRecord compatibility
-        before_create :not_spam?
-        after_create  :deliver!
-        alias :deliver :save
-      end
-
       attr_accessor :request
     end
 

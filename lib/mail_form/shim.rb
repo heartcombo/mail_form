@@ -12,7 +12,6 @@ module MailForm
         include ActiveModel::Conversion
 
         extend MailForm::Shim::ClassMethods
-        define_model_callbacks :deliver
       end
     end
 
@@ -45,12 +44,9 @@ module MailForm
 
     # Create just check validity, and if so, trigger callbacks.
     def deliver
-      if valid?
-        run_callbacks :deliver
-      else
-        false
+      if valid? && not_spam?
+        deliver!
       end
     end
-    alias :save :deliver
   end
 end
