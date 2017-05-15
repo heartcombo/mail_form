@@ -9,7 +9,7 @@ class MailFormBaseTest < ActiveSupport::TestCase
   end
 
   def test_id_is_nil
-    assert_equal nil, ContactForm.new.id
+    assert_nil ContactForm.new.id
   end
 
   def test_is_always_a_new_record
