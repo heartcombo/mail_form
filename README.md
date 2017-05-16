@@ -211,6 +211,52 @@ mail_form:
 To customize the e-mail template that is used create a file called contact.erb in app/views/mail_form.
 Take a look at lib/mail_form/views/mail_form/contact.erb in this repo to see how the default template works.
 
+## Track referrer
+
+You can easily add referrer tracking to your form submits so you know where users came from prior to submitting your form.
+
+In your application controller:
+
+```ruby
+class ApplicationController < ActionController::Base
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  protect_from_forgery with: :exception
+
+  before_filter :store_referer
+
+  def store_referer
+  	http_referer = request.env['HTTP_REFERER']
+  	internal = /^(https?:\/\/)?(www.)?YOUR_DOMAIN.com.*/.match(http_referer)
+  	if !internal #ingnore internal refers
+		session[:referer] = http_referer || 'none'
+	elsif session[:referer].nil?
+		session[:referer] = http_referer || 'none'
+	end
+  end
+end
+
+```
+
+Add a hidden field to your mail form:
+```ruby
+# Uses simple_form
+<%= f.input :referer, input_html: { value: session[:referer] }, as: :hidden %>
+
+```
+
+Add the attribute to your mail_form model:
+```ruby
+class Contact < MailForm::Base
+  attribute :name,      :validate => true
+  attribute :email,     :validate => /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i
+  attribute :message
+  attribute :referer
+
+  ...
+end
+```
+
 ## Maintainers
 
 * José Valim - http://github.com/josevalim
