@@ -1,3 +1,7 @@
+# 1.7.0
+
+* Added support for Rails 5.1+.
+
 # 1.6.0
 
 * Support Rails 4.1 and 4.2.
