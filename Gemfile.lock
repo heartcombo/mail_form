@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mail_form (1.6.0)
+    mail_form (1.7.0)
       actionmailer (>= 3.2, < 5.2)
       activemodel (>= 3.2, < 5.2)
 
