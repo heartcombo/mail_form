@@ -4,10 +4,11 @@ cache: bundler
 rvm:
   - 1.9.3
   - 2.0.0
-  - 2.1.5
-  - 2.2.2
-  - 2.3.1
-  - 2.4.1
+  - 2.1.10
+  - 2.2.9
+  - 2.3.6
+  - 2.4.3
+  - 2.5.0
 gemfile:
   - gemfiles/Gemfile-rails.3.2.x
   - gemfiles/Gemfile-rails.4.0.x
@@ -17,23 +18,25 @@ gemfile:
   - Gemfile
 matrix:
  exclude:
-   - rvm: 2.2.2
+   - rvm: 2.2.9
      gemfile: gemfiles/Gemfile-rails.3.2.x
-   - rvm: 2.3.1
+   - rvm: 2.3.6
      gemfile: gemfiles/Gemfile-rails.3.2.x
-   - rvm: 2.4.1
+   - rvm: 2.4.3
+     gemfile: gemfiles/Gemfile-rails.3.2.x
+   - rvm: 2.5.0
      gemfile: gemfiles/Gemfile-rails.3.2.x
    - rvm: 1.9.3
      gemfile: gemfiles/Gemfile-rails.5.0.x
    - rvm: 2.0.0
      gemfile: gemfiles/Gemfile-rails.5.0.x
-   - rvm: 2.1.5
+   - rvm: 2.1.10
      gemfile: gemfiles/Gemfile-rails.5.0.x
    - rvm: 1.9.3
      gemfile: Gemfile
    - rvm: 2.0.0
      gemfile: Gemfile
-   - rvm: 2.1.5
+   - rvm: 2.1.10
      gemfile: Gemfile
 notifications:
   email: false
