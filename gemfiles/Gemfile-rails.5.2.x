@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gemspec
+gemspec path: '..'
 
 gem 'rake'
 # https://github.com/rdoc/rdoc/blob/e02728fdf440012ace74b62b00b4f4954d2f91c3/History.rdoc#430--2016-11-04
