@@ -4,12 +4,12 @@
 [![Build Status](https://api.travis-ci.org/plataformatec/mail_form.svg?branch=master)](http://travis-ci.org/plataformatec/mail_form)
 [![Code Climate](https://codeclimate.com/github/plataformatec/mail_form.svg)](https://codeclimate.com/github/plataformatec/mail_form)
 
-### Rails 3
+### Rails 5
 
 This gem was built on top of `ActiveModel` to showcase how you can pull in validations, naming
 and `i18n` from Rails to your models without the need to implement it all by yourself.
 
-This README refers to the **MailForm** gem to be used in Rails 3.2 or 4+. For instructions
+This README refers to the **MailForm** gem to be used in Rails 5+. For instructions
 on how to use MailForm in older versions of Rails, please refer to the available branches.
 
 ### Description

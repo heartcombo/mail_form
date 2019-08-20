@@ -2,52 +2,18 @@ language: ruby
 sudo: false
 cache: bundler
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.10
-  - 2.2.10
-  - 2.3.7
-  - 2.4.4
-  - 2.5.1
-  - 2.6.1
+  - 2.4.6
+  - 2.5.5
+  - 2.6.3
 gemfile:
-  - gemfiles/Gemfile-rails.3.2.x
-  - gemfiles/Gemfile-rails.4.0.x
-  - gemfiles/Gemfile-rails.4.1.x
-  - gemfiles/Gemfile-rails.4.2.x
   - gemfiles/Gemfile-rails.5.0.x
   - gemfiles/Gemfile-rails.5.1.x
+  - gemfiles/Gemfile-rails.5.2.x
   - Gemfile
 matrix:
- exclude:
-   - rvm: 1.9.3
-     gemfile: Gemfile
-   - rvm: 1.9.3
-     gemfile: gemfiles/Gemfile-rails.5.0.x
-   - rvm: 1.9.3
-     gemfile: gemfiles/Gemfile-rails.5.1.x
-   - rvm: 2.0.0
-     gemfile: Gemfile
-   - rvm: 2.0.0
-     gemfile: gemfiles/Gemfile-rails.5.0.x
-   - rvm: 2.0.0
-     gemfile: gemfiles/Gemfile-rails.5.1.x
-   - rvm: 2.1.10
-     gemfile: Gemfile
-   - rvm: 2.1.10
-     gemfile: gemfiles/Gemfile-rails.5.0.x
-   - rvm: 2.1.10
-     gemfile: gemfiles/Gemfile-rails.5.1.x
-   - rvm: 2.2.10
-     gemfile: gemfiles/Gemfile-rails.3.2.x
-   - rvm: 2.3.7
-     gemfile: gemfiles/Gemfile-rails.3.2.x
-   - rvm: 2.4.4
-     gemfile: gemfiles/Gemfile-rails.3.2.x
-   - rvm: 2.5.1
-     gemfile: gemfiles/Gemfile-rails.3.2.x
-   - rvm: 2.6.1
-     gemfile: gemfiles/Gemfile-rails.3.2.x
+  exclude:
+    - rvm: 2.4.6
+      gemfile: Gemfile
 
 notifications:
   email: false
