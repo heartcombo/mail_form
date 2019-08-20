@@ -10,6 +10,10 @@ gemfile:
   - gemfiles/Gemfile-rails.5.1.x
   - gemfiles/Gemfile-rails.5.2.x
   - Gemfile
+matrix:
+  exclude:
+    - rvm: 2.4.6
+      gemfile: Gemfile
 
 notifications:
   email: false
