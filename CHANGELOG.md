@@ -1,3 +1,8 @@
+# 1.8.0
+
+* Added support for Rails 6.0.
+* Drop support for Rails < 5.0 and Ruby < 2.4.
+
 # 1.7.1
 
 * Added support for Rails 5.2.
