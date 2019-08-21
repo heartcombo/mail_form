@@ -5,15 +5,22 @@ rvm:
   - 2.4.6
   - 2.5.5
   - 2.6.3
+  - ruby-head
 gemfile:
   - gemfiles/Gemfile-rails.5.0.x
   - gemfiles/Gemfile-rails.5.1.x
   - gemfiles/Gemfile-rails.5.2.x
+  - gemfiles/Gemfile-rails.head
   - Gemfile
 matrix:
   exclude:
     - rvm: 2.4.6
       gemfile: Gemfile
+    - rvm: 2.4.6
+      gemfile: gemfiles/Gemfile-rails.head
+  allow_failures:
+    - rvm: ruby-head
+    - gemfile: gemfiles/Gemfile-rails.head
 
 notifications:
   email: false
