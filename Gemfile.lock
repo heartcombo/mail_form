@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mail_form (1.7.1)
+    mail_form (1.8.0)
       actionmailer (>= 5.0)
       activemodel (>= 5.0)
 
@@ -82,4 +82,4 @@ DEPENDENCIES
   rdoc (>= 4.3)
 
 BUNDLED WITH
-   1.17.1
+   1.17.2
