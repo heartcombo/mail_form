@@ -17,8 +17,6 @@ Gem::Specification.new do |s|
   s.test_files    = Dir["test/**/*"]
   s.require_paths = ["lib"]
 
-  s.rubyforge_project = "mail_form"
-
   s.required_ruby_version = '>= 2.4.0'
 
   s.add_dependency('actionmailer', '>= 5.0')
