@@ -1,10 +1,10 @@
 language: ruby
-sudo: false
 cache: bundler
 rvm:
-  - 2.4.6
-  - 2.5.5
-  - 2.6.3
+  - 2.4
+  - 2.5
+  - 2.6
+  - 2.7
   - ruby-head
 gemfile:
   - gemfiles/Gemfile-rails.5.0.x
@@ -14,9 +14,9 @@ gemfile:
   - Gemfile
 matrix:
   exclude:
-    - rvm: 2.4.6
+    - rvm: 2.4
       gemfile: Gemfile
-    - rvm: 2.4.6
+    - rvm: 2.4
       gemfile: gemfiles/Gemfile-rails.head
   allow_failures:
     - rvm: ruby-head
