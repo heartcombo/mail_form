@@ -1,7 +1,7 @@
 ## MailForm
 
 [![Gem Version](https://fury-badge.herokuapp.com/rb/mail_form.svg)](http://badge.fury.io/rb/mail_form)
-[![Build Status](https://api.travis-ci.org/plataformatec/mail_form.svg?branch=master)](http://travis-ci.org/plataformatec/mail_form)
+[![Build Status](https://travis-ci.org/heartcombo/mail_form.svg?branch=master)](https://travis-ci.org/heartcombo/mail_form)
 [![Code Climate](https://codeclimate.com/github/plataformatec/mail_form.svg)](https://codeclimate.com/github/plataformatec/mail_form)
 
 ### Rails 5
