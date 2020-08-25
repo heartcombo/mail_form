@@ -2,7 +2,7 @@
 
 [![Gem Version](https://fury-badge.herokuapp.com/rb/mail_form.svg)](http://badge.fury.io/rb/mail_form)
 [![Build Status](https://travis-ci.org/heartcombo/mail_form.svg?branch=master)](https://travis-ci.org/heartcombo/mail_form)
-[![Code Climate](https://codeclimate.com/github/plataformatec/mail_form.svg)](https://codeclimate.com/github/plataformatec/mail_form)
+[![Code Climate](https://codeclimate.com/github/heartcombo/mail_form.svg)](https://codeclimate.com/github/heartcombo/mail_form)
 
 ### Rails 5
 
@@ -100,11 +100,8 @@ Install **MailForm** is very easy. Just edit your Gemfile adding the following:
 ```ruby
 gem 'mail_form'
 ```
+
 Then run `bundle install` to install **MailForm**.
-
-If you want it as plugin, just do:
-
-`script/plugin install git://github.com/plataformatec/mail_form.git`
 
 ## API Overview
 
