@@ -5,27 +5,20 @@ rvm:
   - 2.5
   - 2.6
   - 2.7
-  - ruby-head
+
 gemfile:
   - gemfiles/Gemfile-rails.5.0.x
   - gemfiles/Gemfile-rails.5.1.x
   - gemfiles/Gemfile-rails.5.2.x
   - gemfiles/Gemfile-rails.head
   - Gemfile
+
 matrix:
   exclude:
     - rvm: 2.4
       gemfile: Gemfile
     - rvm: 2.4
       gemfile: gemfiles/Gemfile-rails.head
-  allow_failures:
-    - rvm: ruby-head
-    - gemfile: gemfiles/Gemfile-rails.head
 
 notifications:
-  email: false
-  campfire:
-    on_success: change
-    on_failure: always
-    rooms:
-      - secure: "PexwWrMM6bkEVPt5b28GGSF5ThaUX5mRgY/8fK3kAXgGolvXoZdF6XZt8zE1\nTbE+AMQLayILXOFRd1bTL537Qf2Y63n6arKH19t9GBBdqZo1ZveVOca0qiSB\n0reSG8sauQXUA95ygEqhWd6VYkDRu1oJpwgsDv47igawbqAOrgE="
+  email: true
