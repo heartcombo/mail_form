@@ -20,7 +20,7 @@ if you want to make a contact form just the following lines are needed (includin
 ```ruby
 class ContactForm < MailForm::Base
   attribute :name, validate: true
-  attribute :email, validate: /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i
+  attribute :email, validate: /\A[^@\s]+@[^@\s]+\z/i
   attribute :file, attachment: true
 
   attribute :message
@@ -57,14 +57,14 @@ This brings `I18n`, error messages, validations and attributes handling like in
 `ActiveRecord` to **MailForm**, so **MailForm** can be used in your controllers and form builders without extra tweaks. This also means that instead of the following:
 
 ```ruby
-attribute :email, validate: /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i
+attribute :email, validate: /\A[^@\s]+@[^@\s]+\z/i
 ```
 
 You could actually do this:
 
 ```ruby
 attribute :email
-validates_format_of :email, with: /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i
+validates_format_of :email, with: /\A[^@\s]+@[^@\s]+\z/i
 ```
 
 Choose the one which pleases you the most. For more information on the API, please
