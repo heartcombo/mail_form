@@ -5,7 +5,7 @@ require 'test_helper'
 class MailFormNotifierTest < ActiveSupport::TestCase
 
   def setup
-    @form = ContactForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => 'Cool')
+    @form = ContactForm.new(name: 'José', email: 'my.email@my.domain.com', message: 'Cool')
 
     @request = if ActionPack.respond_to?(:version) && ActionPack.version >= Gem::Version.new('5.1')
                  ActionController::TestRequest.create(Class.new) # Rails 5.1
@@ -14,12 +14,12 @@ class MailFormNotifierTest < ActiveSupport::TestCase
                else
                  ActionController::TestRequest.new
                end
-    @valid_attributes = { :name => 'José', :email => 'my.email@my.domain.com', :message => "Cool\nno?" }
+    @valid_attributes = { name: 'José', email: 'my.email@my.domain.com', message: "Cool\nno?" }
     @advanced         = AdvancedForm.new(@valid_attributes)
     @advanced.request = @request
 
     test_file  = Rack::Test::UploadedFile.new(File.join(File.dirname(__FILE__), 'test_file.txt'))
-    @with_file = FileForm.new(:name => 'José', :email => 'my.email@my.domain.com', :message => "Cool", :file => test_file)
+    @with_file = FileForm.new(name: 'José', email: 'my.email@my.domain.com', message: "Cool", file: test_file)
 
     ActionMailer::Base.deliveries = []
   end
@@ -54,7 +54,7 @@ class MailFormNotifierTest < ActiveSupport::TestCase
   end
 
   def test_body_contains_localized_attributes_names
-    I18n.backend.store_translations(:en, :mail_form => { :attributes => { :contact_form => { :message => 'Sent message' } } })
+    I18n.backend.store_translations(:en, mail_form: { attributes: { contact_form: { message: 'Sent message' } } })
     @form.deliver
     assert_match %r[Sent message:], first_delivery.body.to_s
     assert_no_match %r[Message:], first_delivery.body.to_s
@@ -84,7 +84,7 @@ class MailFormNotifierTest < ActiveSupport::TestCase
   end
 
   def test_request_title_is_localized
-    I18n.backend.store_translations(:en, :mail_form => { :request => { :title => 'Information about the request' } })
+    I18n.backend.store_translations(:en, mail_form: { request: { title: 'Information about the request' } })
     @advanced.deliver
     assert_no_match %r[Request information], last_delivery.body.to_s
     assert_match %r[Information about the request], last_delivery.body.to_s
@@ -97,7 +97,7 @@ class MailFormNotifierTest < ActiveSupport::TestCase
   end
 
   def test_request_info_attributes_are_localized
-    I18n.backend.store_translations(:en, :mail_form => { :request => { :remote_ip => 'IP Address' } })
+    I18n.backend.store_translations(:en, mail_form: { request: { remote_ip: 'IP Address' } })
     @advanced.deliver
     assert_match %r[IP Address], last_delivery.body.to_s
     assert_no_match %r[Remote ip], last_delivery.body.to_s
@@ -110,7 +110,7 @@ class MailFormNotifierTest < ActiveSupport::TestCase
   end
 
   def test_request_info_hashes_are_print_inside_lists
-    @request.session = { :my => :session, :user => "data" }
+    @request.session = { my: :session, user: "data" }
     @advanced.deliver
     assert_match %r[<ul], last_delivery.body.to_s
     assert_match %r[<li>my: :session<\/li>], last_delivery.body.to_s
