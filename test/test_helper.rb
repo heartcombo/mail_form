@@ -27,7 +27,7 @@ end
 
 class ContactForm < MailForm::Base
   attribute :name,     validate: true
-  attribute :email,    validate: /[^@]+@[^\.]+\.[\w\.\-]+/
+  attribute :email,    validate: /\A[^@\s]+@[^@\s]+\z/i
   attribute :category, validate: ["Interface bug", "General"], allow_blank: true
   attribute :nickname, captcha: true
 

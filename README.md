@@ -133,7 +133,7 @@ Examples:
 ```ruby
 class ContactForm < MailForm::Base
   attributes :name, validate: true
-  attributes :email, validate: /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i
+  attributes :email, validate: /\A[^@\s]+@[^@\s]+\z/i
   attributes :type, validate: ["General", "Interface bug"]
   attributes :message
   attributes :screenshot, attachment: true, validate: :interface_bug?
@@ -147,8 +147,8 @@ class ContactForm < MailForm::Base
 end
 
 c = ContactForm.new(nickname: 'not_blank', email: 'your@email.com', name: 'José')
-c.valid?  #=> true
-c.spam?   #=> true  (raises an error in development, to remember you to hide it)
+c.valid?   #=> true
+c.spam?    #=> true  (raises an error in development, to remember you to hide it)
 c.deliver  #=> false (just delivers if is not a spam and is valid, raises an error in development)
 
 c = ContactForm.new(email: 'invalid')

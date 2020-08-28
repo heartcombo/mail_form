@@ -5,7 +5,7 @@ module Rails
         @_mail_form_source_root ||= File.expand_path("../templates", __FILE__)
       end
 
-      argument :attributes, :type => :array, :default => [], :banner => "field:type field:type"
+      argument :attributes, type: :array, default: [], banner: "field:type field:type"
 
       check_class_collision
 

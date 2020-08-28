@@ -4,6 +4,6 @@ class <%= class_name %> < MailForm::Base
 <% end -%>
 
   def headers
-    { :to => "PLEASE-CHANGE-ME@example.org" }
+    { to: "PLEASE-CHANGE-ME@example.org" }
   end
 end

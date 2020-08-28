@@ -43,7 +43,7 @@ module MailForm
       #       validates the inclusion of the attribute in the array.
       #
       #       Whenever :validate is given, the presence is automatically checked. Give
-      #       :allow_blank => true to override.
+      #       allow_blank: true to override.
       #
       #       Finally, when :validate is a symbol, the method given as symbol will be
       #       called. Then you can add validations as you do in ActiveRecord (errors.add).
@@ -57,12 +57,12 @@ module MailForm
       # == Examples
       #
       #   class ContactForm < MailForm
-      #     attributes :name,  :validate => true
-      #     attributes :email, :validate => /^([^@]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
-      #     attributes :type,  :validate => ["General", "Interface bug"]
+      #     attributes :name, validate: true
+      #     attributes :email, validate: /\A[^@\s]+@[^@\s]+\z/i
+      #     attributes :type, validate: ["General", "Interface bug"]
       #     attributes :message
-      #     attributes :screenshot, :attachment => true, :validate => :interface_bug?
-      #     attributes :nickname, :captcha => true
+      #     attributes :screenshot, attachment: true, validate: :interface_bug?
+      #     attributes :nickname, captcha: true
       #
       #     def interface_bug?
       #       if type == 'Interface bug' && screenshot.nil?
@@ -95,11 +95,11 @@ module MailForm
             validate validation
             break
           when Regexp
-            validates_format_of accessor, :with => validation, :allow_blank => true
+            validates_format_of accessor, with: validation, allow_blank: true
           when Array
-            validates_inclusion_of accessor, :in => validation, :allow_blank => true
+            validates_inclusion_of accessor, in: validation, allow_blank: true
           when Range
-            validates_length_of accessor, :within => validation, :allow_blank => true
+            validates_length_of accessor, within: validation, allow_blank: true
           end
 
           validates_presence_of accessor unless options[:allow_blank] == true

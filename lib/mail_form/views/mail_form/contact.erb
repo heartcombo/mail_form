@@ -16,14 +16,14 @@
 <% end %>
 
 <% unless @resource.class.mail_appendable.blank? %>
-  <br /><h4 style="text-decoration:underline"><%= I18n.t :title, :scope => [ :mail_form, :request ], :default => 'Request information' %></h4>
+  <br /><h4 style="text-decoration:underline"><%= I18n.t :title, scope: [ :mail_form, :request ], default: 'Request information' %></h4>
 
   <% @resource.class.mail_appendable.each do |attribute|
     value = @resource.request.send(attribute)
 
     value = if value.is_a?(Hash) && !value.empty?
       list = value.to_a.map{ |k,v| content_tag(:li, h("#{k}: #{v.inspect}")) }.join("\n")
-      content_tag(:ul, raw(list), :style => "list-style:none;")
+      content_tag(:ul, raw(list), style: "list-style:none;")
     elsif value.is_a?(String)
       value
     else
@@ -31,7 +31,7 @@
     end
   %>
 
-    <p><b><%= I18n.t attribute, :scope => [ :mail_form, :request ], :default => attribute.to_s.humanize %>:</b>
+    <p><b><%= I18n.t attribute, scope: [ :mail_form, :request ], default: attribute.to_s.humanize %>:</b>
     <%= value.include?("\n") ? simple_format(value) : value %></p>
   <% end %>
   <br />
