@@ -149,6 +149,7 @@ module MailForm
     def check_not_spam
       throw(:abort) if spam?
     end
+    private :check_not_spam
 
     # Deliver the resource without running any validation.
     def deliver!
