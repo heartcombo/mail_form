@@ -71,6 +71,7 @@ class MailFormBaseTest < ActiveSupport::TestCase
     assert form.valid?
     assert form.spam?
     assert !form.deliver
+    assert_empty ActionMailer::Base.deliveries
   end
 
   def test_deliver_is_false_when_is_invalid
@@ -78,6 +79,7 @@ class MailFormBaseTest < ActiveSupport::TestCase
     assert form.invalid?
     assert form.not_spam?
     assert !form.deliver
+    assert_empty ActionMailer::Base.deliveries
   end
 
   def test_deliver_is_true_when_is_not_spam_and_valid

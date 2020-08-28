@@ -15,16 +15,11 @@ module MailForm
       class_attribute :mail_appendable
       self.mail_appendable = []
 
-      # not_spam? simply returns false, but when used as a callback, we have to throw(:abort)
-      # to halt the callback chain, beginning with Rails 5.1.
-      if ActionPack.respond_to?(:version) && ActionPack.version >= Gem::Version.new('5.1')
+      if respond_to?(:before_deliver) && respond_to?(:after_deliver)
         before_deliver :check_not_spam
         after_deliver  :deliver!
-      elsif respond_to?(:before_deliver) && respond_to?(:after_deliver)
-        before_deliver :not_spam?
-        after_deliver  :deliver!
       else # For ActiveRecord compatibility
-        before_create :not_spam?
+        before_create :check_not_spam
         after_create  :deliver!
         alias :deliver :save
       end

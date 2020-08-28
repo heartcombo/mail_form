@@ -1,3 +1,7 @@
+# Unreleased
+
+* Fix Active Record integration when including `Mail::Delivery`.
+
 # 1.8.0
 
 * Added support for Rails 6.0.
@@ -22,7 +26,7 @@
 
 # Version 1.4
 
-* Fixed bug that was causing all activerecord attributes be saved as nil
+* Fixed bug that was causing all Active Record attributes be saved as nil
 * Avoid symbol injection on forms
 
 # Version 1.3

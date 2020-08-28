@@ -76,6 +76,35 @@ class FileForm < ContactForm
   end
 end
 
+class ActiveRecordForm
+  include ActiveModel::Model
+
+  # Simulate Active Record `*_create` callbacks.
+  extend ActiveModel::Callbacks
+  define_model_callbacks :create
+
+  def save
+    if valid?
+      run_callbacks(:create) { true }
+    else
+      false
+    end
+  end
+
+  include MailForm::Delivery
+
+  attribute :name, validate: true
+  attribute :email, validate: /\A[^@\s]+@[^@\s]+\z/i
+  attribute :nickname, captcha: true
+
+  def headers
+    {
+      to: "your.email@your.domain.com",
+      subject: "User created an account"
+    }
+  end
+end
+
 # Needed to correctly test an uploaded file
 class Rack::Test::UploadedFile
   def read
