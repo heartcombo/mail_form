@@ -103,6 +103,9 @@ gem 'mail_form'
 
 Then run `bundle install` to install **MailForm**.
 
+You can run `rails generate mail_form` to view help information on how to generate
+a basic form to get you started.
+
 ## API Overview
 
 ### attributes(*attributes)
@@ -112,20 +115,20 @@ to the e-mail, except the ones :captcha is true.
 
 Options:
 
-* :validate - A hook to validates_*_of. When true is given, validates the
+* `:validate` - A hook to `validates_*_of`. When `true` is given, validates the
   presence of the attribute. When a regexp, validates format. When array,
   validates the inclusion of the attribute in the array.
 
-  Whenever :validate is given, the presence is automatically checked. Give
-  allow_blank: true to override.
+  Whenever `:validate` is given, the presence is automatically checked. Give
+  `allow_blank: true` to override.
 
-  Finally, when :validate is a symbol, the method given as symbol will be
-  called. Then you can add validations as you do in ActiveRecord (errors.add).
+  Finally, when `:validate` is a symbol, the method given as symbol will be
+  called. Then you can add validations as you do in Active Record (`errors.add`).
 
-* :attachment - When given, expects a file to be sent and attaches
+* `:attachment` - When given, expects a file to be sent and attaches
   it to the e-mail. Don't forget to set your form to multitype.
 
-* :captcha - When true, validates the attributes must be blank.
+* `:captcha` - When true, validates the attributes must be blank.
   This is a simple way to avoid spam and the input should be hidden with CSS.
 
 Examples:
@@ -205,8 +208,8 @@ mail_form:
 
 ## Custom e-mail template
 
-To customize the e-mail template that is used create a file called contact.erb in app/views/mail_form.
-Take a look at lib/mail_form/views/mail_form/contact.erb in this repo to see how the default template works.
+To customize the e-mail template that is used create a file called `contact.erb` in `app/views/mail_form`.
+Take a look at `lib/mail_form/views/mail_form/contact.erb` in this repo to see how the default template works.
 
 ## Maintainers
 
