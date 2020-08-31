@@ -23,7 +23,7 @@ module MailForm
     end
 
     # Initialize assigning the parameters given as hash.
-    def initialize(params={})
+    def initialize(params = {})
       params.each_pair do |attr, value|
         send("#{attr}=", value) if respond_to?("#{attr}=", true)
       end unless params.blank?
