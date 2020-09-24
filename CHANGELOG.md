@@ -1,4 +1,4 @@
-# Unreleased
+# 1.8.1
 
 * Fix Active Record integration when including `Mail::Delivery`.
 
