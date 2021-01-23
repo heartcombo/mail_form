@@ -1,5 +1,6 @@
 # Unreleased
 
+* Add support for Rails 6.1, drop support for Rails < 5.2.
 * Move CI to GitHub Actions.
 
 # 1.8.1
