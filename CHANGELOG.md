@@ -1,3 +1,7 @@
+# Unreleased
+
+* Move CI to GitHub Actions.
+
 # 1.8.1
 
 * Fix Active Record integration when including `Mail::Delivery`.
