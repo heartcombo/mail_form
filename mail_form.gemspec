@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.test_files    = Dir["test/**/*"]
   s.require_paths = ["lib"]
 
-  s.required_ruby_version = '>= 2.4.0'
+  s.required_ruby_version = '>= 2.5.0'
 
   s.add_dependency('actionmailer', '>= 5.2')
   s.add_dependency('activemodel', '>= 5.2')
