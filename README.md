@@ -219,6 +219,13 @@ Take a look at `lib/mail_form/views/mail_form/contact.erb` in this repo to see h
 
 * Andrew Timberlake - http://github.com/andrewtimberlake
 
+## Supported Ruby / Rails versions
+
+We intend to maintain support for all Ruby / Rails versions that haven't reached end-of-life.
+
+For more information about specific versions please check [Ruby](https://www.ruby-lang.org/en/downloads/branches/)
+and [Rails](https://guides.rubyonrails.org/maintenance_policy.html) maintenance policies, and our test matrix.
+
 ## Bugs and Feedback
 
 If you discover any bug, please use github issues tracker.
