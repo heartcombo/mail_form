@@ -12,6 +12,12 @@ Gem::Specification.new do |s|
   s.description = "Send e-mail straight from forms in Rails with I18n, validations, attachments and request information."
   s.authors     = ['José Valim', 'Carlos Antônio']
   s.license     = 'MIT'
+  s.metadata    = {
+    "homepage_uri"    => "https://github.com/heartcombo/mail_form",
+    "changelog_uri"   => "https://github.com/heartcombo/mail_form/blob/master/CHANGELOG.md",
+    "source_code_uri" => "https://github.com/heartcombo/mail_form",
+    "bug_tracker_uri" => "https://github.com/heartcombo/mail_form/issues",
+  }
 
   s.files         = Dir["CHANGELOG", "MIT-LICENSE", "README.md", "lib/**/*"]
   s.test_files    = Dir["test/**/*"]
