@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
     "changelog_uri"   => "https://github.com/heartcombo/mail_form/blob/master/CHANGELOG.md",
     "source_code_uri" => "https://github.com/heartcombo/mail_form",
     "bug_tracker_uri" => "https://github.com/heartcombo/mail_form/issues",
+    "wiki_uri"        => "https://github.com/heartcombo/mail_form/wiki"
   }
 
   s.files         = Dir["CHANGELOG", "MIT-LICENSE", "README.md", "lib/**/*"]
