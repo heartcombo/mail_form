@@ -12,8 +12,8 @@ module MailForm
 
       resource.class.mail_attachments.each do |attribute|
         value = resource.send(attribute)
-        next unless value.respond_to?(:read)
-        attachments[value.original_filename] = value.read
+        handle_multiple_attachments value
+        add_attachment value
       end
 
       headers = resource.headers
@@ -21,5 +21,18 @@ module MailForm
       headers[:subject] ||= resource.class.model_name.human
       mail(headers)
     end
+
+    private 
+      def add_attachment(attch)
+        return unless attch.respond_to?(:read)
+        attachments[attch.original_filename] = attch.read
+      end
+
+      def handle_multiple_attachments(attchs) 
+        return unless attchs.respond_to?('each')
+        attchs.each do |attch|
+          add_attachment attch
+        end
+      end
   end
 end
