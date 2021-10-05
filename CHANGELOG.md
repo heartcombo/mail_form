@@ -1,3 +1,7 @@
+# Unreleased
+
+* Add support for Rails 7.0 alpha 2 (no changes required)
+
 # 1.9.0
 
 * Add support for Ruby 3.0, drop support for Ruby < 2.5.
