@@ -1,6 +1,6 @@
 # Unreleased
 
-* Add support for Rails 7.0 alpha 2 (no changes required)
+* Add support for Rails 7.0 rc (no changes required)
 
 # 1.9.0
 
