@@ -7,3 +7,10 @@ gem 'rdoc'
 
 gem 'actionmailer', '~> 6.1.0'
 gem 'activemodel', '~> 6.1.0'
+
+if RUBY_VERSION >= "3.1"
+  # https://github.com/rails/rails/commit/180a315c39e750af6fd1f677cd8693771c140f35
+  gem "net-smtp", require: false
+  gem "net-imap", require: false
+  gem "net-pop", require: false
+end
