@@ -6,10 +6,9 @@ class MailFormNotifierTest < ActiveSupport::TestCase
   def setup
     @form = ContactForm.new(name: 'José', email: 'my.email@my.domain.com', message: 'Cool')
 
-    @request = ActionController::TestRequest.create(Class.new)
-    @valid_attributes = { name: 'José', email: 'my.email@my.domain.com', message: "Cool\nno?" }
-    @advanced         = AdvancedForm.new(@valid_attributes)
-    @advanced.request = @request
+    valid_attributes  = { name: 'José', email: 'my.email@my.domain.com', message: "Cool\nno?" }
+    @advanced         = AdvancedForm.new(valid_attributes)
+    @advanced.request = ActionController::TestRequest.create(Class.new)
 
     test_file  = Rack::Test::UploadedFile.new(File.join(File.dirname(__FILE__), 'test_file.txt'))
     @with_file = FileForm.new(name: 'José', email: 'my.email@my.domain.com', message: "Cool", file: test_file)
@@ -103,7 +102,7 @@ class MailFormNotifierTest < ActiveSupport::TestCase
   end
 
   def test_request_info_hashes_are_print_inside_lists
-    @request.session = { my: :session, user: "data" }
+    @advanced.request.session = { my: :session, user: "data" }
     @advanced.deliver
     assert_match %r[<ul], last_delivery.body.to_s
     assert_match %r[<li>my: :session<\/li>], last_delivery.body.to_s
