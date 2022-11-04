@@ -126,6 +126,8 @@ Options:
 
 * `:attachment` - When given, expects a file to be sent and attaches
   it to the e-mail. Don't forget to set your form to multitype.
+  It also accepts multiple files through a single attachment attribute,
+  and will attach them individually to the e-mail.
 
 * `:captcha` - When true, validates the attributes must be blank.
   This is a simple way to avoid spam and the input should be hidden with CSS.

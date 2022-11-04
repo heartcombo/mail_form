@@ -10,8 +10,8 @@ class MailFormNotifierTest < ActiveSupport::TestCase
     @advanced         = AdvancedForm.new(valid_attributes)
     @advanced.request = ActionController::TestRequest.create(Class.new)
 
-    test_file  = Rack::Test::UploadedFile.new(File.join(File.dirname(__FILE__), 'test_file.txt'))
-    @with_file = FileForm.new(name: 'José', email: 'my.email@my.domain.com', message: "Cool", file: test_file)
+    @test_file = Rack::Test::UploadedFile.new(File.join(File.dirname(__FILE__), 'test_file.txt'))
+    @with_file = FileForm.new(name: 'José', email: 'my.email@my.domain.com', message: "Cool", file: @test_file)
 
     ActionMailer::Base.deliveries = []
   end
@@ -124,6 +124,12 @@ class MailFormNotifierTest < ActiveSupport::TestCase
   def test_form_with_file_does_not_output_attachment_as_attribute
     @with_file.deliver
     assert_no_match %r[File:], first_delivery.body.to_s
+  end
+
+  def test_form_with_multiple_files_includes_attachments
+    @with_file.file = [@test_file, @test_file, @test_file]
+    @with_file.deliver
+    assert_equal 3, first_delivery.attachments.size
   end
 
   protected
