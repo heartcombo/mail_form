@@ -3,17 +3,10 @@
 require 'test_helper'
 
 class MailFormNotifierTest < ActiveSupport::TestCase
-
   def setup
     @form = ContactForm.new(name: 'José', email: 'my.email@my.domain.com', message: 'Cool')
 
-    @request = if ActionPack.respond_to?(:version) && ActionPack.version >= Gem::Version.new('5.1')
-                 ActionController::TestRequest.create(Class.new) # Rails 5.1
-               elsif ActionPack.respond_to?(:version) && ActionPack.version >= Gem::Version.new('5.0')
-                 ActionController::TestRequest.create # Rails 5
-               else
-                 ActionController::TestRequest.new
-               end
+    @request = ActionController::TestRequest.create(Class.new)
     @valid_attributes = { name: 'José', email: 'my.email@my.domain.com', message: "Cool\nno?" }
     @advanced         = AdvancedForm.new(@valid_attributes)
     @advanced.request = @request
