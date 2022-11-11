@@ -104,10 +104,3 @@ class ActiveRecordForm
     }
   end
 end
-
-# Needed to correctly test an uploaded file
-class Rack::Test::UploadedFile
-  def read
-    @tempfile.read
-  end
-end
