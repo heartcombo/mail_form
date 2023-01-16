@@ -12,8 +12,11 @@ module MailForm
 
       resource.class.mail_attachments.each do |attribute|
         value = resource.send(attribute)
-        next unless value.respond_to?(:read)
-        attachments[value.original_filename] = value.read
+        if value.is_a?(Array)
+          value.each { |attachment_file| add_attachment(attachment_file) }
+        else
+          add_attachment(value)
+        end
       end
 
       headers = resource.headers
@@ -21,5 +24,12 @@ module MailForm
       headers[:subject] ||= resource.class.model_name.human
       mail(headers)
     end
+
+    private
+
+      def add_attachment(attachment_file)
+        return unless attachment_file.respond_to?(:read)
+        attachments[attachment_file.original_filename] = attachment_file.read
+      end
   end
 end
