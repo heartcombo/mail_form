@@ -5,5 +5,5 @@ gemspec path: '..'
 gem 'rake'
 gem 'rdoc'
 
-gem 'actionmailer', github: 'rails/rails'
-gem 'activemodel', github: 'rails/rails'
+gem 'actionmailer', github: 'rails/rails', branch: 'main'
+gem 'activemodel', github: 'rails/rails', branch: 'main'
