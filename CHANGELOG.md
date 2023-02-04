@@ -1,5 +1,8 @@
 # Unreleased
 
+
+# 1.10.0
+
 * Add support for Rails 7.0 and Ruby 3.1/3.2 (no changes required)
 * Add support for multiple files through a single attachment. [#76, #78]
 * Remove test files from the gem package.
