@@ -231,4 +231,6 @@ and [Rails](https://guides.rubyonrails.org/maintenance_policy.html) maintenance 
 
 If you discover any bug, please use github issues tracker.
 
-Copyright (c) 2009-2019 Plataformatec http://plataformatec.com.br/
+## License
+
+MIT License. Copyright 2020-2023 Rafael França, Carlos Antônio da Silva. Copyright 2009-2019 Plataformatec.
