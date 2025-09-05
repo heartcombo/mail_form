@@ -23,8 +23,8 @@ Gem::Specification.new do |s|
   s.files         = Dir["CHANGELOG", "MIT-LICENSE", "README.md", "lib/**/*"]
   s.require_paths = ["lib"]
 
-  s.required_ruby_version = '>= 2.5.0'
+  s.required_ruby_version = '>= 2.7.0'
 
-  s.add_dependency('actionmailer', '>= 5.2')
-  s.add_dependency('activemodel', '>= 5.2')
+  s.add_dependency('activemodel', '>= 7.0')
+  s.add_dependency('actionpack', '>= 7.0')
 end
