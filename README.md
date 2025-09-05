@@ -2,12 +2,12 @@
 
 [![Gem Version](https://fury-badge.herokuapp.com/rb/mail_form.svg)](http://badge.fury.io/rb/mail_form)
 
-### Rails 5
+### Rails 7+
 
 This gem was built on top of `ActiveModel` to showcase how you can pull in validations, naming
 and `i18n` from Rails to your models without the need to implement it all by yourself.
 
-This README refers to the **MailForm** gem to be used in Rails 5+. For instructions
+This README refers to the **MailForm** gem to be used in Rails 7+. For instructions
 on how to use MailForm in older versions of Rails, please refer to the available branches.
 
 ### Description
