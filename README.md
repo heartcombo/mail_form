@@ -211,15 +211,6 @@ mail_form:
 To customize the e-mail template that is used create a file called `contact.erb` in `app/views/mail_form`.
 Take a look at `lib/mail_form/views/mail_form/contact.erb` in this repo to see how the default template works.
 
-## Maintainers
-
-* José Valim - http://github.com/josevalim
-* Carlos Antonio - http://github.com/carlosantoniodasilva
-
-## Contributors
-
-* Andrew Timberlake - http://github.com/andrewtimberlake
-
 ## Supported Ruby / Rails versions
 
 We intend to maintain support for all Ruby / Rails versions that haven't reached end-of-life.
@@ -233,4 +224,6 @@ If you discover any bug, please use github issues tracker.
 
 ## License
 
-MIT License. Copyright 2020-2024 Rafael França, Carlos Antônio da Silva. Copyright 2009-2019 Plataformatec.
+MIT License.
+Copyright 2009-2019 Plataformatec.
+Copyright 2020-2025 Rafael França, Carlos Antonio da Silva.

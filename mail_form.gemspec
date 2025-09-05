@@ -7,10 +7,10 @@ Gem::Specification.new do |s|
   s.version     = MailForm::VERSION.dup
   s.platform    = Gem::Platform::RUBY
   s.summary     = "Send e-mail straight from forms in Rails with I18n, validations, attachments and request information."
-  s.email       = "contact@plataformatec.com.br"
-  s.homepage    = "https://github.com/plataformatec/mail_form"
+  s.email       = "heartcombo.oss@gmail.com"
+  s.homepage    = "https://github.com/heartcombo/mail_form"
   s.description = "Send e-mail straight from forms in Rails with I18n, validations, attachments and request information."
-  s.authors     = ['José Valim', 'Carlos Antônio']
+  s.authors     = ['José Valim', 'Carlos Antonio']
   s.license     = 'MIT'
   s.metadata    = {
     "homepage_uri"    => "https://github.com/heartcombo/mail_form",

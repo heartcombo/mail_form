@@ -1,12 +1,12 @@
 ## Contributing
 
 1. If you have any questions about Mail Form, search the
-[Wiki](https://github.com/plataformatec/mail_form/wiki) or
+[Wiki](https://github.com/heartcombo/mail_form/wiki) or
 or Stack Overflow.
 Do not post questions here.
 
 2. If you find a security bug, **DO NOT** submit an issue here.
-Please send an e-mail to [opensource@plataformatec.com.br](mailto:opensource@plataformatec.com.br)
+Please send an e-mail to [heartcombo.oss@gmail.com](mailto:heartcombo.oss@gmail.com)
 instead.
 
 3. Do a small search on the issues tracker before submitting your issue to
