@@ -8,16 +8,16 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    actionmailer (8.1.0.beta1)
-      actionpack (= 8.1.0.beta1)
-      actionview (= 8.1.0.beta1)
-      activejob (= 8.1.0.beta1)
-      activesupport (= 8.1.0.beta1)
+    actionmailer (8.1.0.rc1)
+      actionpack (= 8.1.0.rc1)
+      actionview (= 8.1.0.rc1)
+      activejob (= 8.1.0.rc1)
+      activesupport (= 8.1.0.rc1)
       mail (>= 2.8.0)
       rails-dom-testing (~> 2.2)
-    actionpack (8.1.0.beta1)
-      actionview (= 8.1.0.beta1)
-      activesupport (= 8.1.0.beta1)
+    actionpack (8.1.0.rc1)
+      actionview (= 8.1.0.rc1)
+      activesupport (= 8.1.0.rc1)
       nokogiri (>= 1.8.5)
       rack (>= 2.2.4)
       rack-session (>= 1.0.1)
@@ -25,46 +25,47 @@ GEM
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
       useragent (~> 0.16)
-    actionview (8.1.0.beta1)
-      activesupport (= 8.1.0.beta1)
+    actionview (8.1.0.rc1)
+      activesupport (= 8.1.0.rc1)
       builder (~> 3.1)
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
-    activejob (8.1.0.beta1)
-      activesupport (= 8.1.0.beta1)
+    activejob (8.1.0.rc1)
+      activesupport (= 8.1.0.rc1)
       globalid (>= 0.3.6)
-    activemodel (8.1.0.beta1)
-      activesupport (= 8.1.0.beta1)
-    activesupport (8.1.0.beta1)
+    activemodel (8.1.0.rc1)
+      activesupport (= 8.1.0.rc1)
+    activesupport (8.1.0.rc1)
       base64
-      benchmark (>= 0.3)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.3.1)
       connection_pool (>= 2.2.5)
       drb
       i18n (>= 1.6, < 2)
+      json
       logger (>= 1.4.2)
       minitest (>= 5.1)
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
-    base64 (0.2.0)
-    benchmark (0.4.1)
-    bigdecimal (3.1.7)
-    builder (3.2.4)
+    base64 (0.3.0)
+    bigdecimal (3.3.1)
+    builder (3.3.0)
     concurrent-ruby (1.3.5)
-    connection_pool (2.4.1)
+    connection_pool (2.5.4)
     crass (1.0.6)
     date (3.4.1)
-    drb (2.2.1)
-    erubi (1.12.0)
-    globalid (1.2.1)
+    drb (2.2.3)
+    erb (5.1.1)
+    erubi (1.13.1)
+    globalid (1.3.0)
       activesupport (>= 6.1)
-    i18n (1.14.4)
+    i18n (1.14.7)
       concurrent-ruby (~> 1.0)
+    json (2.15.1)
     logger (1.7.0)
-    loofah (2.22.0)
+    loofah (2.24.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.8.1)
@@ -73,9 +74,9 @@ GEM
       net-pop
       net-smtp
     mini_mime (1.1.5)
-    mini_portile2 (2.8.5)
-    minitest (5.22.3)
-    net-imap (0.5.10)
+    mini_portile2 (2.8.9)
+    minitest (5.26.0)
+    net-imap (0.5.12)
       date
       net-protocol
     net-pop (0.1.2)
@@ -84,44 +85,49 @@ GEM
       timeout
     net-smtp (0.5.1)
       net-protocol
-    nokogiri (1.15.6)
+    nokogiri (1.18.10)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    psych (5.1.2)
+    psych (5.2.6)
+      date
       stringio
-    racc (1.7.3)
-    rack (3.0.10)
-    rack-session (2.0.0)
+    racc (1.8.1)
+    rack (3.2.3)
+    rack-session (2.1.1)
+      base64 (>= 0.1.0)
       rack (>= 3.0.0)
-    rack-test (2.1.0)
+    rack-test (2.2.0)
       rack (>= 1.3)
-    rails-dom-testing (2.2.0)
+    rails-dom-testing (2.3.0)
       activesupport (>= 5.0.0)
       minitest
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.6.0)
+    rails-html-sanitizer (1.6.2)
       loofah (~> 2.21)
-      nokogiri (~> 1.14)
-    rake (13.2.1)
-    rdoc (6.6.3.1)
+      nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
+    rake (13.3.0)
+    rdoc (6.15.0)
+      erb
       psych (>= 4.0.0)
+      tsort
     securerandom (0.4.1)
-    stringio (3.1.0)
+    stringio (3.1.7)
     timeout (0.4.3)
+    tsort (0.2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    uri (1.0.3)
+    uri (1.0.4)
     useragent (0.16.11)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  actionmailer (~> 8.1.0.beta1)
-  activemodel (~> 8.1.0.beta1)
+  actionmailer (~> 8.1.0.rc1)
+  activemodel (~> 8.1.0.rc1)
   mail_form!
   rake
   rdoc
 
 BUNDLED WITH
-   2.7.1
+   2.7.2
