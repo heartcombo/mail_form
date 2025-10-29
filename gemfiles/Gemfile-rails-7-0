@@ -4,6 +4,5 @@ gemspec path: ".."
 
 gem 'rake'
 gem 'rdoc'
-# Use the branch which contains some fixes to work with the Ruby logger gem.
-gem 'actionmailer', '~> 7.0.0', github: 'rails/rails', branch: '7-0-stable'
-gem 'activemodel', '~> 7.0.0', github: 'rails/rails', branch: '7-0-stable'
+gem 'actionmailer', '~> 7.0.0'
+gem 'activemodel', '~> 7.0.0'
