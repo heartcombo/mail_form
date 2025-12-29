@@ -27,4 +27,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency('activemodel', '>= 7.0')
   s.add_dependency('actionpack', '>= 7.0')
+
+  s.add_development_dependency('rake')
+  s.add_development_dependency('rdoc')
 end

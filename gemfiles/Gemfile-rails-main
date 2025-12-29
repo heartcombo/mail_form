@@ -2,8 +2,5 @@ source 'https://rubygems.org'
 
 gemspec path: '..'
 
-gem 'rake'
-gem 'rdoc'
-
 gem 'actionmailer', github: 'rails/rails', branch: 'main'
 gem 'activemodel', github: 'rails/rails', branch: 'main'
