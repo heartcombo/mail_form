@@ -226,4 +226,4 @@ If you discover any bug, please use github issues tracker.
 
 MIT License.
 Copyright 2009-2019 Plataformatec.
-Copyright 2020-2025 Rafael França, Carlos Antonio da Silva.
+Copyright 2020-CURRENT Rafael França, Carlos Antonio da Silva.
