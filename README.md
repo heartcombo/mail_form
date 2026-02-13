@@ -1,6 +1,6 @@
 ## MailForm
 
-[![Gem Version](https://fury-badge.herokuapp.com/rb/mail_form.svg)](http://badge.fury.io/rb/mail_form)
+[![Gem Version](https://badge.fury.io/rb/mail_form.svg)](https://badge.fury.io/rb/mail_form)
 
 ### Rails 7+
 
